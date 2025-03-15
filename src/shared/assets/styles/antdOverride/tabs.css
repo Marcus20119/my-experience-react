@@ -13,6 +13,8 @@
   }
 }
 
-.ant-tabs-nav::before {
-  display: none !important;
+.hide-underline {
+  .ant-tabs-nav::before {
+    display: none !important;
+  }
 }

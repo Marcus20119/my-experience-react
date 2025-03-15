@@ -7,6 +7,9 @@ const ExcelPage = lazy(() => import('@/pages/feature/ExcelPage'));
 const ChartPlaygroundPage = lazy(
   () => import('@/pages/feature/ChartPlaygroundPage'),
 );
+const FormBuilderPage = lazy(() => import('@/pages/feature/FormBuilderPage'));
+const DragAndDropPage = lazy(() => import('@/pages/feature/DragAndDropPage'));
+const FileReaderPage = lazy(() => import('@/pages/feature/FileReaderPage'));
 
 export const FEATURE_ROUTES = [
   {
@@ -20,5 +23,17 @@ export const FEATURE_ROUTES = [
   {
     element: <ChartPlaygroundPage />,
     path: 'feature/chart-playground',
+  },
+  {
+    element: <FormBuilderPage />,
+    path: 'feature/form-builder',
+  },
+  {
+    element: <DragAndDropPage />,
+    path: 'feature/drag-and-drop',
+  },
+  {
+    element: <FileReaderPage />,
+    path: 'feature/file-reader',
   },
 ] as const satisfies DeepReadonly<RouteObject[]>;
