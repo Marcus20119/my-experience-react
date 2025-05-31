@@ -48,7 +48,7 @@ function SubSideBar() {
             key={item.key}
             onClick={e => {
               e.preventDefault();
-              navigate({ path: item.path });
+              navigate({ path: item.path as '/' }); // FIX_ME
               setMainSidebarHistory(activeMainKey, item.key as SubSidebarKey);
             }}
             to={item.path}
