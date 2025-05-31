@@ -41,6 +41,18 @@ jobs:
     needs: Build
 
     steps:
+      - name: Check Secrets
+        run: |
+          if [ -z "$AWS_S3_BUCKET" ]; then echo "❌ S3_BUCKET_NAME is missing"; else echo "✅ S3_BUCKET_NAME is set"; fi
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "❌ AWS_ACCESS_KEY_ID is missing"; else echo "✅ AWS_ACCESS_KEY_ID is set"; fi
+          if [ -z "$AWS_SECRET_ACCESS_KEY" ]; then echo "❌ AWS_SECRET_ACCESS_KEY is missing"; else echo "✅ AWS_SECRET_ACCESS_KEY is set"; fi
+          if [ -z "$AWS_REGION" ]; then echo "❌ AWS_REGION is missing"; else echo "✅ AWS_REGION is set"; fi
+        env:
+          AWS_S3_BUCKET: ${{ secrets.S3_BUCKET_NAME }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+
       - name: Download Build Artifact
         uses: actions/download-artifact@v4
         with:
