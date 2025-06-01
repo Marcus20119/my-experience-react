@@ -7,6 +7,7 @@ on:
 jobs:
   Build:
     runs-on: ubuntu-latest
+    environment: production
 
     steps:
       - name: Checkout Code
@@ -19,6 +20,9 @@ jobs:
 
       - name: Install pnpm
         run: npm install -g pnpm@9
+
+      - name: Inject .env File
+        run: echo "${{ vars.DOTENV_FILE }}" > .env
 
       - name: Install Dependencies
         run: pnpm install
@@ -43,10 +47,6 @@ jobs:
         with:
           name: build-dist
           path: dist
-
-      - name: Inject .env File
-        run: |
-          echo "${{ vars.DOTENV_FILE }}" > .env
 
       - name: Sync to S3
         uses: jakejarvis/s3-sync-action@v0.5.1
