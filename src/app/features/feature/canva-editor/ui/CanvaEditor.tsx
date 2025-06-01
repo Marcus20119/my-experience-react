@@ -1,5 +1,5 @@
 import { Flex } from 'antd';
-import type { CanvaEditorContextProps } from '../context';
+import type { CanvaEditorExternalContextProps } from '../context';
 import { CanvaEditorProvider } from '../context';
 import { CANVA_SIZE } from '../model';
 import { CanvaFooter } from './Footer';
@@ -8,10 +8,10 @@ import { CanvaSidebar } from './Sidebar';
 import { CanvaWorkspace } from './Workspace';
 
 interface RequiredContextProps
-  extends Pick<CanvaEditorContextProps, 'height' | 'width'> {}
+  extends Pick<CanvaEditorExternalContextProps, 'height' | 'width'> {}
 
 interface OptionalContextProps
-  extends Pick<CanvaEditorContextProps, 'asset' | 'initialItems'> {}
+  extends Pick<CanvaEditorExternalContextProps, 'asset' | 'initialItems'> {}
 
 interface Props extends RequiredContextProps, OptionalContextProps {}
 

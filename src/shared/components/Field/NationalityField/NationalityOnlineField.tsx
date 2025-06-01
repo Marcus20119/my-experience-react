@@ -10,6 +10,7 @@ function NationalityOnlineField({ ...props }: MySelectProps) {
   const { data: countries, isPending } = useQuery(
     queries.countries.all(['name', 'idd', 'flags', 'cca2']),
   );
+  console.log(' countries:', countries);
 
   const options: DefaultOptionType[] =
     countries

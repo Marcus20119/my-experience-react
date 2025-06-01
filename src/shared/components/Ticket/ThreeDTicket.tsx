@@ -34,7 +34,7 @@ function ThreeDTicket({
       color1={color1}
       color2={color2}
       color3={color3}
-      onClick={() => path && navigate({ path })}
+      onClick={() => path && navigate({ path: path as '/' })}
       width={width}
     >
       <div className="card shadow-xl">

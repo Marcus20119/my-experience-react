@@ -1,0 +1,15 @@
+export enum FieldType {
+  Checkbox = 'checkbox',
+  CheckboxGroup = 'checkbox-group',
+  Color = 'color',
+  Date = 'date',
+  File = 'file',
+  Image = 'image',
+  Number = 'number',
+  Radio = 'radio',
+  RadioGroup = 'radio-group',
+  Select = 'select',
+  Text = 'text',
+  Textarea = 'textarea',
+  Time = 'time',
+}

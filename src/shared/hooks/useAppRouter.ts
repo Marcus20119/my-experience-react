@@ -49,6 +49,7 @@ export const useAppRouter = <P extends RouterPath>(_?: P) => {
             ...route,
           },
     });
+
     navig(
       {
         hash: route.hash,
@@ -57,6 +58,7 @@ export const useAppRouter = <P extends RouterPath>(_?: P) => {
       },
       options,
     );
+
     AppTool.scrollToTop();
   };
 
