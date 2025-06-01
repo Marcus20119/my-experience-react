@@ -19,7 +19,7 @@ import {
 
 const { showError } = LoggerTool;
 
-export interface CanvaEditorContextProps {
+export interface CanvaEditorExternalContextProps {
   asset?: {
     image: {
       loading?: boolean;
@@ -53,7 +53,7 @@ interface CanvaEditorInternalContextProps {
 }
 
 const CanvaEditorContext = createContext<
-  CanvaEditorContextProps & CanvaEditorInternalContextProps
+  CanvaEditorExternalContextProps & CanvaEditorInternalContextProps
 >({
   height: 0,
   isEditing: false,
@@ -77,7 +77,7 @@ const CanvaEditorContext = createContext<
   zoomLevel: 1,
 });
 
-interface ProviderProps extends CanvaEditorContextProps {
+interface ProviderProps extends CanvaEditorExternalContextProps {
   children: React.ReactNode;
 }
 

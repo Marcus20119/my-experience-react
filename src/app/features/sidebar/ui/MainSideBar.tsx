@@ -1,6 +1,5 @@
 import { COLOR, Z_INDEX } from '@/shared/assets/styles/constants';
 import { ReactComponent as LogoReact } from '@/shared/assets/svgs/logo-react.svg';
-import { useAppRouter } from '@/shared/hooks';
 import { Flex, Tooltip, Typography } from 'antd';
 import { ToggleOffCircle, ToggleOnCircle } from 'iconsax-react';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +12,6 @@ const { Text } = Typography;
 
 function MainSideBar() {
   const { t } = useTranslation();
-  const { navigate } = useAppRouter();
   const { isMainBarCollapsed, setSidebarStates } = useSidebarStore();
   const { activeMainKey, mainSidebarItems } = useGetSidebarData();
 
@@ -50,16 +48,7 @@ function MainSideBar() {
 
       <Flex gap="0.5rem" vertical>
         {mainSidebarItems.map(item => (
-          <Link
-            key={item.key}
-            onClick={e => {
-              e.preventDefault();
-              navigate({
-                path: item.path,
-              });
-            }}
-            to={item.path}
-          >
+          <Link key={item.key} to={item.path}>
             <Tooltip
               align={{ offset: [24, 0] }}
               placement="right"

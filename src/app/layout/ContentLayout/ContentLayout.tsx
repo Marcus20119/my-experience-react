@@ -128,11 +128,12 @@ function ContentLayout({
                 }}
                 onChange={path => {
                   navigate({
-                    path: path as RouterPath,
+                    path: path as '/404', // TEMP: Supposed to be RouterPath
                   });
                   setSubSidebarHistory(activeSubKey, path as RouterPath);
                   onChangeTab?.(path as RouterPath);
                 }}
+                rootClassName="hide-underline"
                 size="small"
                 type="card"
               />

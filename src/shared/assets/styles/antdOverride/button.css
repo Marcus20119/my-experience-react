@@ -7,6 +7,12 @@
   gap: 0.5rem;
 }
 
+.ant-btn-sm {
+  span {
+    font-size: 0.875rem;
+  }
+}
+
 .ant-btn-icon {
   display: flex;
   align-items: center;
