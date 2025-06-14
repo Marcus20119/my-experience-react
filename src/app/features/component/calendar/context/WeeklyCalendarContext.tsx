@@ -1,7 +1,9 @@
 import type { Dayjs } from 'dayjs';
-import { COLOR } from '@/shared/assets/styles/constants';
 import dayjs from 'dayjs';
 import { createContext, useContext } from 'react';
+
+import { COLOR } from '@/shared/assets/styles/constants';
+
 import type { Hour, WeeklyCalendarEntity, WeeklyDisabledCell } from '../model';
 import {
   DEFAULT_WEEKLY_CALENDAR_END_TIME,

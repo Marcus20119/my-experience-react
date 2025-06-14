@@ -1,8 +1,9 @@
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+
 import enLocales from '@/shared/locales/en';
 import viLocales from '@/shared/locales/vi';
 import { useLocalStore } from '@/shared/stores/local.store';
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
 
 const resources = {
   en: {

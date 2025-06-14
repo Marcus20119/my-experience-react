@@ -1,8 +1,9 @@
 import type { GetRef } from 'antd';
+import { Tooltip, Typography } from 'antd';
 import type { TextProps } from 'antd/es/typography/Text';
 import type { TooltipProps } from 'antd/lib';
-import { Tooltip, Typography } from 'antd';
 import { useRef } from 'react';
+
 import { cn } from '@/lib/tailwind';
 
 const { Text } = Typography;

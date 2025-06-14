@@ -1,8 +1,10 @@
-import type { SpaceCompactProps } from 'antd/lib/space/Compact';
 import { Button, Popover, Tooltip } from 'antd';
+import type { SpaceCompactProps } from 'antd/lib/space/Compact';
+
 import { cn } from '@/lib/tailwind';
-import type { CompactActionEntity } from './types';
+
 import { StyledCompactAction } from './styles';
+import type { CompactActionEntity } from './types';
 
 interface Props extends SpaceCompactProps {
   actions: CompactActionEntity[];

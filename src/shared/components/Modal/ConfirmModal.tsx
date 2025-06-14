@@ -1,7 +1,9 @@
-import { COLOR, WIDTH } from '@/shared/assets/styles/constants';
 import { Flex, Typography } from 'antd';
 import { CloseCircle, InfoCircle, TickCircle, Warning2 } from 'iconsax-react';
 import { useMemo } from 'react';
+
+import { COLOR, WIDTH } from '@/shared/assets/styles/constants';
+
 import type { FormModalWrapperProps } from './FormWrapperModal';
 import FormWrapperModal from './FormWrapperModal';
 

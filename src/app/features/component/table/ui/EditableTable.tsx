@@ -1,8 +1,9 @@
+import { Table } from 'antd';
 import type { ColumnType } from 'antd/es/table';
 import type { TableProps } from 'antd/lib';
 import type { AnyObject } from 'antd/lib/_util/type';
-import { Table } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
+
 import type { EditableColumnType } from '../model';
 import Cell from './Cell';
 import Row from './Row';

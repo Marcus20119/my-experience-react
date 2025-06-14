@@ -1,8 +1,3 @@
-import type { EditableTableRow } from '@/app/features/component/table';
-import type { CompactActionEntity } from '@/shared/components';
-import type { Dispatch, SetStateAction } from 'react';
-import { COLOR } from '@/shared/assets/styles/constants';
-import { Action } from '@/shared/components';
 import { Button, ColorPicker, Segmented } from 'antd';
 import dayjs from 'dayjs';
 import {
@@ -13,17 +8,24 @@ import {
   TextUnderline,
 } from 'iconsax-react';
 import merge from 'lodash-es/merge';
+import type { Dispatch, SetStateAction } from 'react';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as XLSX from 'xlsx-js-style';
+
+import type { EditableTableRow } from '@/app/features/component/table';
 import { cn } from '@/lib/tailwind';
+import { COLOR } from '@/shared/assets/styles/constants';
+import type { CompactActionEntity } from '@/shared/components';
+import { Action } from '@/shared/components';
+
+import { getExcelRange, isSameRange } from '../lib';
 import type {
   ExcelExportTableEntity,
   ExcelTableEntity,
   RangeAddress,
   RangeStyle,
 } from '../model';
-import { getExcelRange, isSameRange } from '../lib';
 import { EXCEL_ACTION_CLASS, EXCEL_ACTION_ID, ExcelMode } from '../model';
 
 interface Props {

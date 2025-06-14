@@ -1,5 +1,6 @@
-import { EditableContext } from '@/app/features/component/table';
 import { Form } from 'antd';
+
+import { EditableContext } from '@/app/features/component/table';
 
 interface Props extends React.HTMLAttributes<HTMLTableRowElement> {
   index: number;

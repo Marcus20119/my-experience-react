@@ -1,8 +1,9 @@
-import type { SubSidebarKey } from '@/app/features/sidebar';
-import type { RemoveStates, SetStates } from '@/shared/types';
-import { HEIGHT } from '@/shared/assets/styles/constants/height';
 import { create } from 'zustand';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
+
+import type { SubSidebarKey } from '@/app/features/sidebar';
+import { HEIGHT } from '@/shared/assets/styles/constants/height';
+import type { RemoveStates, SetStates } from '@/shared/types';
 
 interface HeaderState {
   headerHistory?: Record<SubSidebarKey, RouterPath>;

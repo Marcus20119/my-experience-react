@@ -1,11 +1,13 @@
-import { COLOR } from '@/shared/assets/styles/constants';
-import { useAppRouter } from '@/shared/hooks';
 import { Flex, Typography } from 'antd';
 import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import { Link } from 'react-router-dom';
+
 import { cn } from '@/lib/tailwind';
-import type { SubSidebarKey } from '../model';
+import { COLOR } from '@/shared/assets/styles/constants';
+import { useAppRouter } from '@/shared/hooks';
+
 import { useGetSidebarData } from '../lib';
+import type { SubSidebarKey } from '../model';
 import { useSidebarStore } from '../store';
 
 const { Text } = Typography;

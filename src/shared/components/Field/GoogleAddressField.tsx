@@ -1,6 +1,6 @@
+import { AutoComplete } from 'antd';
 import type { AutoCompleteProps } from 'antd/lib';
 import type { LatLng } from 'use-places-autocomplete';
-import { AutoComplete } from 'antd';
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,

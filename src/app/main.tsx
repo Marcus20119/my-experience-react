@@ -1,13 +1,16 @@
-import { icons } from '@/shared/assets/svgs/generatedIcons';
+import '../shared/assets/styles/index.css';
+import 'dayjs/locale/vi';
+
 import { addIcon } from '@iconify/react';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+
+import { icons } from '@/shared/assets/svgs/generatedIcons';
+
 import MainProvider from './main-provider';
-import '../shared/assets/styles/index.css';
-import 'dayjs/locale/vi';
 
 icons.forEach(icon => {
   addIcon(`@local:${icon.name}`, {

@@ -1,9 +1,11 @@
+import { Button, Flex } from 'antd';
+import { Edit2, Trash } from 'iconsax-react';
+
 import { useHeaderStore } from '@/app/features/header';
 import { useSidebarStore } from '@/app/features/sidebar';
 import { HEIGHT, SPACING, WIDTH } from '@/shared/assets/styles/constants';
 import { useCalculateElementSize } from '@/shared/hooks';
-import { Button, Flex } from 'antd';
-import { Edit2, Trash } from 'iconsax-react';
+
 import type { UserTableEntity } from '../model';
 import { mockUserData, useUserTableColumns } from '../model';
 import MyTable from './MyTable';

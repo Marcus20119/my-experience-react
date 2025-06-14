@@ -1,7 +1,8 @@
-import type { DayOfWeek } from '@/app/features/component/calendar/model';
-import { getDayOfWeekTitle } from '@/app/features/component/calendar/lib';
 import { Flex, Typography } from 'antd';
 import { useMemo } from 'react';
+
+import { getDayOfWeekTitle } from '@/app/features/component/calendar/lib';
+import type { DayOfWeek } from '@/app/features/component/calendar/model';
 
 const { Text } = Typography;
 

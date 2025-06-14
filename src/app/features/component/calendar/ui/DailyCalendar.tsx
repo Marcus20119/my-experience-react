@@ -1,11 +1,13 @@
-import type { TableProps } from 'antd/lib';
-import { COLOR } from '@/shared/assets/styles/constants';
 import { Table } from 'antd';
+import type { TableProps } from 'antd/lib';
 import dayjs from 'dayjs';
+
+import { COLOR } from '@/shared/assets/styles/constants';
+
 import type { DailyContextProps } from '../context';
-import type { DailyCalendarEntity, DailyRow } from '../model';
 import { DailyCalendarProvider } from '../context';
 import { useDailyCalendarColumns, useGetDailyCalendarData } from '../lib';
+import type { DailyCalendarEntity, DailyRow } from '../model';
 import {
   DEFAULT_DAILY_CALENDAR_END_TIME,
   DEFAULT_DAILY_CALENDAR_START_TIME,

@@ -1,4 +1,5 @@
 import { createQueryKeys } from '@lukemorales/query-key-factory';
+
 import { restCountriesApi } from '../api/rest_countries';
 
 export const countries = createQueryKeys('countries', {

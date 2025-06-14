@@ -1,6 +1,7 @@
-import type { DeepReadonly } from '@/shared/types';
-import type { RouteObject } from 'react-router-dom';
 import { lazy } from 'react';
+import type { RouteObject } from 'react-router-dom';
+
+import type { DeepReadonly } from '@/shared/types';
 
 const CanvaEditorPage = lazy(() => import('@/pages/feature/CanvaEditorPage'));
 const ExcelPage = lazy(() => import('@/pages/feature/ExcelPage'));

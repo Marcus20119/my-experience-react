@@ -1,4 +1,5 @@
 import type { AliasToken } from 'antd/es/theme/interface';
+
 import { COLOR, Z_INDEX } from '@/shared/assets/styles/constants';
 
 export const token: Partial<AliasToken> = {

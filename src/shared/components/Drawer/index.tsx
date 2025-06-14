@@ -1,5 +1,6 @@
-import type { DrawerProps } from 'antd/lib';
 import { Drawer as AntDrawer } from 'antd';
+import type { DrawerProps } from 'antd/lib';
+
 import FormWrapperDrawer from './FormWrapperDrawer';
 
 function Drawer({ children, ...props }: DrawerProps) {

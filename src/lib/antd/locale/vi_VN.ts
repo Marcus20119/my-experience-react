@@ -42,6 +42,7 @@ const viVN: Locale = {
       shortWeekDays: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
       timeSelect: 'Chọn giờ',
       today: 'Hôm nay',
+      week: 'Tuần',
       year: 'Năm',
       yearSelect: 'Chọn năm',
     },

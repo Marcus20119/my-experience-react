@@ -1,5 +1,7 @@
-import { DEFAULT_CURRENCY_UNIT } from '@/shared/constants';
 import { describe, expect, test, vi } from 'vitest';
+
+import { DEFAULT_CURRENCY_UNIT } from '@/shared/constants';
+
 import { NumberTool } from '../number';
 
 vi.mock('@/shared/stores');

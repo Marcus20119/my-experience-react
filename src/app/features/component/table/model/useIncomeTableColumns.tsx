@@ -1,5 +1,7 @@
-import { NumberTool } from '@/shared/utils';
 import { useTranslation } from 'react-i18next';
+
+import { NumberTool } from '@/shared/utils';
+
 import type { IncomeTableEntity, MyTableColumn } from './types';
 
 const { formatMoney } = NumberTool;

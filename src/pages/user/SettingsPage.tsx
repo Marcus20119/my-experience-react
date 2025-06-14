@@ -1,8 +1,9 @@
+import { Col, Divider, Flex, Row, Typography } from 'antd';
+import { useTranslation } from 'react-i18next';
+
 import type { BreadcrumbItem } from '@/app/features/header';
 import { ChangeLanguage } from '@/app/features/settings/change-language';
 import { ContentLayout } from '@/app/layout';
-import { Col, Divider, Flex, Row, Typography } from 'antd';
-import { useTranslation } from 'react-i18next';
 
 const { Text, Title } = Typography;
 

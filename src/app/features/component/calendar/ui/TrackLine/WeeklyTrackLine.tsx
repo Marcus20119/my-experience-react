@@ -1,3 +1,8 @@
+import { Flex, Typography } from 'antd';
+import dayjs from 'dayjs';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { useWeeklyCalendarContext } from '@/app/features/component/calendar/context';
 import {
   getTimeInMinutes,
@@ -7,10 +12,6 @@ import {
   DayOfWeek,
   WEEKLY_Z_INDEX,
 } from '@/app/features/component/calendar/model';
-import { Flex, Typography } from 'antd';
-import dayjs from 'dayjs';
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/tailwind';
 
 const { Text } = Typography;

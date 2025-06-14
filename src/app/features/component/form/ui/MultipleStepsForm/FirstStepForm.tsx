@@ -1,8 +1,9 @@
-import type { MultipleFormFirstStepEntity } from '@/app/features/component/form';
-import type { FormInstance } from 'antd/lib';
-import { Picker } from '@/shared/components';
 import { Button, Col, Flex, Form, Input, Row } from 'antd';
+import type { FormInstance } from 'antd/lib';
 import { useTranslation } from 'react-i18next';
+
+import type { MultipleFormFirstStepEntity } from '@/app/features/component/form';
+import { Picker } from '@/shared/components';
 
 interface Props {
   form?: FormInstance<MultipleFormFirstStepEntity>;

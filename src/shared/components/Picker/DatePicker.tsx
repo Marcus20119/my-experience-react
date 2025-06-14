@@ -1,9 +1,10 @@
+import { DatePicker as AntDatePicker } from 'antd';
 import type { DatePickerProps } from 'antd/lib';
+import { Calendar, CloseCircle } from 'iconsax-react';
+
+import { cn } from '@/lib/tailwind';
 import { COLOR } from '@/shared/assets/styles/constants';
 import { DEFAULT_DATE_FORMAT } from '@/shared/constants';
-import { DatePicker as AntDatePicker } from 'antd';
-import { Calendar, CloseCircle } from 'iconsax-react';
-import { cn } from '@/lib/tailwind';
 
 function DatePicker({ allowClear, className, ...props }: DatePickerProps) {
   return (

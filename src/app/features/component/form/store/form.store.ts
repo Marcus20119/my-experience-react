@@ -1,6 +1,8 @@
-import type { RemoveStates, SetStates } from '@/shared/types';
 import { create } from 'zustand';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
+
+import type { RemoveStates, SetStates } from '@/shared/types';
+
 import type {
   MultipleFormFirstStepEntity,
   MultipleFormSecondStepEntity,

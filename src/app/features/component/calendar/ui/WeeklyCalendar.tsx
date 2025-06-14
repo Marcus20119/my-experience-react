@@ -1,11 +1,13 @@
-import type { TableProps } from 'antd/lib';
-import { COLOR } from '@/shared/assets/styles/constants';
 import { Table } from 'antd';
+import type { TableProps } from 'antd/lib';
 import dayjs from 'dayjs';
+
+import { COLOR } from '@/shared/assets/styles/constants';
+
 import type { WeeklyContextProps } from '../context';
-import type { WeeklyCalendarEntity, WeeklyRow } from '../model';
 import { WeeklyCalendarProvider } from '../context';
 import { useGetWeeklyCalendarData, useWeeklyCalendarColumns } from '../lib';
+import type { WeeklyCalendarEntity, WeeklyRow } from '../model';
 import {
   DEFAULT_WEEKLY_CALENDAR_END_TIME,
   DEFAULT_WEEKLY_CALENDAR_START_TIME,

@@ -1,7 +1,8 @@
 import type { NavigateOptions } from 'react-router-dom';
 import { useNavigate, useParams } from 'react-router-dom';
-import type { PathProps } from '../types';
+
 import { useLocalStore } from '../stores';
+import type { PathProps } from '../types';
 import { AppTool } from '../utils';
 
 export type RouterNavigator<T extends RouterPath = RouterPath> = T extends T

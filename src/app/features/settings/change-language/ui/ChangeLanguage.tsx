@@ -1,8 +1,9 @@
-import type { Language } from '@/shared/types';
 import type { DefaultOptionType } from 'antd/es/select';
+import { useTranslation } from 'react-i18next';
+
 import { Select } from '@/shared/components';
 import { useLocalStore } from '@/shared/stores';
-import { useTranslation } from 'react-i18next';
+import type { Language } from '@/shared/types';
 
 function ChangeLanguage() {
   const { t } = useTranslation();

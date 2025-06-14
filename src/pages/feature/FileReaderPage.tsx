@@ -1,6 +1,7 @@
+import { useTranslation } from 'react-i18next';
+
 import type { BreadcrumbItem } from '@/app/features/header';
 import { ContentLayout } from '@/app/layout';
-import { useTranslation } from 'react-i18next';
 
 function FileReaderPage() {
   const { t } = useTranslation();

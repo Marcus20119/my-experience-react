@@ -1,6 +1,7 @@
 import type { ColumnType } from 'antd/es/table';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import type { WeeklyCalendarEntity, WeeklyRow } from '../model';
 import { DayOfWeek, DEFAULT_WEEKLY_COLUMN_WIDTH } from '../model';
 import { WeeklyTimeRangeCell, WeeklyTitleCell, WeeklyWrapperCell } from '../ui';

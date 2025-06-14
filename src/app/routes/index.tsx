@@ -1,6 +1,8 @@
 import type { RouteObject } from 'react-router-dom';
+
 import MAIN_ROUTES from '@/app/routes/main-routes';
 import NotFoundPage from '@/pages/NotFoundPage';
+
 import { MainLayout, RootLayout } from '../layout';
 import DrawerRouter from './drawer-routes';
 import ModalRouter from './modal-routes';

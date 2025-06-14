@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
+
 import type { RemoveStates, SetStates } from '../types';
 
 interface AuthState {

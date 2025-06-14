@@ -1,3 +1,3 @@
 export { default as FormBuilderHeader } from './FormBuilderHeader';
-export * from './LeftBar';
-export * from './RightBar';
+export * from './left-bar';
+export * from './right-bar';

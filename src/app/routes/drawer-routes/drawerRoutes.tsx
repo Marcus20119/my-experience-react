@@ -1,5 +1,5 @@
+import FormDrawer from '@/pages/component/form/FormDrawer';
 import type { DeepReadonly } from '@/shared/types';
-import FormDrawer from '@/pages/component/FormDrawer';
 
 export const DRAWER_ROUTES = [
   {

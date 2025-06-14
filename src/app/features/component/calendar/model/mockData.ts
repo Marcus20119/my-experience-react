@@ -1,10 +1,11 @@
 import dayjs from 'dayjs';
+
+import { CALENDAR_COLORS } from './calendarColors';
 import type {
   MockDailyCalendarEntity,
   MockMonthlyCalendarEntity,
   MockWeeklyCalendarEntity,
 } from './mockTypes';
-import { CALENDAR_COLORS } from './calendarColors';
 
 export const mockDailyData: MockDailyCalendarEntity[] = [
   {

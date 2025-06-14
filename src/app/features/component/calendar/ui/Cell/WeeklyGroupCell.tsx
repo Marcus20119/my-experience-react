@@ -1,12 +1,14 @@
+import { Flex, Popover, Typography } from 'antd';
+import { useMemo, useState } from 'react';
+
+import { useWeeklyCalendarContext } from '@/app/features/component/calendar/context';
+import { getTimeInMinutes } from '@/app/features/component/calendar/lib';
 import type {
   WeeklyCalendarEntity,
   WeeklyGroup,
 } from '@/app/features/component/calendar/model';
-import { useWeeklyCalendarContext } from '@/app/features/component/calendar/context';
-import { getTimeInMinutes } from '@/app/features/component/calendar/lib';
 import { DEFAULT_WEEKLY_COLUMN_WIDTH } from '@/app/features/component/calendar/model';
-import { Flex, Popover, Typography } from 'antd';
-import { useMemo, useState } from 'react';
+
 import { WeeklyCard } from '../Card';
 
 const { Text } = Typography;

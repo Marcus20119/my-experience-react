@@ -1,7 +1,9 @@
-import type { EditableTableRow } from '@/app/features/component/table';
 import type { EChartsOption } from 'echarts';
 import ReactEcharts from 'echarts-for-react';
 import { forwardRef, useMemo } from 'react';
+
+import type { EditableTableRow } from '@/app/features/component/table';
+
 import type { BarTableEntity } from '../model';
 
 interface Props {
