@@ -7,6 +7,8 @@ import { FormTool } from '@/shared/utils';
 
 import { countryNames } from './countryName.constant';
 
+const { filterOption } = FormTool;
+
 function NationalityOfflineField({ ...props }: MySelectProps) {
   const options: DefaultOptionType[] =
     countryNames?.map(name => ({
@@ -16,7 +18,7 @@ function NationalityOfflineField({ ...props }: MySelectProps) {
 
   return (
     <Select<CountryName>
-      filterOption={FormTool.filterOption}
+      filterOption={filterOption}
       options={options}
       placeholder="Select nationality"
       showSearch

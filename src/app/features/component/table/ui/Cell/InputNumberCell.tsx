@@ -4,6 +4,8 @@ import { useEffect, useRef } from 'react';
 
 import { NumberTool } from '@/shared/utils';
 
+const { formatterInputNumber, parserInputNumber } = NumberTool;
+
 interface Props extends InputNumberProps {
   editing: boolean;
   onSave: () => Promise<void>;
@@ -22,7 +24,7 @@ function InputNumberCell({ editing, onSave, ...props }: Props) {
   return (
     <InputNumber
       className="w-full"
-      formatter={NumberTool.formatterInputNumber}
+      formatter={formatterInputNumber}
       onBlur={onSave}
       onKeyDown={e =>
         !['Enter', 'ArrowLeft', 'ArrowRight', 'Backspace'].includes(e.key) &&
@@ -30,7 +32,7 @@ function InputNumberCell({ editing, onSave, ...props }: Props) {
         e.preventDefault()
       }
       onPressEnter={onSave}
-      parser={NumberTool.parserInputNumber}
+      parser={parserInputNumber}
       ref={ref}
       size="small"
       {...props}

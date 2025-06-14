@@ -10,6 +10,8 @@ import { NumberTool } from '@/shared/utils';
 const MIN_PRICE = 0;
 const MAX_PRICE = 5000000;
 
+const { formatMoney } = NumberTool;
+
 function OtherFields() {
   const { t } = useTranslation();
 
@@ -43,7 +45,7 @@ function OtherFields() {
           <Slider
             marks={{
               [MAX_PRICE]: {
-                label: NumberTool.formatMoney(MAX_PRICE),
+                label: formatMoney(MAX_PRICE),
                 style: {
                   marginTop: '1rem',
                   transform: 'translateX(-95%)',
@@ -51,7 +53,7 @@ function OtherFields() {
                 },
               },
               [MIN_PRICE]: {
-                label: NumberTool.formatMoney(MIN_PRICE),
+                label: formatMoney(MIN_PRICE),
                 style: {
                   marginTop: '1rem',
                   transform: 'translateX(-25%)',
@@ -64,7 +66,7 @@ function OtherFields() {
             range
             step={100000}
             tooltip={{
-              formatter: total => NumberTool.formatMoney(total),
+              formatter: total => formatMoney(total),
             }}
           />
         </Form.Item>

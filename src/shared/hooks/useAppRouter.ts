@@ -5,6 +5,8 @@ import { useLocalStore } from '../stores';
 import type { PathProps } from '../types';
 import { AppTool } from '../utils';
 
+const { scrollToTop } = AppTool;
+
 export type RouterNavigator<T extends RouterPath = RouterPath> = T extends T
   ? {
       param?: PathProps<T>;
@@ -13,6 +15,32 @@ export type RouterNavigator<T extends RouterPath = RouterPath> = T extends T
       search?: string;
     }
   : never;
+
+export const convertRouteToString = (route?: RouterNavigator): string => {
+  if (!route) {
+    return '';
+  }
+
+  console.log(' route:', route);
+
+  let pathname = String(route.path);
+
+  if (route.param) {
+    for (const key in route.param) {
+      pathname = pathname.replace(`:${key}`, route.param[key]);
+    }
+  }
+
+  if (route.hash) {
+    pathname += `#${route.hash}`;
+  }
+
+  if (route.search) {
+    pathname += `?${route.search}`;
+  }
+
+  return pathname;
+};
 
 const getNavigatePath = ({ param, path }: RouterNavigator) => {
   if (!path) {
@@ -60,7 +88,7 @@ export const useAppRouter = <P extends RouterPath>(_?: P) => {
       options,
     );
 
-    AppTool.scrollToTop();
+    scrollToTop();
   };
 
   return {

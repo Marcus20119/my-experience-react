@@ -1,6 +1,8 @@
 import { Flex, Rate } from 'antd';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { cn } from '@/lib/tailwind';
 import { useAppRouter } from '@/shared/hooks';
 
 import { StyledThreeDTicket } from './styles';
@@ -9,7 +11,8 @@ export interface ThreeDTicketProps {
   color1: string;
   color2?: string;
   color3?: string;
-  description: string;
+  description?: string;
+  height?: string;
   icon: React.ReactNode;
   path?: RouterPath;
   rate?: number;
@@ -22,6 +25,7 @@ function ThreeDTicket({
   color2,
   color3,
   description,
+  height,
   icon,
   path,
   rate,
@@ -31,19 +35,35 @@ function ThreeDTicket({
   const { t } = useTranslation();
   const { navigate } = useAppRouter();
 
+  const defaultHeight = useMemo(() => {
+    if (!description && !path) {
+      return '172px';
+    }
+
+    if (description && !path) {
+      return '220px';
+    }
+
+    return '260px';
+  }, [description, path]);
+
   return (
     <StyledThreeDTicket
+      className={cn(path ? 'cursor-pointer' : 'cursor-default')}
       color1={color1}
       color2={color2}
       color3={color3}
+      height={height ?? defaultHeight}
       onClick={() => path && navigate({ path: path as '/' })}
       width={width}
     >
       <div className="card shadow-xl">
         <div className="content-box">
           <span className="card-title">{title}</span>
-          <p className="card-content">{description}</p>
-          <span className="see-more">{t('common.button.seeMore')}</span>
+          {description ? <p className="card-content">{description}</p> : null}
+          {path ? (
+            <span className="see-more">{t('common.button.seeMore')}</span>
+          ) : null}
         </div>
         <div className="icon-box">{icon}</div>
       </div>

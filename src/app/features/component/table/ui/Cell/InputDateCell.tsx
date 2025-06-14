@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/tailwind';
 import { DateTimeTool } from '@/shared/utils';
 
+const { formatDate } = DateTimeTool;
+
 interface Props extends DatePickerProps {
   editing: boolean;
   onSave: () => Promise<void>;
@@ -24,7 +26,7 @@ function InputDateCell({ className, editing, onSave, ...props }: Props) {
     <DatePicker
       allowClear={false}
       className={cn('w-full', className)}
-      format={day => DateTimeTool.formatDate(day)}
+      format={day => formatDate(day)}
       onBlur={() => {
         if (!open) {
           onSave();

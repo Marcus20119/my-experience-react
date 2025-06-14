@@ -21,7 +21,7 @@ function RootLayout() {
         navigate(prevRoute);
       } else {
         navigate({
-          path: '/technology/configuration',
+          path: '/technology/frontend/configuration',
         });
       }
     }

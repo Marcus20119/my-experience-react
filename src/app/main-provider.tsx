@@ -24,6 +24,8 @@ import { ThemeTool } from '@/shared/utils';
 
 import { routes } from './routes';
 
+const { getHexColorVariant } = ThemeTool;
+
 function AntProvider() {
   const { language, primaryColor, secondaryColor } = useLocalStore();
 
@@ -53,10 +55,7 @@ function AntProvider() {
       return defaultTheme;
     }
 
-    const secondaryLightColor = ThemeTool.getHexColorVariant(
-      secondaryColor,
-      0.2,
-    );
+    const secondaryLightColor = getHexColorVariant(secondaryColor, 0.2);
 
     return {
       components: {
@@ -93,12 +92,12 @@ function AntProvider() {
   useEffect(() => {
     if (primaryColor) {
       COLOR.primary = primaryColor;
-      COLOR.primaryLight = ThemeTool.getHexColorVariant(primaryColor, 0.2);
+      COLOR.primaryLight = getHexColorVariant(primaryColor, 0.2);
     }
 
     if (secondaryColor) {
       COLOR.secondary = secondaryColor;
-      COLOR.secondaryLight = ThemeTool.getHexColorVariant(secondaryColor, 0.2);
+      COLOR.secondaryLight = getHexColorVariant(secondaryColor, 0.2);
     }
 
     //map colors variables for root

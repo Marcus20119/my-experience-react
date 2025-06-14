@@ -10,6 +10,8 @@ import type { IncomeTableEntity } from '../model';
 import { mockIncomeTable, useIncomeTableColumns } from '../model';
 import MyTable from './MyTable';
 
+const { formatMoney } = NumberTool;
+
 function IncomeTable() {
   const { t } = useTranslation();
   const { columns } = useIncomeTableColumns();
@@ -75,40 +77,40 @@ function IncomeTable() {
                 {t('component.table.summary')}
               </Table.Summary.Cell>
               <Table.Summary.Cell align="right" index={2}>
-                {NumberTool.formatMoney(salary)}
+                {formatMoney(salary)}
               </Table.Summary.Cell>
               <Table.Summary.Cell align="right" index={3}>
-                {NumberTool.formatMoney(freelance)}
+                {formatMoney(freelance)}
               </Table.Summary.Cell>
               <Table.Summary.Cell align="right" index={4}>
-                {NumberTool.formatMoney(otherIncome)}
+                {formatMoney(otherIncome)}
               </Table.Summary.Cell>
               <Table.Summary.Cell align="right" index={5}>
-                {NumberTool.formatMoney(totalIncome)}
+                {formatMoney(totalIncome)}
               </Table.Summary.Cell>
               <Table.Summary.Cell align="right" index={6}>
-                {NumberTool.formatMoney(rental)}
+                {formatMoney(rental)}
               </Table.Summary.Cell>
               <Table.Summary.Cell align="right" index={7}>
-                {NumberTool.formatMoney(food)}
+                {formatMoney(food)}
               </Table.Summary.Cell>
               <Table.Summary.Cell align="right" index={8}>
-                {NumberTool.formatMoney(grocery)}
+                {formatMoney(grocery)}
               </Table.Summary.Cell>
               <Table.Summary.Cell align="right" index={9}>
-                {NumberTool.formatMoney(pharmacy)}
+                {formatMoney(pharmacy)}
               </Table.Summary.Cell>
               <Table.Summary.Cell align="right" index={10}>
-                {NumberTool.formatMoney(fuel)}
+                {formatMoney(fuel)}
               </Table.Summary.Cell>
               <Table.Summary.Cell align="right" index={11}>
-                {NumberTool.formatMoney(entertainment)}
+                {formatMoney(entertainment)}
               </Table.Summary.Cell>
               <Table.Summary.Cell align="right" index={12}>
-                {NumberTool.formatMoney(otherExpense)}
+                {formatMoney(otherExpense)}
               </Table.Summary.Cell>
               <Table.Summary.Cell align="right" index={13}>
-                {NumberTool.formatMoney(totalExpense)}
+                {formatMoney(totalExpense)}
               </Table.Summary.Cell>
               <Table.Summary.Cell index={14} />
             </Table.Summary.Row>
@@ -119,7 +121,7 @@ function IncomeTable() {
                 {t('component.table.remaining')}
               </Table.Summary.Cell>
               <Table.Summary.Cell align="right" index={2}>
-                {NumberTool.formatMoney(remaining)}
+                {formatMoney(remaining)}
               </Table.Summary.Cell>
               <Table.Summary.Cell align="right" colSpan={12} index={3} />
             </Table.Summary.Row>
