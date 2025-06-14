@@ -39,6 +39,7 @@ module.exports = {
     'codegen.ts',
     '*.cjs',
     '*.schemas.tsx',
+    'tsconfig.json',
   ],
   extends: [
     'eslint:recommended',
@@ -51,6 +52,7 @@ module.exports = {
     'prettier',
     'plugin:@tanstack/eslint-plugin-query/recommended',
     'plugin:@vitest/legacy-recommended',
+    'plugin:jsonc/recommended-with-jsonc',
   ],
   plugins: [
     'perfectionist',
@@ -60,119 +62,150 @@ module.exports = {
     'sort-destructure-keys',
     'simple-import-sort',
   ],
+  overrides: [
+    // TypeScript files
+    {
+      files: ['*.ts', '*.tsx'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        project: './tsconfig.json',
+      },
+      rules: {
+        /* React Rules*/
+        'react/react-in-jsx-scope': 'off',
+        'react/destructuring-assignment': 'error',
+        'react/function-component-definition': [
+          'warn',
+          {
+            namedComponents: 'function-declaration',
+            unnamedComponents: 'arrow-function',
+          },
+        ],
+        'react/hook-use-state': 'error',
+        'react/jsx-fragments': ['error', 'syntax'],
+        'react/jsx-handler-names': ['off', { checkInlineFunction: true }],
+        'react/jsx-no-leaked-render': 'error',
+        'react/button-has-type': 'error',
+        'react/no-array-index-key': 'off',
+        'react/no-unused-prop-types': 'error',
+        'react/self-closing-comp': 'error',
+        'react-hooks/exhaustive-deps': 'warn',
+        'react-hooks/rules-of-hooks': 'error',
+        'react/jsx-no-script-url': [
+          'error',
+          [
+            {
+              name: 'Link',
+              props: ['to'],
+            },
+          ],
+        ],
+        'react/prop-types': 'off',
+
+        /* Typescript Rules*/
+        '@typescript-eslint/array-type': 'error',
+        '@typescript-eslint/consistent-type-definitions': 'error',
+        '@typescript-eslint/consistent-type-imports': [
+          'warn',
+          { prefer: 'type-imports' },
+        ],
+        '@typescript-eslint/explicit-module-boundary-types': 'off',
+        '@typescript-eslint/method-signature-style': 'error',
+        '@typescript-eslint/naming-convention': [
+          'error',
+          {
+            format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
+            leadingUnderscore: 'allow',
+            selector: 'variable',
+          },
+          {
+            format: ['camelCase', 'PascalCase'],
+            selector: 'function',
+          },
+          {
+            format: ['camelCase'],
+            selector: ['objectLiteralProperty', 'typeProperty'],
+          },
+          {
+            format: ['PascalCase'],
+            selector: ['enum', 'enumMember', 'class', 'interface', 'typeAlias'],
+          },
+          {
+            format: ['camelCase'],
+            leadingUnderscore: 'require',
+            modifiers: ['unused'],
+            selector: 'parameter',
+          },
+        ],
+        '@typescript-eslint/no-duplicate-enum-values': 'error',
+        '@typescript-eslint/no-empty-function': 'error',
+        '@typescript-eslint/no-explicit-any': 'error',
+        '@typescript-eslint/no-floating-promises': 'off',
+        '@typescript-eslint/no-misused-promises': 'warn',
+        '@typescript-eslint/no-unnecessary-qualifier': 'error',
+        '@typescript-eslint/no-unnecessary-type-arguments': 'error',
+        '@typescript-eslint/no-unnecessary-type-assertion': 'error',
+        '@typescript-eslint/no-unnecessary-type-constraint': 'error',
+        '@typescript-eslint/no-unsafe-argument': 'warn',
+        '@typescript-eslint/no-unsafe-assignment': 'off',
+        '@typescript-eslint/no-unsafe-call': 'warn',
+        '@typescript-eslint/no-unsafe-member-access': 'warn',
+        '@typescript-eslint/no-unsafe-return': 'warn',
+        '@typescript-eslint/no-unused-vars': [
+          'error',
+          {
+            args: 'after-used',
+            argsIgnorePattern: '^_',
+            vars: 'all',
+            varsIgnorePattern: '^_',
+          },
+        ],
+        '@typescript-eslint/no-use-before-define': 'error',
+        '@typescript-eslint/no-useless-empty-export': 'error',
+        '@typescript-eslint/padding-line-between-statements': [
+          'warn',
+          {
+            blankLine: 'always',
+            next: ['interface', 'type', 'block-like'],
+            prev: '*',
+          },
+          {
+            blankLine: 'always',
+            next: ['*'],
+            prev: ['interface', 'type', 'block-like'],
+          },
+          {
+            blankLine: 'any',
+            prev: ['case', 'default'],
+            next: ['case', 'default'],
+          },
+        ],
+        '@typescript-eslint/prefer-optional-chain': 'error',
+        '@typescript-eslint/restrict-template-expressions': 'warn',
+      },
+    },
+
+    // JSON and JSONC files
+    {
+      files: ['*.json', '*.jsonc'],
+      parser: 'jsonc-eslint-parser',
+      extends: ['plugin:jsonc/recommended-with-jsonc'],
+      rules: {
+        // 👉 only JSON-specific rules go here
+        'jsonc/sort-keys': [
+          'error',
+          'asc',
+          {
+            caseSensitive: true,
+            natural: false,
+            minKeys: 2,
+            allowLineSeparatedGroups: false,
+          },
+        ],
+      },
+    },
+  ],
   rules: {
-    /* React Rules*/
-    'react/react-in-jsx-scope': 'off',
-    'react/destructuring-assignment': 'error',
-    'react/function-component-definition': [
-      'warn',
-      {
-        namedComponents: 'function-declaration',
-        unnamedComponents: 'arrow-function',
-      },
-    ],
-    'react/hook-use-state': 'error',
-    'react/jsx-fragments': ['error', 'syntax'],
-    'react/jsx-handler-names': ['off', { checkInlineFunction: true }],
-    'react/jsx-no-leaked-render': 'error',
-    'react/button-has-type': 'error',
-    'react/no-array-index-key': 'off',
-    'react/no-unused-prop-types': 'error',
-    'react/self-closing-comp': 'error',
-    'react-hooks/exhaustive-deps': 'warn',
-    'react-hooks/rules-of-hooks': 'error',
-    'react/jsx-no-script-url': [
-      'error',
-      [
-        {
-          name: 'Link',
-          props: ['to'],
-        },
-      ],
-    ],
-    'react/prop-types': 'off',
-
-    /* Typescript Rules*/
-    '@typescript-eslint/array-type': 'error',
-    '@typescript-eslint/consistent-type-definitions': 'error',
-    '@typescript-eslint/consistent-type-imports': [
-      'warn',
-      { prefer: 'type-imports' },
-    ],
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/method-signature-style': 'error',
-    '@typescript-eslint/naming-convention': [
-      'error',
-      {
-        format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
-        leadingUnderscore: 'allow',
-        selector: 'variable',
-      },
-      {
-        format: ['camelCase', 'PascalCase'],
-        selector: 'function',
-      },
-      {
-        format: ['camelCase'],
-        selector: ['objectLiteralProperty', 'typeProperty'],
-      },
-      {
-        format: ['PascalCase'],
-        selector: ['enum', 'enumMember', 'class', 'interface', 'typeAlias'],
-      },
-      {
-        format: ['camelCase'],
-        leadingUnderscore: 'require',
-        modifiers: ['unused'],
-        selector: 'parameter',
-      },
-    ],
-    '@typescript-eslint/no-duplicate-enum-values': 'error',
-    '@typescript-eslint/no-empty-function': 'error',
-    '@typescript-eslint/no-explicit-any': 'error',
-    '@typescript-eslint/no-floating-promises': 'off',
-    '@typescript-eslint/no-misused-promises': 'warn',
-    '@typescript-eslint/no-unnecessary-qualifier': 'error',
-    '@typescript-eslint/no-unnecessary-type-arguments': 'error',
-    '@typescript-eslint/no-unnecessary-type-assertion': 'error',
-    '@typescript-eslint/no-unnecessary-type-constraint': 'error',
-    '@typescript-eslint/no-unsafe-argument': 'warn',
-    '@typescript-eslint/no-unsafe-assignment': 'off',
-    '@typescript-eslint/no-unsafe-call': 'warn',
-    '@typescript-eslint/no-unsafe-member-access': 'warn',
-    '@typescript-eslint/no-unsafe-return': 'warn',
-    '@typescript-eslint/no-unused-vars': [
-      'error',
-      {
-        args: 'after-used',
-        argsIgnorePattern: '^_',
-        vars: 'all',
-        varsIgnorePattern: '^_',
-      },
-    ],
-    '@typescript-eslint/no-use-before-define': 'error',
-    '@typescript-eslint/no-useless-empty-export': 'error',
-    '@typescript-eslint/padding-line-between-statements': [
-      'warn',
-      {
-        blankLine: 'always',
-        next: ['interface', 'type', 'block-like'],
-        prev: '*',
-      },
-      {
-        blankLine: 'always',
-        next: ['*'],
-        prev: ['interface', 'type', 'block-like'],
-      },
-      {
-        blankLine: 'any',
-        prev: ['case', 'default'],
-        next: ['case', 'default'],
-      },
-    ],
-    '@typescript-eslint/prefer-optional-chain': 'error',
-    '@typescript-eslint/restrict-template-expressions': 'warn',
-
     /* Coding Convention Rules */
     'array-callback-return': 'error',
     'arrow-body-style': ['error', 'as-needed'],

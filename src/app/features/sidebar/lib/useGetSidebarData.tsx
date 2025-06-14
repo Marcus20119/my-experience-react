@@ -17,10 +17,10 @@ export const useGetSidebarData = () => {
       {
         children: [
           {
-            key: SubSidebarKey.Configuration,
-            label: t('layout.title.configuration'),
-            match: '/technology/configuration',
-            path: '/technology/configuration',
+            key: SubSidebarKey.Frontend,
+            label: t('layout.title.frontend'),
+            match: '/technology/frontend',
+            path: '/technology/frontend/configuration',
           },
           {
             key: SubSidebarKey.Language,
@@ -28,24 +28,12 @@ export const useGetSidebarData = () => {
             match: '/technology/language',
             path: '/technology/language',
           },
-          {
-            key: SubSidebarKey.UILibrary,
-            label: t('layout.title.uiLibrary'),
-            match: '/technology/ui-library',
-            path: '/technology/ui-library',
-          },
-          {
-            key: SubSidebarKey.OtherTech,
-            label: t('layout.title.other'),
-            match: '/technology/other',
-            path: '/technology/other',
-          },
         ],
         icon: <Cpu />,
         key: MainSidebarKey.Technology,
         label: t('layout.title.technology'),
         match: '/technology',
-        path: '/technology/configuration',
+        path: '/technology/frontend/configuration',
       },
       {
         children: [

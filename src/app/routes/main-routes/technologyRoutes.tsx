@@ -3,34 +3,32 @@ import type { RouteObject } from 'react-router-dom';
 
 import type { DeepReadonly } from '@/shared/types';
 
-const ConfigurationPage = lazy(
-  () => import('@/pages/technology/ConfigurationPage'),
+const FrontendConfigurationPage = lazy(
+  () => import('@/pages/technology/frontend/FrontendConfigurationPage'),
 );
 const LanguagePage = lazy(() => import('@/pages/technology/LanguagePage'));
-const OtherTechnologyPage = lazy(
-  () => import('@/pages/technology/OtherTechnologyPage'),
+const OtherFrontEndTechnologyPage = lazy(
+  () => import('@/pages/technology/frontend/OtherFrontEndTechnologyPage'),
 );
-const UILibraryPage = lazy(() => import('@/pages/technology/UILibraryPage'));
+const UILibraryPage = lazy(
+  () => import('@/pages/technology/frontend/UILibraryPage'),
+);
 
 export const TECHNOLOGY_ROUTES = [
   {
-    element: <ConfigurationPage />,
-    path: 'technology',
+    element: <FrontendConfigurationPage />,
+    path: 'technology/frontend/configuration',
   },
   {
-    element: <ConfigurationPage />,
-    path: 'technology/configuration',
+    element: <UILibraryPage />,
+    path: 'technology/frontend/ui-library',
+  },
+  {
+    element: <OtherFrontEndTechnologyPage />,
+    path: 'technology/frontend/other',
   },
   {
     element: <LanguagePage />,
     path: 'technology/language',
-  },
-  {
-    element: <UILibraryPage />,
-    path: 'technology/ui-library',
-  },
-  {
-    element: <OtherTechnologyPage />,
-    path: 'technology/other',
   },
 ] as const satisfies DeepReadonly<RouteObject[]>;

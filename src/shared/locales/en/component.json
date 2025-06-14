@@ -328,11 +328,11 @@
       }
     },
     "value": {
-      "agreeWithOurConditions": "Agree with our conditions",
       "aMonth": "A month",
-      "apply": "Apply",
       "aWeek": "A week",
       "aYear": "A year",
+      "agreeWithOurConditions": "Agree with our conditions",
+      "apply": "Apply",
       "twoMonths": "2 months",
       "twoWeeks": "2 weeks",
       "twoYears": "2 years"
