@@ -1,6 +1,7 @@
-import type { FormInstance } from 'antd/lib';
 import { Button, Col, Flex, Form, Input, Row } from 'antd';
+import type { FormInstance } from 'antd/lib';
 import { useTranslation } from 'react-i18next';
+
 import type { SingleStepFormEntity } from '../model';
 
 const { TextArea } = Input;

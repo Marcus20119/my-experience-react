@@ -1,5 +1,5 @@
+import FormModal from '@/pages/component/form/FormModal';
 import type { DeepReadonly } from '@/shared/types';
-import FormModal from '@/pages/component/FormModal';
 
 export const MODAL_ROUTES = [
   {

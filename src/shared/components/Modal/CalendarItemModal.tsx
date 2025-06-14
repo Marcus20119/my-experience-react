@@ -1,7 +1,8 @@
 import type { ModalProps } from 'antd';
+import { Modal } from 'antd';
+
 import { COLOR } from '@/shared/assets/styles/constants';
 import { ThemeTool } from '@/shared/utils';
-import { Modal } from 'antd';
 
 interface Props extends Pick<ModalProps, 'onCancel' | 'open' | 'title'> {
   children?: React.ReactNode;

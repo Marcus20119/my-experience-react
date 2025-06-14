@@ -1,9 +1,11 @@
-import type { RemoveStates, SetStates } from '@/shared/types';
 import type { AnyObject } from 'antd/lib/_util/type';
 import type { ParseKeys } from 'i18next';
 import type { Key } from 'react';
 import { create } from 'zustand';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
+
+import type { RemoveStates, SetStates } from '@/shared/types';
+
 import type { MyTableColumn, StudentTableEntity } from '../model';
 
 export interface CustomizeColumnProps {

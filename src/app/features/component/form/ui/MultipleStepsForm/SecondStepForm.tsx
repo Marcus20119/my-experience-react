@@ -1,7 +1,8 @@
-import type { MultipleFormSecondStepEntity } from '@/app/features/component/form';
-import type { FormInstance } from 'antd/lib';
 import { Button, Col, Flex, Form, Input, InputNumber, Row } from 'antd';
+import type { FormInstance } from 'antd/lib';
 import { useTranslation } from 'react-i18next';
+
+import type { MultipleFormSecondStepEntity } from '@/app/features/component/form';
 
 interface Props {
   form?: FormInstance<MultipleFormSecondStepEntity>;

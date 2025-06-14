@@ -1,9 +1,10 @@
+import { Checkbox, Flex, Table, Typography } from 'antd';
 import type { TableProps } from 'antd/lib';
 import type { AnyObject } from 'antd/lib/_util/type';
-import { Checkbox, Flex, Table, Typography } from 'antd';
 import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import type { MyTableColumn } from '../model';
 import { useTableStore } from '../store';
 import Cell from './Cell';

@@ -1,5 +1,7 @@
-import { FileType } from '@/shared/types';
 import { describe, expect, test, vi } from 'vitest';
+
+import { FileType } from '@/shared/types';
+
 import { FileTool } from '../file';
 
 const { getFileTypeByExtension, getFileTypeFromName } = FileTool;

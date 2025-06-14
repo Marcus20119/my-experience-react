@@ -1,9 +1,10 @@
-import type { WeeklyCalendarEntity } from '@/app/features/component/calendar/model';
-import { useWeeklyCalendarContext } from '@/app/features/component/calendar/context';
-import { getTimeInMinutes } from '@/app/features/component/calendar/lib';
 import { Flex, Typography } from 'antd';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
+
+import { useWeeklyCalendarContext } from '@/app/features/component/calendar/context';
+import { getTimeInMinutes } from '@/app/features/component/calendar/lib';
+import type { WeeklyCalendarEntity } from '@/app/features/component/calendar/model';
 import { cn } from '@/lib/tailwind';
 
 const { Text } = Typography;

@@ -1,5 +1,6 @@
-import type { CardProps } from 'antd/lib';
 import { Card as AntCard } from 'antd';
+import type { CardProps } from 'antd/lib';
+
 import GridCard from './GridCard';
 
 function Card({ children, ...props }: CardProps) {

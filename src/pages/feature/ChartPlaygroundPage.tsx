@@ -1,13 +1,14 @@
 /* eslint-disable perfectionist/sort-objects */
-import type { EditableTableRow } from '@/app/features/component/table';
-import type { BarTableEntity } from '@/app/features/feature/chart-playground';
-import type { BreadcrumbItem } from '@/app/features/header';
-import type ReactEcharts from 'echarts-for-react';
-import { BarChart, BarTable } from '@/app/features/feature/chart-playground';
-import { ContentLayout } from '@/app/layout';
 import { Splitter } from 'antd';
+import type ReactEcharts from 'echarts-for-react';
 import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import type { EditableTableRow } from '@/app/features/component/table';
+import type { BarTableEntity } from '@/app/features/feature/chart-playground';
+import { BarChart, BarTable } from '@/app/features/feature/chart-playground';
+import type { BreadcrumbItem } from '@/app/features/header';
+import { ContentLayout } from '@/app/layout';
 
 function ChartPlaygroundPage() {
   const chartRef = useRef<ReactEcharts>(null);

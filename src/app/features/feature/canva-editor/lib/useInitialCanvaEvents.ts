@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+
 import { MAX_ZOOM_LEVEL, MIN_ZOOM_LEVEL } from '../model';
 
 interface Props {

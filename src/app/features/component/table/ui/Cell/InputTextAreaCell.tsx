@@ -1,7 +1,8 @@
 import type { InputRef } from 'antd';
-import type { TextAreaProps } from 'antd/es/input';
 import { Input } from 'antd';
+import type { TextAreaProps } from 'antd/es/input';
 import { useEffect, useRef } from 'react';
+
 import { cn } from '@/lib/tailwind';
 
 const { TextArea } = Input;

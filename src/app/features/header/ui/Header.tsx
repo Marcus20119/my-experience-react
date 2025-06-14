@@ -1,7 +1,9 @@
-import { Z_INDEX } from '@/shared/assets/styles/constants';
 import { ConfigProvider, Flex, Input } from 'antd';
 import { SearchNormal1 } from 'iconsax-react';
 import { useTranslation } from 'react-i18next';
+
+import { Z_INDEX } from '@/shared/assets/styles/constants';
+
 import UserMenu from './UserMenu';
 
 function Header() {

@@ -1,9 +1,11 @@
+import { Table } from 'antd';
+import { useTranslation } from 'react-i18next';
+
 import { useHeaderStore } from '@/app/features/header';
 import { HEIGHT, SPACING } from '@/shared/assets/styles/constants';
 import { useCalculateElementSize } from '@/shared/hooks';
 import { NumberTool } from '@/shared/utils';
-import { Table } from 'antd';
-import { useTranslation } from 'react-i18next';
+
 import type { IncomeTableEntity } from '../model';
 import { mockIncomeTable, useIncomeTableColumns } from '../model';
 import MyTable from './MyTable';

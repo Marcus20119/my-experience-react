@@ -1,10 +1,11 @@
-import type { DatePickerProps } from 'antd/lib';
-import { COLOR } from '@/shared/assets/styles/constants';
-import { DEFAULT_FULL_MONTH_FORMAT } from '@/shared/constants';
 import { DatePicker as AntDatePicker } from 'antd';
+import type { DatePickerProps } from 'antd/lib';
 import dayjs from 'dayjs';
 import { Calendar, CloseCircle } from 'iconsax-react';
+
 import { cn } from '@/lib/tailwind';
+import { COLOR } from '@/shared/assets/styles/constants';
+import { DEFAULT_FULL_MONTH_FORMAT } from '@/shared/constants';
 
 function MonthPicker({ allowClear, className, ...props }: DatePickerProps) {
   return (

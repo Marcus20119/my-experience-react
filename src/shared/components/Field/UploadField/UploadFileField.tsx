@@ -1,15 +1,17 @@
-import type { FileType } from '@/shared/types';
-import type { DraggerProps } from 'antd/es/upload';
-import type { RcFile } from 'antd/lib/upload';
-import { NotiTool, TextTool } from '@/shared/utils';
-import { FileTool } from '@/shared/utils/file';
 import { Icon } from '@iconify/react';
 import { Flex, Typography, Upload } from 'antd';
+import type { DraggerProps } from 'antd/es/upload';
+import type { RcFile } from 'antd/lib/upload';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuidv4 } from 'uuid';
-import type { UploadedFileProps } from './UploadedFile';
+
+import type { FileType } from '@/shared/types';
+import { NotiTool, TextTool } from '@/shared/utils';
+import { FileTool } from '@/shared/utils/file';
+
 import { getFileExtension } from './getFileExtension';
+import type { UploadedFileProps } from './UploadedFile';
 import UploadedFile from './UploadedFile';
 
 const { Dragger } = Upload;

@@ -1,15 +1,17 @@
 import type Konva from 'konva';
 import type { RefObject } from 'react';
-import { LoggerTool } from '@/shared/utils';
 import { createContext, useContext, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+
+import { LoggerTool } from '@/shared/utils';
+
+import { useGetContainerSize, useInitialCanvaEvents } from '../lib';
 import type {
   AddCanvaItemEntityInput,
   CanvaItemEntity,
   CanvaSize,
   UpdateCanvaItemEntityInput,
 } from '../model';
-import { useGetContainerSize, useInitialCanvaEvents } from '../lib';
 import {
   CANVA_SIZE,
   CanvaItemType,

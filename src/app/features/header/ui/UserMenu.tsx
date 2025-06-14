@@ -1,10 +1,11 @@
-import type { RouterNavigator } from '@/shared/hooks';
-import type { MenuItemType } from 'antd/es/menu/interface';
-import { useSidebarStore } from '@/app/features/sidebar';
-import { useAppRouter } from '@/shared/hooks';
 import { Dropdown, Flex, Image, Typography } from 'antd';
+import type { MenuItemType } from 'antd/es/menu/interface';
 import { DirectNormal, Medal, Setting2, User } from 'iconsax-react';
 import { useTranslation } from 'react-i18next';
+
+import { useSidebarStore } from '@/app/features/sidebar';
+import type { RouterNavigator } from '@/shared/hooks';
+import { useAppRouter } from '@/shared/hooks';
 
 const { Text } = Typography;
 

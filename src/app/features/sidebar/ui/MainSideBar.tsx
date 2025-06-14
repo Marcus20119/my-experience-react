@@ -1,10 +1,12 @@
-import { COLOR, Z_INDEX } from '@/shared/assets/styles/constants';
-import { ReactComponent as LogoReact } from '@/shared/assets/svgs/logo-react.svg';
 import { Flex, Tooltip, Typography } from 'antd';
 import { ToggleOffCircle, ToggleOnCircle } from 'iconsax-react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+
 import { cn } from '@/lib/tailwind';
+import { COLOR, Z_INDEX } from '@/shared/assets/styles/constants';
+import { ReactComponent as LogoReact } from '@/shared/assets/svgs/logo-react.svg';
+
 import { useGetSidebarData } from '../lib';
 import { useSidebarStore } from '../store';
 

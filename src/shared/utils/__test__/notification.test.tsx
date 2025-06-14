@@ -1,7 +1,9 @@
-import { COLOR } from '@/shared/assets/styles/constants';
 import { notification, Typography } from 'antd';
 import { CloseCircle, TickCircle } from 'iconsax-react';
 import { describe, expect, it, vi } from 'vitest';
+
+import { COLOR } from '@/shared/assets/styles/constants';
+
 import { NotiTool } from '../notification';
 
 const { Text } = Typography;

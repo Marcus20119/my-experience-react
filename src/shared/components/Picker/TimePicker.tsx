@@ -1,9 +1,10 @@
+import { TimePicker as AntTimePicker } from 'antd';
 import type { TimePickerProps } from 'antd/lib';
+import { Clock, CloseCircle } from 'iconsax-react';
+
+import { cn } from '@/lib/tailwind';
 import { COLOR } from '@/shared/assets/styles/constants';
 import { DEFAULT_TIME_FORMAT } from '@/shared/constants';
-import { TimePicker as AntTimePicker } from 'antd';
-import { Clock, CloseCircle } from 'iconsax-react';
-import { cn } from '@/lib/tailwind';
 
 function TimePicker({ allowClear, className, ...props }: TimePickerProps) {
   return (

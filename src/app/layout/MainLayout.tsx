@@ -1,10 +1,12 @@
-import type { ItemType } from 'antd/es/menu/interface';
-import { Z_INDEX } from '@/shared/assets/styles/constants';
-import { useKeyDown, useMatchRoutes } from '@/shared/hooks';
 import { Dropdown, Flex, Typography } from 'antd';
+import type { ItemType } from 'antd/es/menu/interface';
 import { Add, ArrowDown, ArrowLeft, ArrowRight, ArrowUp } from 'iconsax-react';
 import { useTranslation } from 'react-i18next';
 import { Outlet } from 'react-router-dom';
+
+import { Z_INDEX } from '@/shared/assets/styles/constants';
+import { useKeyDown, useMatchRoutes } from '@/shared/hooks';
+
 import { Header, useHeaderStore } from '../features/header';
 import { Sidebar, useSidebarStore } from '../features/sidebar';
 

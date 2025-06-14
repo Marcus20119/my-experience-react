@@ -1,2 +1,2 @@
-export { default as MultipleStepsForm } from './MultipleStepsForm';
+export * from './MultipleStepsForm';
 export { default as SingleStepForm } from './SingleStepForm';

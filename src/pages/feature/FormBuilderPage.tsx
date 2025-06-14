@@ -1,3 +1,6 @@
+import { Flex } from 'antd';
+import { useTranslation } from 'react-i18next';
+
 import {
   FORM_BUILDER_SIZE,
   FormBuilderHeader,
@@ -8,8 +11,6 @@ import {
 import { type BreadcrumbItem, useHeaderStore } from '@/app/features/header';
 import { ContentLayout } from '@/app/layout';
 import { useWindowDimensions } from '@/shared/hooks';
-import { Flex } from 'antd';
-import { useTranslation } from 'react-i18next';
 
 function FormBuilderPage() {
   const { t } = useTranslation();

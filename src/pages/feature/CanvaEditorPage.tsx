@@ -1,9 +1,10 @@
+import { useTranslation } from 'react-i18next';
+
 import { CanvaEditor } from '@/app/features/feature/canva-editor';
 import { type BreadcrumbItem, useHeaderStore } from '@/app/features/header';
 import { useSidebarStore } from '@/app/features/sidebar';
 import { ContentLayout } from '@/app/layout';
 import { useCalculateElementSize } from '@/shared/hooks';
-import { useTranslation } from 'react-i18next';
 
 function CanvaEditorPage() {
   const { t } = useTranslation();

@@ -1,7 +1,8 @@
-import { ReactComponent as LogoEmpty } from '@/shared/assets/svgs/empty.svg';
 import { Flex, Typography } from 'antd';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { ReactComponent as LogoEmpty } from '@/shared/assets/svgs/empty.svg';
 
 const { Text } = Typography;
 

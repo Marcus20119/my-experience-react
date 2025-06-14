@@ -1,4 +1,5 @@
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+
 import { AppTool } from '../app';
 
 const { scrollToTarget, scrollToTop } = AppTool;

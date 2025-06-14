@@ -1,5 +1,7 @@
 import round from 'lodash-es/round';
+
 import i18n from '@/lib/i18next';
+
 import { DEFAULT_CURRENCY_UNIT } from '../constants';
 import { useLocalStore } from '../stores';
 

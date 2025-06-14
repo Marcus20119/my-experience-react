@@ -1,7 +1,9 @@
-import { useElementSize } from '@/shared/hooks';
 import { Carousel, Flex, Image, Typography } from 'antd';
 import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import { useRef, useState } from 'react';
+
+import { useElementSize } from '@/shared/hooks';
+
 import { Thumbnail } from '../Thumbnail';
 
 const { Text } = Typography;

@@ -2,8 +2,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import range from 'lodash-es/range';
-import type { RangeAddress, RangeStyle } from '../model';
+
 import { getExcelColumnRange } from '../lib';
+import type { RangeAddress, RangeStyle } from '../model';
 
 export const StyledExcelWrapper = styled.div<{
   selectedRange: null | RangeAddress;

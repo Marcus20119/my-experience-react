@@ -1,5 +1,6 @@
-import type { CardProps } from 'antd/lib';
 import { Card } from 'antd';
+import type { CardProps } from 'antd/lib';
+
 import { cn } from '@/lib/tailwind';
 
 const getWidthPercentage = (span: number) => `${(span / 24) * 100}%`;

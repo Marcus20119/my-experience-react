@@ -1,9 +1,11 @@
-import type { MySelectProps } from '@/shared/components';
-import type { CountryName } from '@/shared/tanstack/api/rest_countries';
 import type { DefaultOptionType } from 'antd/es/select';
+
+import type { MySelectProps } from '@/shared/components';
 import { Select } from '@/shared/components';
+import type { CountryName } from '@/shared/tanstack/api/rest_countries';
 import { FormTool } from '@/shared/utils';
-import { countryNames } from './countryNames';
+
+import { countryNames } from './countryName.constant';
 
 function NationalityOfflineField({ ...props }: MySelectProps) {
   const options: DefaultOptionType[] =

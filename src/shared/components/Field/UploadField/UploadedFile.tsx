@@ -1,9 +1,11 @@
-import type { FileType } from '@/shared/types';
-import { COLOR } from '@/shared/assets/styles/constants';
 import { Icon } from '@iconify/react';
 import { Button, Flex, Typography } from 'antd';
 import { Trash } from 'iconsax-react';
+
 import { cn } from '@/lib/tailwind';
+import { COLOR } from '@/shared/assets/styles/constants';
+import type { FileType } from '@/shared/types';
+
 import FileIcon from './FileIcon';
 
 const { Text } = Typography;

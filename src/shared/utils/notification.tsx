@@ -1,5 +1,6 @@
 import { notification, Typography } from 'antd';
 import { CloseCircle, TickCircle } from 'iconsax-react';
+
 import { COLOR } from '../assets/styles/constants';
 
 const { Text } = Typography;

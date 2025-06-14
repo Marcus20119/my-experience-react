@@ -1,19 +1,21 @@
-import type { CountryCode } from '@/shared/tanstack/api/rest_countries';
-import { Select } from '@/shared/components';
-import { DEFAULT_DEBOUNCE_TIME_OFFLINE } from '@/shared/constants';
-import { TextTool } from '@/shared/utils';
 import { Divider, Flex, Form, InputNumber, Space, Typography } from 'antd';
 import debounce from 'lodash-es/debounce';
 import uniqBy from 'lodash-es/uniqBy';
 import { useEffect, useState } from 'react';
+
+import { Select } from '@/shared/components';
+import { DEFAULT_DEBOUNCE_TIME_OFFLINE } from '@/shared/constants';
+import type { CountryCode } from '@/shared/tanstack/api/rest_countries';
+import { TextTool } from '@/shared/utils';
+
+import SearchField from '../SearchField';
+import { countries } from './country.constant';
 import type {
   OfflineCountry,
   PhoneNumberFieldProps,
   PhoneNumberOptionType,
   PhoneNumberValue,
-} from './types';
-import SearchField from '../SearchField';
-import { countries } from './countries';
+} from './country.types';
 
 const { Text } = Typography;
 
