@@ -6,6 +6,7 @@ import { cn } from '@/lib/tailwind';
 import { DateTimeTool } from '@/shared/utils';
 
 const { RangePicker } = DatePicker;
+const { formatDate } = DateTimeTool;
 
 interface Props extends RangePickerProps {
   editing: boolean;
@@ -26,7 +27,7 @@ function InputRangeDateCell({ className, editing, onSave, ...props }: Props) {
     <RangePicker
       allowClear={false}
       className={cn('w-full', className)}
-      format={day => DateTimeTool.formatDate(day)}
+      format={day => formatDate(day)}
       onBlur={() => {
         if (!open) {
           onSave();

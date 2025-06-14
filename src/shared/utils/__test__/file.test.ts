@@ -4,7 +4,7 @@ import { FileType } from '@/shared/types';
 
 import { FileTool } from '../file';
 
-const { getFileTypeByExtension, getFileTypeFromName } = FileTool;
+const { downloadURI, getFileTypeByExtension, getFileTypeFromName } = FileTool;
 
 describe('FileTool', () => {
   describe('getFileTypeByExtension', () => {
@@ -79,7 +79,7 @@ describe('FileTool', () => {
       const spy = vi.spyOn(document, 'createElement').mockReturnValue(link);
       const appendSpy = vi.spyOn(document.body, 'appendChild');
 
-      FileTool.downloadURI(uri, name);
+      downloadURI(uri, name);
 
       expect(spy).toHaveBeenCalledWith('a');
       expect(appendSpy).toHaveBeenCalledWith(link);

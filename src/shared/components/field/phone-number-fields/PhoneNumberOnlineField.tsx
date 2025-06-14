@@ -20,6 +20,7 @@ import type {
 } from './country.types';
 
 const { Text } = Typography;
+const { latinize } = TextTool;
 
 const formatOption = (country: OnlineCountry): PhoneNumberOptionType => {
   const flagSrc = country.flags.svg;
@@ -102,7 +103,7 @@ function PhoneNumberField({
     }
   }, [countries]);
 
-  const dropdownRender = (menu: React.ReactNode) => (
+  const popupRender = (menu: React.ReactNode) => (
     <Flex className="min-w-[18rem]" gap="0.25rem" vertical>
       <Form form={form} layout="vertical">
         <Form.Item name="search" noStyle>
@@ -124,15 +125,12 @@ function PhoneNumberField({
         allowClear={false}
         className="w-20 [&_.ant-select-selection-item]:visible [&_.ant-select-selection-item]:flex [&_.ant-select-selection-item]:items-center [&_.country-name]:hidden [&_.phone-code]:hidden"
         defaultValue={defaultCountryCode}
-        dropdownRender={dropdownRender}
         filterOption={(input, option) => {
           const { countryCode, countryName, phoneCode } =
             option as PhoneNumberOptionType;
-          const formattedSearchValue = TextTool.latinize(input).toLowerCase();
-          const formattedCountryName =
-            TextTool.latinize(countryName).toLowerCase();
-          const formattedCountryCode =
-            TextTool.latinize(countryCode).toLowerCase();
+          const formattedSearchValue = latinize(input).toLowerCase();
+          const formattedCountryName = latinize(countryName).toLowerCase();
+          const formattedCountryCode = latinize(countryCode).toLowerCase();
 
           return (
             formattedCountryName.includes(formattedSearchValue) ||
@@ -148,7 +146,7 @@ function PhoneNumberField({
             phoneCode: (option as PhoneNumberOptionType)?.phoneCode,
           });
         }}
-        onDropdownVisibleChange={visible => {
+        onOpenChange={visible => {
           if (!visible) {
             form.resetFields();
             setSearchValue('');
@@ -156,6 +154,7 @@ function PhoneNumberField({
         }}
         options={renderOptions}
         popupMatchSelectWidth={false}
+        popupRender={popupRender}
         searchValue={searchValue}
       />
       <InputNumber

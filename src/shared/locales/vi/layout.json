@@ -16,9 +16,11 @@
     "title": {
       "aboutMe": "About me",
       "animation": "Animation",
+      "aws": "AWS",
       "calendar": "Calendar",
       "canvaEditor": "Canva editor",
       "chartPlayground": "Chart playground",
+      "cloud": "Cloud",
       "component": "Component",
       "configuration": "Configuration",
       "customizableTable": "Customizable table",

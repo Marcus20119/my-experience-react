@@ -5,11 +5,11 @@ export const StyledThreeDTicket = styled.div<{
   color2?: string;
   color3?: string;
   width?: string;
+  height?: string;
 }>`
   width: ${({ width }) => width ?? '260px'};
-  height: ${({ width }) => width ?? '260px'};
+  height: ${({ height }) => height ?? '260px'};
   perspective: 1000px;
-  cursor: pointer;
   user-select: none;
 
   .card {
@@ -76,6 +76,11 @@ export const StyledThreeDTicket = styled.div<{
     transition-duration: 500ms;
     transform: translate3d(0px, 0px, 30px);
     text-shadow: 0 0 40px ${({ color1 }) => `${color1}`};
+    word-wrap: break-word; /* For older browsers and general word breaking */
+    overflow-wrap: break-word; /* Modern equivalent of word-wrap */
+    hyphens: auto; /* Enables automatic hyphenation */
+    -webkit-hyphens: auto; /* For WebKit browsers (Safari, Chrome) */
+    -moz-hyphens: auto; /* For Mozilla browsers (Firefox) */
   }
 
   .content-box .card-content:hover {
@@ -83,7 +88,6 @@ export const StyledThreeDTicket = styled.div<{
   }
 
   .content-box .see-more {
-    cursor: pointer;
     margin-top: 1rem;
     display: inline-block;
     font-weight: 900;

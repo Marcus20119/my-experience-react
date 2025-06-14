@@ -23,6 +23,12 @@ export const useGetSidebarData = () => {
             path: '/technology/frontend/configuration',
           },
           {
+            key: SubSidebarKey.Cloud,
+            label: t('layout.title.cloud'),
+            match: '/technology/cloud',
+            path: '/technology/cloud',
+          },
+          {
             key: SubSidebarKey.Language,
             label: t('layout.title.language'),
             match: '/technology/language',

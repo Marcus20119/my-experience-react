@@ -10,4 +10,5 @@ export * from './modal';
 export * from './picker';
 export * from './select';
 export * from './thumbnail';
+export * from './ticket';
 export * from './value';

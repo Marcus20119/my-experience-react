@@ -13,6 +13,8 @@ const OtherFrontEndTechnologyPage = lazy(
 const UILibraryPage = lazy(
   () => import('@/pages/technology/frontend/UILibraryPage'),
 );
+const CloudPage = lazy(() => import('@/pages/technology/cloud/CloudPage'));
+const AWSPage = lazy(() => import('@/pages/technology/cloud/AWSPage'));
 
 export const TECHNOLOGY_ROUTES = [
   {
@@ -26,6 +28,14 @@ export const TECHNOLOGY_ROUTES = [
   {
     element: <OtherFrontEndTechnologyPage />,
     path: 'technology/frontend/other',
+  },
+  {
+    element: <CloudPage />,
+    path: 'technology/cloud',
+  },
+  {
+    element: <AWSPage />,
+    path: 'technology/cloud/aws',
   },
   {
     element: <LanguagePage />,

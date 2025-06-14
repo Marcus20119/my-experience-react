@@ -2,27 +2,27 @@ import { Flex } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import type { BreadcrumbItem } from '@/app/features/header';
-import { useGetLanguageItems } from '@/app/features/technology';
+import { useGetCloudItems } from '@/app/features/technology';
 import { ContentLayout } from '@/app/layout';
 import { Ticket } from '@/shared/components';
 
-function LanguagePage() {
+function CloudPage() {
   const { t } = useTranslation();
-  const { languageItems } = useGetLanguageItems();
+  const { cloudItems } = useGetCloudItems();
 
   const breadCrumb: BreadcrumbItem[] = [
     {
       title: t('layout.title.technology'),
     },
     {
-      title: t('layout.title.language'),
+      title: t('layout.title.cloud'),
     },
   ];
 
   return (
-    <ContentLayout breadCrumb={breadCrumb} title={t('layout.title.language')}>
+    <ContentLayout breadCrumb={breadCrumb} title={t('layout.title.cloud')}>
       <Flex className="h-fit" gap="1.5rem" wrap>
-        {languageItems.map((props, index) => (
+        {cloudItems.map((props, index) => (
           <Ticket.ThreeD key={index} {...props} />
         ))}
       </Flex>
@@ -30,4 +30,4 @@ function LanguagePage() {
   );
 }
 
-export default LanguagePage;
+export default CloudPage;
