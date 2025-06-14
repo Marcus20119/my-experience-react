@@ -1,6 +1,6 @@
 import type { Dayjs } from 'dayjs';
 
-import type { PhoneNumberValue } from '@/shared/components/fieldhehe/phone-number-fields';
+import type { PhoneNumberValue } from '@/shared/components/field/phone-number-fields';
 
 export interface OriginalFieldForm {
   autocomplete?: string;

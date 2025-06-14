@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import type { BreadcrumbItem } from '@/app/features/header';
 import { useGetTechnologyItems } from '@/app/features/technology';
 import { ContentLayout } from '@/app/layout';
-import { Ticket } from '@/shared/components/tickethehe';
+import { Ticket } from '@/shared/components/ticket';
 
 function UILibraryPage() {
   const { t } = useTranslation();
