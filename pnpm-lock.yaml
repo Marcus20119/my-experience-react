@@ -71,9 +71,6 @@ importers:
       echarts-for-react:
         specifier: ^3.0.2
         version: 3.0.2(echarts@5.6.0)(react@18.3.1)
-      eslint-plugin-simple-import-sort:
-        specifier: ^12.1.1
-        version: 12.1.1(eslint@8.57.0)
       graphql:
         specifier: ^16.8.1
         version: 16.8.1
@@ -249,6 +246,9 @@ importers:
       eslint-plugin-react-refresh:
         specifier: ^0.4.6
         version: 0.4.7(eslint@8.57.0)
+      eslint-plugin-simple-import-sort:
+        specifier: ^12.1.1
+        version: 12.1.1(eslint@8.57.0)
       eslint-plugin-sort-destructure-keys:
         specifier: ^2.0.0
         version: 2.0.0(eslint@8.57.0)
@@ -264,6 +264,9 @@ importers:
       jsdom:
         specifier: ^25.0.1
         version: 25.0.1
+      jsonc-eslint-parser:
+        specifier: ^2.4.0
+        version: 2.4.0
       knip:
         specifier: ^5.17.4
         version: 5.17.4(@types/node@20.14.0)(typescript@5.4.5)

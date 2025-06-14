@@ -16,18 +16,18 @@ export enum MainSidebarKey {
 }
 
 export enum SubSidebarKey {
+  Backend = 'backend',
   Calendar = 'calendar',
   CanvaEditor = 'canva-editor',
   ChartPlayground = 'chart-playground',
-  Configuration = 'configuration',
+  Cloud = 'cloud',
   DragAndDrop = 'drag-and-drop',
   Excel = 'excel',
   Field = 'field',
   FileReader = 'file-reader',
   Form = 'form',
   FormBuilder = 'form-builder',
+  Frontend = 'frontend',
   Language = 'language',
-  OtherTech = 'other-tech',
   Table = 'table',
-  UILibrary = 'ui-library',
 }

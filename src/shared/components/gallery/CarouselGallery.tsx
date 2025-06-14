@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 
 import { useElementSize } from '@/shared/hooks';
 
-import { Thumbnail } from '../Thumbnail';
+import { Thumbnail } from '../thumbnail';
 
 const { Text } = Typography;
 

@@ -6,6 +6,8 @@ import i18next from 'i18next';
 import { useLocalStore } from '@/shared/stores/local.store';
 import { NotiTool } from '@/shared/utils';
 
+const { showError } = NotiTool;
+
 enum StatusCode {
   BadRequest = 400,
   Forbidden = 403,
@@ -38,7 +40,7 @@ const errorLink = onError(({ graphQLErrors }) => {
   const error: GraphQLErrorExtension =
     graphQLErrors[0] as GraphQLErrorExtension;
 
-  NotiTool.showError({
+  showError({
     message:
       error.message ||
       i18next.t('common.error.smtWentWrong', {

@@ -7,6 +7,8 @@ import type { CountryName } from '@/shared/tanstack/api/rest_countries';
 import { queries } from '@/shared/tanstack/queries';
 import { FormTool } from '@/shared/utils';
 
+const { filterOption } = FormTool;
+
 function NationalityOnlineField({ ...props }: MySelectProps) {
   const { data: countries, isPending } = useQuery(
     queries.countries.all(['name', 'idd', 'flags', 'cca2']),
@@ -22,7 +24,7 @@ function NationalityOnlineField({ ...props }: MySelectProps) {
 
   return (
     <Select<CountryName>
-      filterOption={FormTool.filterOption}
+      filterOption={filterOption}
       loading={isPending}
       options={options}
       placeholder="Select nationality"

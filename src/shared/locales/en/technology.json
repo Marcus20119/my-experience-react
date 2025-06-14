@@ -2,6 +2,7 @@
   "technology": {
     "description": {
       "antDesign": "A design system for enterprise-level products.",
+      "aws": "A cloud platform offering a wide range of services.",
       "emotion": "A library designed for writing CSS styles with JavaScript",
       "eslint": "Find and fix problems in your JavaScript code.",
       "graphql": "A query language for APIs and a runtime for fulfilling those queries.",

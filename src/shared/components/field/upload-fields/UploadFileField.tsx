@@ -16,6 +16,9 @@ import UploadedFile from './UploadedFile';
 
 const { Dragger } = Upload;
 const { Text } = Typography;
+const { getFileTypeFromName } = FileTool;
+const { getSlug } = TextTool;
+const { showError } = NotiTool;
 
 interface SingleFileProps {
   multiple?: false;
@@ -56,7 +59,7 @@ function UploadFileField({
     if (multiple) {
       return value.map(file => {
         const name = file.split('/').pop() as string;
-        const type = FileTool.getFileTypeFromName(name);
+        const type = getFileTypeFromName(name);
 
         return {
           id: uuidv4(),
@@ -69,7 +72,7 @@ function UploadFileField({
     }
 
     const name = value?.split('/').pop() as string;
-    const type = FileTool.getFileTypeFromName(name);
+    const type = getFileTypeFromName(name);
 
     return [
       {
@@ -83,21 +86,21 @@ function UploadFileField({
   });
 
   const handleUpload = async (file: RcFile) => {
-    const fileName = TextTool.getSlug(file.name);
-    const fileType = FileTool.getFileTypeFromName(fileName);
+    const fileName = getSlug(file.name);
+    const fileType = getFileTypeFromName(fileName);
     const fileSize = file.size;
     const blobUrl = URL.createObjectURL(file);
     const fileId = uuidv4();
 
     if (acceptTypes && fileType && !acceptTypes.includes(fileType)) {
-      NotiTool.showError({
+      showError({
         message: t('common.error.invalidFileType', { fileName: file.name }),
       });
       return;
     }
 
     if (maxFileSize && fileSize > maxFileSize * 1024 * 1024) {
-      NotiTool.showError({
+      showError({
         message: t('common.error.maxFileSize', { maxFileSize }),
       });
       return;
@@ -177,7 +180,7 @@ function UploadFileField({
         multiple
           ? value.map(file => {
               const name = file.split('/').pop() as string;
-              const type = FileTool.getFileTypeFromName(name);
+              const type = getFileTypeFromName(name);
 
               return {
                 id: uuidv4(),
@@ -192,9 +195,7 @@ function UploadFileField({
                 id: uuidv4(),
                 loading: false,
                 name: value.split('/').pop() as string,
-                type: FileTool.getFileTypeFromName(
-                  value.split('/').pop() as string,
-                ),
+                type: getFileTypeFromName(value.split('/').pop() as string),
                 url: value,
               },
             ],

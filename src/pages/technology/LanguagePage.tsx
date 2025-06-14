@@ -2,13 +2,13 @@ import { Flex } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import type { BreadcrumbItem } from '@/app/features/header';
-import { useGetTechnologyItems } from '@/app/features/technology';
+import { useGetLanguageItems } from '@/app/features/technology';
 import { ContentLayout } from '@/app/layout';
-import { Ticket } from '@/shared/components/Ticket';
+import { Ticket } from '@/shared/components';
 
 function LanguagePage() {
   const { t } = useTranslation();
-  const { technologyItems } = useGetTechnologyItems();
+  const { languageItems } = useGetLanguageItems();
 
   const breadCrumb: BreadcrumbItem[] = [
     {
@@ -22,7 +22,7 @@ function LanguagePage() {
   return (
     <ContentLayout breadCrumb={breadCrumb} title={t('layout.title.language')}>
       <Flex className="h-fit" gap="1.5rem" wrap>
-        {technologyItems.language.map((props, index) => (
+        {languageItems.map((props, index) => (
           <Ticket.ThreeD key={index} {...props} />
         ))}
       </Flex>

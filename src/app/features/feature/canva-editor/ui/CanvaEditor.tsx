@@ -3,10 +3,10 @@ import { Flex } from 'antd';
 import type { CanvaEditorExternalContextProps } from '../context';
 import { CanvaEditorProvider } from '../context';
 import { CANVA_SIZE } from '../model';
-import { CanvaFooter } from './footerhehe';
-import { CanvaHeader } from './headerhehe';
-import { CanvaSidebar } from './sidebarhehe';
-import { CanvaWorkspace } from './workspacehehe';
+import { CanvaFooter } from './footer';
+import { CanvaHeader } from './header';
+import { CanvaSidebar } from './sidebar';
+import { CanvaWorkspace } from './workspace';
 
 interface RequiredContextProps
   extends Pick<CanvaEditorExternalContextProps, 'height' | 'width'> {}

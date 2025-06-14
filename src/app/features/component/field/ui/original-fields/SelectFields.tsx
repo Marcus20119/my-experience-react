@@ -8,6 +8,8 @@ import type { GridCardItem } from '@/shared/components';
 import { AutoComplete, Card, Cascader, Select } from '@/shared/components';
 import { FormTool } from '@/shared/utils';
 
+const { filterOption, filterTreeNode } = FormTool;
+
 function SelectFields() {
   const { t } = useTranslation();
 
@@ -66,7 +68,7 @@ function SelectFields() {
         >
           <Select
             allowClear
-            filterOption={FormTool.filterOption}
+            filterOption={filterOption}
             optionFilterProp="label"
             options={selectOptions}
             placeholder={t('component.placeholder.singleSelect')}
@@ -84,7 +86,7 @@ function SelectFields() {
         >
           <Select
             allowClear
-            filterOption={FormTool.filterOption}
+            filterOption={filterOption}
             mode="multiple"
             optionFilterProp="label"
             options={selectOptions}
@@ -103,7 +105,7 @@ function SelectFields() {
         >
           <Select.Tree
             allowClear
-            filterTreeNode={FormTool.filterTreeNode}
+            filterTreeNode={filterTreeNode}
             placeholder={t('component.placeholder.treeSelect')}
             showCheckedStrategy="SHOW_PARENT"
             showSearch
@@ -141,7 +143,7 @@ function SelectFields() {
         >
           <AutoComplete
             allowClear
-            filterOption={FormTool.filterOption}
+            filterOption={filterOption}
             optionFilterProp="label"
             options={autoCompleteOptions}
             placeholder={t('component.placeholder.autocomplete')}

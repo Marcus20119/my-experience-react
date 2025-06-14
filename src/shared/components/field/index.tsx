@@ -2,13 +2,13 @@ import GoogleAddressField from './GoogleAddressField';
 import {
   NationalityOfflineField,
   NationalityOnlineField,
-} from './NationalityField';
+} from './nationality-fields';
 import {
   PhoneNumberOfflineField,
   PhoneNumberOnlineField,
-} from './PhoneNumberField';
+} from './phone-number-fields';
 import SearchField from './SearchField';
-import { UploadFileField } from './UploadField';
+import { UploadFileField } from './upload-fields';
 
 function Field() {
   return null;
