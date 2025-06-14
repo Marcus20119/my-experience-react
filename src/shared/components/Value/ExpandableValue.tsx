@@ -1,6 +1,7 @@
 import { Typography } from 'antd';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { cn } from '@/lib/tailwind';
 
 const { Link, Paragraph } = Typography;

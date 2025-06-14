@@ -1,7 +1,9 @@
-import type { RemoveStates, SetStates } from '@/shared/types';
-import { WIDTH } from '@/shared/assets/styles/constants/width';
 import { create } from 'zustand';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
+
+import { WIDTH } from '@/shared/assets/styles/constants/width';
+import type { RemoveStates, SetStates } from '@/shared/types';
+
 import type { MainSidebarKey, SubSidebarKey } from '../model';
 
 interface SidebarState {

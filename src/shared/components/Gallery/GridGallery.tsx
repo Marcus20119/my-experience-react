@@ -1,5 +1,7 @@
 import { Col, Flex, Image, Row } from 'antd';
+
 import { cn } from '@/lib/tailwind';
+
 import CarouselGallery from './CarouselGallery';
 
 interface Props {

@@ -1,5 +1,6 @@
-import type { DeepReadonly } from '@/shared/types';
 import type { RouteObject } from 'react-router-dom';
+
+import type { DeepReadonly } from '@/shared/types';
 
 export const ANIMATION_ROUTES = [
   {

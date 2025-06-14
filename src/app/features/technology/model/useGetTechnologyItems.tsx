@@ -1,6 +1,7 @@
-import type { ThreeDTicketProps } from '@/shared/components/Ticket/ThreeDTicket';
 import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
+
+import type { ThreeDTicketProps } from '@/shared/components/Ticket/ThreeDTicket';
 
 export const useGetTechnologyItems = () => {
   const { t } = useTranslation();

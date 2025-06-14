@@ -1,6 +1,8 @@
-import { useAppRouter } from '@/shared/hooks';
 import { Flex, Rate } from 'antd';
 import { useTranslation } from 'react-i18next';
+
+import { useAppRouter } from '@/shared/hooks';
+
 import { StyledThreeDTicket } from './styles';
 
 export interface ThreeDTicketProps {

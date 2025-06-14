@@ -1,1 +1,1 @@
-export * from './barTable.types';
+export * from './barTable.type';

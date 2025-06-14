@@ -58,6 +58,7 @@ module.exports = {
     'react-refresh',
     'unused-imports',
     'sort-destructure-keys',
+    'simple-import-sort',
   ],
   rules: {
     /* React Rules*/
@@ -245,34 +246,6 @@ module.exports = {
         order: 'asc',
       },
     ],
-    'perfectionist/sort-imports': [
-      'warn',
-      {
-        newlinesBetween: 'ignore',
-        type: 'natural',
-        order: 'asc',
-        groups: [
-          'type',
-          'react',
-          'nanostores',
-          ['builtin', 'external'],
-          'internal-type',
-          'internal',
-          ['parent-type', 'sibling-type', 'index-type'],
-          ['parent', 'sibling', 'index'],
-          'side-effect',
-          'style',
-          'object',
-          'unknown',
-        ],
-        internalPattern: [
-          '@/components/**',
-          '@/stores/**',
-          '@/pages/**',
-          '@/lib/**',
-        ],
-      },
-    ],
     'perfectionist/sort-exports': [
       'error',
       {
@@ -281,13 +254,6 @@ module.exports = {
       },
     ],
     'perfectionist/sort-jsx-props': [
-      'error',
-      {
-        type: 'natural',
-        order: 'asc',
-      },
-    ],
-    'perfectionist/sort-named-imports': [
       'error',
       {
         type: 'natural',
@@ -348,5 +314,7 @@ module.exports = {
         ],
       },
     ],
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
   },
 };

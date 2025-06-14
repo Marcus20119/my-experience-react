@@ -1,11 +1,13 @@
+import { Flex } from 'antd';
+import { Suspense, useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
+
 import { Header } from '@/app/features/header';
 import { Sidebar, useSidebarStore } from '@/app/features/sidebar';
 import { useAppRouter } from '@/shared/hooks';
 import { useLocalStore } from '@/shared/stores';
-import { Flex } from 'antd';
-import { Suspense, useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
-import ContentLayout from './ContentLayout/ContentLayout';
+
+import { ContentLayout } from './content-layout';
 
 function RootLayout() {
   const { navigate } = useAppRouter();

@@ -1,8 +1,10 @@
 import type { InputRef } from 'antd';
-import { useToggle } from '@/shared/hooks';
 import { Button, Flex, Input, Tabs, Typography } from 'antd';
 import { Edit2 } from 'iconsax-react';
 import { useEffect, useRef } from 'react';
+
+import { useToggle } from '@/shared/hooks';
+
 import { useFormBuilderContext } from '../context';
 import { DEFAULT_FORM_NAME, FORM_BUILDER_SIZE } from '../model';
 

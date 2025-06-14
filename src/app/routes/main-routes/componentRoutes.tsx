@@ -1,75 +1,78 @@
-import type { DeepReadonly } from '@/shared/types';
-import type { RouteObject } from 'react-router-dom';
 import { lazy } from 'react';
+import type { RouteObject } from 'react-router-dom';
 
-const CalendarDailyPage = lazy(
-  () => import('@/pages/component/CalendarDailyPage'),
+import type { DeepReadonly } from '@/shared/types';
+
+const DailyCalendarPage = lazy(
+  () => import('@/pages/component/calendar/DailyCalendarPage'),
 );
-const CalendarMonthlyPage = lazy(
-  () => import('@/pages/component/CalendarMonthlyPage'),
+const MonthlyCalendarPage = lazy(
+  () => import('@/pages/component/calendar/MonthlyCalendarPage'),
 );
-const CalendarWeeklyPage = lazy(
-  () => import('@/pages/component/CalendarWeeklyPage'),
+const WeeklyCalendarPage = lazy(
+  () => import('@/pages/component/calendar/WeeklyCalendarPage'),
 );
-const FieldOriginalPage = lazy(
-  () => import('@/pages/component/FieldOriginalPage'),
+const OriginalFieldPage = lazy(
+  () => import('@/pages/component/field/OriginalFieldPage'),
 );
-const FieldSpecialPage = lazy(
-  () => import('@/pages/component/FieldSpecialPage'),
+const SpecialFieldPage = lazy(
+  () => import('@/pages/component/field/SpecialFieldPage'),
 );
-const FormOriginalPage = lazy(
-  () => import('@/pages/component/FormOriginalPage'),
+const OriginalFormPage = lazy(
+  () => import('@/pages/component/form/OriginalFormPage'),
 );
-const FormSpecialPage = lazy(() => import('@/pages/component/FormSpecialPage'));
-const TableCustomizablePage = lazy(
-  () => import('@/pages/component/TableCustomizablePage'),
+const SpecialFormPage = lazy(
+  () => import('@/pages/component/form/SpecialFormPage'),
 );
-const TableEditablePage = lazy(
-  () => import('@/pages/component/TableEditablePage'),
+const CustomizableTablePage = lazy(
+  () => import('@/pages/component/table/CustomizableTablePage'),
 );
-const TableExpandablePage = lazy(
-  () => import('@/pages/component/TableExpandablePage'),
+const EditableTablePage = lazy(
+  () => import('@/pages/component/table/EditableTablePage'),
+);
+const ExpandableTablePage = lazy(
+  () => import('@/pages/component/table/ExpandableTablePage'),
 );
 
 export const COMPONENT_ROUTES = [
   {
-    element: <TableCustomizablePage />,
+    element: <CustomizableTablePage />,
     path: 'component/table/customizable',
   },
   {
-    element: <TableEditablePage />,
+    element: <EditableTablePage />,
     path: 'component/table/editable',
   },
   {
-    element: <TableExpandablePage />,
+    element: <ExpandableTablePage />,
     path: 'component/table/expandable',
   },
   {
-    element: <FormOriginalPage />,
+    element: <OriginalFormPage />,
     path: 'component/form/original',
   },
   {
-    element: <FormSpecialPage />,
+    element: <SpecialFormPage />,
     path: 'component/form/special',
   },
   {
-    element: <FieldOriginalPage />,
+    element: <OriginalFieldPage />,
     path: 'component/field/original',
   },
   {
-    element: <FieldSpecialPage />,
+    element: <SpecialFieldPage />,
     path: 'component/field/special',
   },
   {
-    element: <CalendarDailyPage />,
+    element: <DailyCalendarPage />,
     path: 'component/calendar/daily',
   },
   {
-    element: <CalendarWeeklyPage />,
+    element: <WeeklyCalendarPage />,
     path: 'component/calendar/weekly',
   },
   {
-    element: <CalendarMonthlyPage />,
+    element: <MonthlyCalendarPage />,
     path: 'component/calendar/monthly',
   },
 ] as const satisfies DeepReadonly<RouteObject[]>;

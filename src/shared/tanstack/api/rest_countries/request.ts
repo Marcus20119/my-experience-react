@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import type { OnlineCountry } from './schemas';
 
 const request = axios.create({

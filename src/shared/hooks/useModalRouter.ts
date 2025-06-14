@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+
 import type { PathProps } from '../types';
 
 type ModalRouterNavigator<T extends ModalRouterPath = ModalRouterPath> =

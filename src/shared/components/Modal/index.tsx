@@ -1,5 +1,6 @@
-import type { ModalProps } from 'antd/lib';
 import { Modal as AntModal } from 'antd';
+import type { ModalProps } from 'antd/lib';
+
 import CalendarItemModal from './CalendarItemModal';
 import ConfirmModal from './ConfirmModal';
 import FormWrapperModal from './FormWrapperModal';

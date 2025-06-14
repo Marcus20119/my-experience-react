@@ -2,6 +2,7 @@ import { Box1, Colorfilter, Cpu, ElementEqual, Game } from 'iconsax-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
+
 import type { SidebarItem } from '../model';
 import { MainSidebarKey, SubSidebarKey } from '../model';
 import { useSidebarStore } from '../store';

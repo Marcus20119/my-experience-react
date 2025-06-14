@@ -1,8 +1,10 @@
-import type { HeaderCellProps } from '@/app/features/component/table';
 import { Typography } from 'antd';
 import { useState } from 'react';
 import { Resizable } from 'react-resizable';
+
+import type { HeaderCellProps } from '@/app/features/component/table';
 import { cn } from '@/lib/tailwind';
+
 import { StyledHeader } from './styles';
 
 const { Text } = Typography;

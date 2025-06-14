@@ -1,5 +1,10 @@
+import { Button, Flex, Tooltip, Typography } from 'antd';
 import type ReactEcharts from 'echarts-for-react';
+import { Eye, EyeSlash, Rank } from 'iconsax-react';
 import type { Dispatch, SetStateAction } from 'react';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import {
   type EditableColumnType,
   EditableTable,
@@ -9,10 +14,7 @@ import { useHeaderStore } from '@/app/features/header';
 import { HEIGHT, SPACING } from '@/shared/assets/styles/constants';
 import { useCalculateElementSize } from '@/shared/hooks';
 import { NumberTool } from '@/shared/utils';
-import { Button, Flex, Tooltip, Typography } from 'antd';
-import { Eye, EyeSlash, Rank } from 'iconsax-react';
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+
 import type { BarTableEntity } from '../model';
 
 const { Text } = Typography;

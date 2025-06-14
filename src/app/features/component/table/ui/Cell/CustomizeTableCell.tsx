@@ -1,19 +1,4 @@
-import type {
-  CustomizeColumnProps,
-  CustomizeTableProps,
-  DragIndexState,
-  MyTableColumn,
-} from '@/app/features/component/table';
 import type { DragEndEvent, DragOverEvent } from '@dnd-kit/core';
-import type { CheckboxProps } from 'antd';
-import type { AnyObject } from 'antd/lib/_util/type';
-import type { Key } from 'react';
-import {
-  DragIndexContext,
-  useTableStore,
-} from '@/app/features/component/table';
-import { COLOR } from '@/shared/assets/styles/constants';
-import { useToggle } from '@/shared/hooks';
 import {
   closestCenter,
   DndContext,
@@ -30,11 +15,27 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Icon } from '@iconify/react';
+import type { CheckboxProps } from 'antd';
 import { Checkbox, Flex, Popover, Tooltip, Typography } from 'antd';
+import type { AnyObject } from 'antd/lib/_util/type';
 import { Refresh, Setting2 } from 'iconsax-react';
+import type { Key } from 'react';
 import { useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import type {
+  CustomizeColumnProps,
+  CustomizeTableProps,
+  DragIndexState,
+  MyTableColumn,
+} from '@/app/features/component/table';
+import {
+  DragIndexContext,
+  useTableStore,
+} from '@/app/features/component/table';
 import { cn } from '@/lib/tailwind';
+import { COLOR } from '@/shared/assets/styles/constants';
+import { useToggle } from '@/shared/hooks';
 
 const { Text } = Typography;
 

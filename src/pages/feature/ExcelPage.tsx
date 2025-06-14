@@ -1,24 +1,25 @@
+import { faker } from '@faker-js/faker';
+import { Flex } from 'antd';
+import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import type { EditableTableRow } from '@/app/features/component/table';
 import type {
   ExcelTableEntity,
   RangeAddress,
   RangeStyle,
 } from '@/app/features/feature/excel';
-import type { BreadcrumbItem } from '@/app/features/header';
 import {
   ExcelActions,
   ExcelMode,
   ExcelTable,
   INITIAL_WIDTH,
 } from '@/app/features/feature/excel';
+import type { BreadcrumbItem } from '@/app/features/header';
 import { useHeaderStore } from '@/app/features/header';
 import { ContentLayout } from '@/app/layout';
 import { HEIGHT, SPACING } from '@/shared/assets/styles/constants';
 import { useCalculateElementSize } from '@/shared/hooks';
-import { faker } from '@faker-js/faker';
-import { Flex } from 'antd';
-import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 function ExcelPage() {
   const { t } = useTranslation();

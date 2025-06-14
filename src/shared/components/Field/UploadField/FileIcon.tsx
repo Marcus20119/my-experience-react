@@ -1,9 +1,11 @@
-import type { FileType } from '@/shared/types';
-import { IMAGE_TYPES } from '@/shared/constants';
 import { Icon } from '@iconify/react';
 import { Image } from 'antd';
 import { Eye } from 'iconsax-react';
 import { useState } from 'react';
+
+import { IMAGE_TYPES } from '@/shared/constants';
+import type { FileType } from '@/shared/types';
+
 import { getFileIconName } from './getFileIconName';
 
 interface Props {

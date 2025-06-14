@@ -1,8 +1,9 @@
 import { Button, Flex } from 'antd';
 import { Edit2, Trash } from 'iconsax-react';
 import { useTranslation } from 'react-i18next';
-import type { MyTableColumn, UserTableEntity } from './types';
+
 import { Cell } from '../ui';
+import type { MyTableColumn, UserTableEntity } from './types';
 
 export const useUserTableColumns = () => {
   const { t } = useTranslation();

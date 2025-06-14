@@ -1,7 +1,8 @@
-import type { DrawerProps } from 'antd/lib';
-import { COLOR, Z_INDEX } from '@/shared/assets/styles/constants';
 import { ConfigProvider, Drawer, Flex, Typography } from 'antd';
+import type { DrawerProps } from 'antd/lib';
+
 import { cn } from '@/lib/tailwind';
+import { COLOR, Z_INDEX } from '@/shared/assets/styles/constants';
 
 const { Text, Title } = Typography;
 

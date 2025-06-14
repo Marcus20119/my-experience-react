@@ -1,10 +1,12 @@
 import type { DefaultContext, Operation } from '@apollo/client';
-import { useAuthStore } from '@/shared/stores';
-import { ApolloService } from '@/shared/types';
 import { ApolloClient, ApolloLink, from } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { HttpLink } from '@apollo/client/link/http';
 import i18next from 'i18next';
+
+import { useAuthStore } from '@/shared/stores';
+import { ApolloService } from '@/shared/types';
+
 import { cache } from './cache';
 import { errorLink } from './errorLink';
 import { getNamespace } from './getNamespace';

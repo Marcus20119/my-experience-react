@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+
 import { MODAL_ROUTES } from './modalRoutes';
 
 const getModalRoute = (hash: string) => {

@@ -1,7 +1,8 @@
 import type { InputNumberProps } from 'antd';
-import { NumberTool } from '@/shared/utils';
 import { InputNumber } from 'antd';
 import { useEffect, useRef } from 'react';
+
+import { NumberTool } from '@/shared/utils';
 
 interface Props extends InputNumberProps {
   editing: boolean;

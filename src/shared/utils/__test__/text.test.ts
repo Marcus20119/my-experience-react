@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest';
+
 import { TextTool } from '../text';
 
 const { getGoogleMapUrl, getMailToUrl, getPhoneCallUrl, getSlug, latinize } =

@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker/locale/en';
+
 import type { IncomeTableEntity, UserTableEntity } from './types';
 
 export const mockUserData: UserTableEntity[] = Array(120)

@@ -1,8 +1,10 @@
-import { useDailyCalendarContext } from '@/app/features/component/calendar/context';
-import { useGetCurrentTime } from '@/app/features/component/calendar/lib';
 import { Flex, Typography } from 'antd';
 import dayjs from 'dayjs';
+
+import { useDailyCalendarContext } from '@/app/features/component/calendar/context';
+import { useGetCurrentTime } from '@/app/features/component/calendar/lib';
 import { cn } from '@/lib/tailwind';
+
 import { DailyTrackLine } from '../TrackLine';
 
 const { Text } = Typography;

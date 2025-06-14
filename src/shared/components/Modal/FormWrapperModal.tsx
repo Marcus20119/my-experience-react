@@ -1,7 +1,8 @@
-import type { ModalProps } from 'antd/lib';
-import { COLOR, Z_INDEX } from '@/shared/assets/styles/constants';
 import { ConfigProvider, Flex, Modal, Typography } from 'antd';
+import type { ModalProps } from 'antd/lib';
 import { useTranslation } from 'react-i18next';
+
+import { COLOR, Z_INDEX } from '@/shared/assets/styles/constants';
 
 const { Text, Title } = Typography;
 

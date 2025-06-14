@@ -1,5 +1,7 @@
-import { useLocalStore } from '@/shared/stores';
 import { t } from 'i18next';
+
+import { useLocalStore } from '@/shared/stores';
+
 import * as model from '../model';
 
 /**
