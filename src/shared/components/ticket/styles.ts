@@ -6,6 +6,7 @@ export const StyledThreeDTicket = styled.div<{
   color3?: string;
   width?: string;
   height?: string;
+  shouldHighlightRate?: boolean;
 }>`
   width: ${({ width }) => width ?? '260px'};
   height: ${({ height }) => height ?? '260px'};
@@ -49,6 +50,10 @@ export const StyledThreeDTicket = styled.div<{
     border-bottom-right-radius: 6px;
   }
 
+  .content-box:has(.card-title-group) {
+    padding: 25px 25px 25px 25px;
+  }
+
   .content-box .card-title {
     display: inline-block;
     color: white;
@@ -63,6 +68,15 @@ export const StyledThreeDTicket = styled.div<{
 
   .content-box .card-title:hover {
     transform: translate3d(0px, 0px, 60px);
+  }
+
+  .card-title-group {
+    display: flex;
+    flex-direction: column;
+
+    .card-title {
+      line-height: 1.3;
+    }
   }
 
   .content-box .card-content {
@@ -190,5 +204,10 @@ export const StyledThreeDTicket = styled.div<{
         display: flex;
       }
     }
+  }
+
+  .anticon-star {
+    filter: ${({ color1, shouldHighlightRate }) =>
+      shouldHighlightRate ? `drop-shadow(0px 0px 1px ${color1})` : 'none'};
   }
 `;
