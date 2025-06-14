@@ -16,7 +16,8 @@ export interface ThreeDTicketProps {
   icon: React.ReactNode;
   path?: RouterPath;
   rate?: number;
-  title: string;
+  shouldHighlightRate?: boolean;
+  title: [string, string] | string;
   width?: string;
 }
 
@@ -29,6 +30,7 @@ function ThreeDTicket({
   icon,
   path,
   rate,
+  shouldHighlightRate,
   title,
   width,
 }: ThreeDTicketProps) {
@@ -55,11 +57,19 @@ function ThreeDTicket({
       color3={color3}
       height={height ?? defaultHeight}
       onClick={() => path && navigate({ path: path as '/' })}
+      shouldHighlightRate={shouldHighlightRate}
       width={width}
     >
       <div className="card shadow-xl">
         <div className="content-box">
-          <span className="card-title">{title}</span>
+          {typeof title === 'string' ? (
+            <span className="card-title">{title}</span>
+          ) : (
+            <div className="card-title-group">
+              <span className="card-title">{title[0]}</span>
+              <span className="card-title">{title[1]}</span>
+            </div>
+          )}
           {description ? <p className="card-content">{description}</p> : null}
           {path ? (
             <span className="see-more">{t('common.button.seeMore')}</span>
