@@ -36,6 +36,7 @@
     "use-places-autocomplete": "^4.0.1",
     "uuid": "^10.0.0",
     "vite-tsconfig-paths": "^4.3.2",
+    "webpack-bundle-analyzer": "^4.10.2",
     "xlsx-js-style": "^1.2.0",
     "zustand": "^4.5.2"
   },
@@ -67,6 +68,7 @@
     "@vitest/ui": "2.1.3",
     "autoprefixer": "^10.4.19",
     "clsx": "^2.1.1",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
@@ -104,6 +106,7 @@
     "vite": "^5.2.0",
     "vite-plugin-env-compatible": "^2.0.1",
     "vite-plugin-imp": "^2.4.0",
+    "vite-plugin-inspect": "^11.2.0",
     "vite-plugin-pages": "^0.32.0",
     "vite-plugin-sentry": "^1.3.0",
     "vite-plugin-svgr": "^4.2.0",
@@ -114,7 +117,7 @@
   "private": true,
   "scripts": {
     "build": "tsc && vite build",
-    "build:analyze": "tsc && DISABLE_ESLINT_PLUGIN=true ANALYZE=true vite build",
+    "build:analyze": "tsc && cross-env ANALYZE=true vite build",
     "check-types": "tsc --noEmit --pretty",
     "check-types:watch": "tsc --noEmit --watch",
     "codegen": "sh scripts/codegen.sh",

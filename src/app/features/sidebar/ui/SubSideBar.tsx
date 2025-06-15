@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 import { cn } from '@/lib/tailwind';
 import { COLOR } from '@/shared/assets/styles/constants';
-import { useAppRouter } from '@/shared/hooks';
 
 import { useGetSidebarData } from '../lib';
 import type { SubSidebarKey } from '../model';
@@ -13,7 +12,6 @@ import { useSidebarStore } from '../store';
 const { Text } = Typography;
 
 function SubSideBar() {
-  const { navigate } = useAppRouter();
   const { isSubBarCollapsed, setMainSidebarHistory, setSidebarStates } =
     useSidebarStore();
   const {
@@ -48,9 +46,7 @@ function SubSideBar() {
         {subSidebarItems.map(item => (
           <Link
             key={item.key}
-            onClick={e => {
-              e.preventDefault();
-              navigate({ path: item.path as '/' }); // FIX_ME
+            onClick={() => {
               setMainSidebarHistory(activeMainKey, item.key as SubSidebarKey);
             }}
             to={item.path}

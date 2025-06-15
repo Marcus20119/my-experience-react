@@ -13,10 +13,12 @@
 /build
 .vite
 .vitest
+.vite-inspect
 /dist
 .idea
 .vscode
 .million
+bundle-report.html
 
 # VisualStudioCode
 .vscode/**/*
