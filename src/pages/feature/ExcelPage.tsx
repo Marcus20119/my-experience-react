@@ -1,4 +1,4 @@
-import { faker } from '@faker-js/faker';
+import { faker } from '@faker-js/faker/locale/en';
 import { Flex } from 'antd';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';

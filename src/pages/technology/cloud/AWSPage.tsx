@@ -6,7 +6,7 @@ import { useGetCloudItems } from '@/app/features/technology';
 import { ContentLayout } from '@/app/layout';
 import { Ticket } from '@/shared/components';
 
-function CloudPage() {
+function AWSPage() {
   const { t } = useTranslation();
   const { awsItems } = useGetCloudItems();
 
@@ -36,4 +36,4 @@ function CloudPage() {
   );
 }
 
-export default CloudPage;
+export default AWSPage;

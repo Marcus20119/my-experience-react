@@ -1,4 +1,4 @@
-import type { EChartsOption } from 'echarts';
+import type { EChartsOption } from 'echarts/types/dist/shared';
 import ReactEcharts from 'echarts-for-react';
 import { forwardRef, useMemo } from 'react';
 
