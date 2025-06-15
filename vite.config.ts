@@ -11,6 +11,7 @@ import envCompatible from 'vite-plugin-env-compatible';
 import vitePluginImp from 'vite-plugin-imp';
 import svgrPlugin from 'vite-plugin-svgr';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
+import Inspect from 'vite-plugin-inspect';
 
 dns.setDefaultResultOrder('verbatim');
 
@@ -21,8 +22,6 @@ type viteConfigProps = {
 export default ({ mode }: viteConfigProps) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
-  // const env = process.env;
-
   return defineConfig({
     build: {
       sourcemap: false,
@@ -31,10 +30,10 @@ export default ({ mode }: viteConfigProps) => {
           cache: false,
           plugins: [
             visualizer({
-              brotliSize: true,
-              filename: 'dist/stats.html',
-              gzipSize: true,
-              open: true,
+              filename: 'bundle-report.html', // Output file
+              open: true, // Auto open in browser
+              gzipSize: true, // Show gzip size
+              brotliSize: true, // Show brotli size
             }),
           ],
         },
@@ -53,7 +52,23 @@ export default ({ mode }: viteConfigProps) => {
           global: 'globalThis',
         },
       },
-      include: [],
+      include: [
+        'dayjs',
+        'dayjs/plugin/utc',
+        'dayjs/plugin/timezone',
+        'antd',
+        '@/lib/apollo-client',
+        '@/lib/tanstack-client',
+        '@/lib/antd',
+        '@/lib/i18next',
+        '@/lib/tailwind',
+        '@/shared/constants',
+        '@/shared/hooks',
+        '@/shared/stores',
+        '@/shared/types',
+        '@/shared/utils',
+        '@/shared/locales',
+      ],
     },
     plugins: [
       react(),
@@ -61,7 +76,6 @@ export default ({ mode }: viteConfigProps) => {
       viteTsconfigPaths(),
       svgrPlugin(),
       svgr(),
-      // viteSentry(),
       vitePluginImp({
         libList: [
           {
@@ -79,6 +93,15 @@ export default ({ mode }: viteConfigProps) => {
         dts: './src/@types/auto-imports.d.ts',
         imports: ['vitest'],
       }),
+      ...(process.env.ANALYZE === 'true'
+        ? [
+            Inspect({
+              dev: true,
+              build: true,
+              open: true,
+            }),
+          ]
+        : []),
     ],
     resolve: {
       alias: [
