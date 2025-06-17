@@ -1,13 +1,13 @@
 import { ApolloProvider } from '@apollo/client';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { ConfigProvider, Spin } from 'antd';
+import { ConfigProvider } from 'antd';
 import type { FormConfig } from 'antd/es/config-provider/context';
 import type { Locale } from 'antd/es/locale';
 import type { ThemeConfig } from 'antd/lib';
 import dayjs from 'dayjs';
 import { CloseCircle } from 'iconsax-react';
-import { Suspense, useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -135,9 +135,7 @@ function AntProvider() {
       locale={locale}
       theme={theme}
     >
-      <Suspense fallback={<Spin fullscreen size="large" spinning={false} />}>
-        <RouterProvider router={createBrowserRouter(routes)} />
-      </Suspense>
+      <RouterProvider router={createBrowserRouter(routes)} />
     </ConfigProvider>
   );
 }
