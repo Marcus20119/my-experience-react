@@ -120,6 +120,18 @@ export const useGetCloudItems = () => {
       rate: 1,
       title: 'Neptune',
     },
+    {
+      color1: '#5e7ff3',
+      icon: <Icon height="56" icon="logos:aws-rds" width="56" />,
+      rate: 3,
+      title: 'RDS',
+    },
+    {
+      color1: '#5e7ff3',
+      icon: <Icon height="56" icon="logos:aws-dynamodb" width="56" />,
+      rate: 2,
+      title: 'DynamoDB',
+    },
   ];
 
   return { awsItems, cloudItems };
