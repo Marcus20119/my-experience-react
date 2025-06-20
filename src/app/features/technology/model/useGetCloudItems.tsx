@@ -132,6 +132,12 @@ export const useGetCloudItems = () => {
       rate: 2,
       title: 'DynamoDB',
     },
+    {
+      color1: '#5e7ff3',
+      icon: <Icon height="56" icon="logos:aws-redshift" width="56" />,
+      rate: 1,
+      title: 'Redshift',
+    },
   ];
 
   return { awsItems, cloudItems };
