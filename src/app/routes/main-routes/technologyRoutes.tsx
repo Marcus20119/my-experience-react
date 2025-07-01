@@ -41,4 +41,16 @@ export const TECHNOLOGY_ROUTES = [
     element: <LanguagePage />,
     path: 'technology/language',
   },
+  {
+    element: null,
+    path: 'technology-type/:type',
+  },
+  {
+    element: null,
+    path: 'technology-type/:type/technology-section/:section',
+  },
+  {
+    element: null,
+    path: 'technology-type/:type/technology/:technology',
+  },
 ] as const satisfies DeepReadonly<RouteObject[]>;

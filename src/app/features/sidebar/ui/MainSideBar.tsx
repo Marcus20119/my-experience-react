@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { cn } from '@/lib/tailwind';
 import { COLOR, Z_INDEX } from '@/shared/assets/styles/constants';
 import { ReactComponent as LogoReact } from '@/shared/assets/svgs/logo-react.svg';
+import { getNavigatePath } from '@/shared/hooks';
 
 import { useGetSidebarData } from '../lib';
 import { useSidebarStore } from '../store';
@@ -50,7 +51,7 @@ function MainSideBar() {
 
       <Flex gap="0.5rem" vertical>
         {mainSidebarItems.map(item => (
-          <Link key={item.key} to={item.path}>
+          <Link key={item.key} to={getNavigatePath(item.route) || ''}>
             <Tooltip
               align={{ offset: [24, 0] }}
               placement="right"

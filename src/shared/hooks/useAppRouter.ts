@@ -16,33 +16,7 @@ export type RouterNavigator<T extends RouterPath = RouterPath> = T extends T
     }
   : never;
 
-export const convertRouteToString = (route?: RouterNavigator): string => {
-  if (!route) {
-    return '';
-  }
-
-  console.log(' route:', route);
-
-  let pathname = String(route.path);
-
-  if (route.param) {
-    for (const key in route.param) {
-      pathname = pathname.replace(`:${key}`, route.param[key]);
-    }
-  }
-
-  if (route.hash) {
-    pathname += `#${route.hash}`;
-  }
-
-  if (route.search) {
-    pathname += `?${route.search}`;
-  }
-
-  return pathname;
-};
-
-const getNavigatePath = ({ param, path }: RouterNavigator) => {
+export const getNavigatePath = ({ param, path }: RouterNavigator) => {
   if (!path) {
     return undefined;
   }
@@ -51,7 +25,10 @@ const getNavigatePath = ({ param, path }: RouterNavigator) => {
 
   if (param) {
     for (const key in param) {
-      newPath = newPath.replace(`:${key}`, param[key]);
+      newPath = newPath.replace(
+        `:${key}`,
+        (param as unknown as Record<string, string>)[key],
+      );
     }
 
     newPath = `${newPath}`;
@@ -70,13 +47,13 @@ export const useAppRouter = <P extends RouterPath>(_?: P) => {
 
     setLocalStates({
       prevRoute: route?.path
-        ? {
+        ? ({
             ...route,
-          }
-        : {
+          } as RouterNavigator)
+        : ({
             ...prevRoute,
             ...route,
-          },
+          } as RouterNavigator),
     });
 
     navig(

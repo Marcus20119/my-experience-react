@@ -4,172 +4,197 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
 import type { SidebarItem } from '../model';
-import { MainSidebarKey, SubSidebarKey } from '../model';
 import { useSidebarStore } from '../store';
 
 export const useGetSidebarData = () => {
   const { t } = useTranslation();
-  const { mainSidebarHistory, subSidebarHistory } = useSidebarStore();
+  const { mainSidebarHistory, subSidebarHistory, technologySkeleton } =
+    useSidebarStore();
   const { pathname } = useLocation();
 
   const defaultMainSidebarItems: SidebarItem[] = useMemo(() => {
+    const technologyItems: SidebarItem['children'] =
+      technologySkeleton?.map(item => {
+        let sidebarItem: NonNullable<SidebarItem['children']>[number] = {
+          key: item?.technologyType,
+          label: item?.technologyType,
+          match: `/technology/${item?.technologyType}`,
+          route: {
+            param: {
+              type: item?.technologyType,
+            },
+            path: '/technology-type/:type',
+          },
+        };
+
+        if (item?.technologySections?.length) {
+          sidebarItem = {
+            key: item?.technologyType,
+            label: item?.technologyType,
+            match: `/technology/${item?.technologyType}`,
+            route: {
+              param: {
+                section: item?.technologySections?.[0]?.name?.original,
+                type: item?.technologyType,
+              },
+              path: '/technology-type/:type/technology-section/:section',
+            },
+          };
+        }
+
+        return sidebarItem;
+      }) ?? [];
+
     const items: SidebarItem[] = [
       {
-        children: [
-          {
-            key: SubSidebarKey.Frontend,
-            label: t('layout.title.frontend'),
-            match: '/technology/frontend',
-            path: '/technology/frontend/configuration',
-          },
-          {
-            key: SubSidebarKey.Cloud,
-            label: t('layout.title.cloud'),
-            match: '/technology/cloud',
-            path: '/technology/cloud',
-          },
-          {
-            key: SubSidebarKey.Language,
-            label: t('layout.title.language'),
-            match: '/technology/language',
-            path: '/technology/language',
-          },
-        ],
+        children: technologyItems,
         icon: <Cpu />,
-        key: MainSidebarKey.Technology,
+        key: 'technology',
         label: t('layout.title.technology'),
         match: '/technology',
-        path: '/technology/frontend/configuration',
+        route: technologyItems?.[0]?.route,
       },
       {
         children: [
           {
-            key: SubSidebarKey.Table,
+            key: 'table',
             label: t('layout.title.table'),
             match: '/component/table',
-            path: '/component/table/customizable',
+            route: {
+              path: '/component/table/customizable',
+            },
           },
           {
-            key: SubSidebarKey.Form,
+            key: 'form',
             label: t('layout.title.form'),
             match: '/component/form',
-            path: '/component/form/original',
+            route: {
+              path: '/component/form/original',
+            },
           },
           {
-            key: SubSidebarKey.Field,
+            key: 'field',
             label: t('layout.title.field'),
             match: '/component/field',
-            path: '/component/field/original',
+            route: {
+              path: '/component/field/original',
+            },
           },
           {
-            key: SubSidebarKey.Calendar,
+            key: 'calendar',
             label: t('layout.title.calendar'),
             match: '/component/calendar',
-            path: '/component/calendar/daily',
+            route: {
+              path: '/component/calendar/daily',
+            },
           },
         ],
         icon: <Box1 />,
-        key: MainSidebarKey.Component,
+        key: 'component',
         label: t('layout.title.component'),
         match: '/component',
-        path: '/component/table/customizable',
+        route: {
+          path: '/component/table/customizable',
+        },
       },
       {
         children: [
           {
-            key: SubSidebarKey.CanvaEditor,
+            key: 'canvaEditor',
             label: t('layout.title.canvaEditor'),
             match: '/feature/canva-editor',
-            path: '/feature/canva-editor',
+            route: {
+              path: '/feature/canva-editor',
+            },
           },
           {
-            key: SubSidebarKey.Excel,
+            key: 'excel',
             label: t('layout.title.excel'),
             match: '/feature/excel',
-            path: '/feature/excel',
+            route: { path: '/feature/excel' },
           },
           {
-            key: SubSidebarKey.ChartPlayground,
+            key: 'chartPlayground',
             label: t('layout.title.chartPlayground'),
             match: '/feature/chart-playground',
-            path: '/feature/chart-playground',
+            route: { path: '/feature/chart-playground' },
           },
           {
-            key: SubSidebarKey.FormBuilder,
+            key: 'formBuilder',
             label: t('layout.title.formBuilder'),
             match: '/feature/form-builder',
-            path: '/feature/form-builder',
+            route: { path: '/feature/form-builder' },
           },
           {
-            key: SubSidebarKey.DragAndDrop,
+            key: 'dragAndDrop',
             label: t('layout.title.dragAndDrop'),
             match: '/feature/drag-and-drop',
-            path: '/feature/drag-and-drop',
+            route: { path: '/feature/drag-and-drop' },
           },
           {
-            key: SubSidebarKey.FileReader,
+            key: 'fileReader',
             label: t('layout.title.fileReader'),
             match: '/feature/file-reader',
-            path: '/feature/file-reader',
+            route: { path: '/feature/file-reader' },
           },
         ],
         icon: <ElementEqual />,
-        key: MainSidebarKey.Feature,
+        key: 'feature',
         label: t('layout.title.feature'),
         match: '/feature',
-        path: '/feature/canva-editor',
+        route: { path: '/feature/canva-editor' },
       },
       {
         icon: <Colorfilter />,
-        key: MainSidebarKey.Animation,
+        key: 'animation',
         label: t('layout.title.animation'),
         match: '/animation',
-        path: '/animation',
+        route: { path: '/animation' },
       },
       {
         icon: <Game />,
-        key: MainSidebarKey.Game,
+        key: 'game',
         label: t('layout.title.game'),
         match: '/game',
-        path: '/game',
+        route: { path: '/game' },
       },
     ];
 
     return items;
-  }, [t]);
+  }, [t, technologySkeleton]);
 
   const mainSidebarItems = useMemo(
     () =>
       defaultMainSidebarItems.map(item => {
-        const activeSubKeyFromHistory =
-          mainSidebarHistory?.[item.key as MainSidebarKey];
+        const activeSubKeyFromHistory = mainSidebarHistory?.[item.key];
 
         const subSidebarItems = item.children?.map(child => {
-          const subSideBarPathFromHistory =
-            subSidebarHistory?.[child.key as SubSidebarKey];
+          const subSideBarPathFromHistory = subSidebarHistory?.[child.key];
 
           return {
             ...child,
-            path: subSideBarPathFromHistory ?? child.path,
+            route: subSideBarPathFromHistory ?? child.route,
           };
         });
 
         return {
           ...item,
           children: subSidebarItems,
-          path: activeSubKeyFromHistory
+          route: activeSubKeyFromHistory
             ? subSidebarItems?.find(
-                subItem => subItem.key === activeSubKeyFromHistory,
-              )?.path ?? item.path
-            : item.path,
+                subItem =>
+                  JSON.stringify(subItem.route) ===
+                  JSON.stringify(activeSubKeyFromHistory),
+              )?.route ?? item.route
+            : item.route,
         };
       }),
     [defaultMainSidebarItems, mainSidebarHistory, subSidebarHistory],
   );
 
-  const activeMainKey = mainSidebarItems.find(item =>
-    pathname.includes(item.match),
-  )?.key as MainSidebarKey;
+  const activeMainKey =
+    mainSidebarItems.find(item => pathname.includes(item.match))?.key ??
+    'technology';
 
   const mainLabel = mainSidebarItems.find(
     item => item.key === activeMainKey,
@@ -179,10 +204,9 @@ export const useGetSidebarData = () => {
     item => item.key === activeMainKey,
   )?.children;
 
-  const activeSubKey =
-    mainSidebarHistory?.[activeMainKey] ??
-    (subSidebarItems?.find(item => pathname.includes(item.match))
-      ?.key as SubSidebarKey);
+  const activeSubKey = subSidebarItems?.find(item =>
+    pathname.includes(item.match),
+  )?.key;
 
   return {
     activeMainKey,

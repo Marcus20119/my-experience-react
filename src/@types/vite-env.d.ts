@@ -5,6 +5,7 @@ interface ImportMetaEnv {
   readonly VITE_STAGE: string;
   readonly VITE_ENV_NODE: string;
   readonly VITE_REST_COUNTRY_API: string;
+  readonly VITE_TECHNOLOGY_API: string;
   // more env variables...
 }
 

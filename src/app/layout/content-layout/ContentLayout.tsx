@@ -132,8 +132,13 @@ function ContentLayout({
                   navigate({
                     path: path as '/404', // TEMP: Supposed to be RouterPath
                   });
-                  setSubSidebarHistory(activeSubKey, path as RouterPath);
                   onChangeTab?.(path as RouterPath);
+
+                  if (activeSubKey) {
+                    setSubSidebarHistory(activeSubKey, {
+                      path: path as '/404',
+                    });
+                  }
                 }}
                 rootClassName="hide-underline"
                 size="small"
