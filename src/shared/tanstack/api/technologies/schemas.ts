@@ -55,11 +55,13 @@ export interface BaseTechnologyResponse {
   color3?: string | null;
   description?: string | null;
   rate?: number | null;
+  slug: string;
 }
 
 export interface TechnologySectionResponse {
   id: string;
   name: DisplayName;
+  slug: string;
   technologyType: TechnologyType;
   technologies?: BaseTechnologyResponse[] | null;
 }
@@ -77,6 +79,7 @@ export interface UpdateTechnologySectionInput {
 export interface BaseTechnologySectionResponse {
   id: string;
   name: DisplayName;
+  slug: string;
 }
 
 export interface TechnologySectionSkeleton {
@@ -146,6 +149,7 @@ export interface TechnologyResponse {
   color3?: string | null;
   description?: string | null;
   rate?: number | null;
+  slug: string;
   type?: TechnologyType | null;
   technologySectionId?: string | null;
   knowledgeGroups?: BaseKnowledgeGroupResponse[] | null;

@@ -18,7 +18,7 @@ function Select<T>({
   allowClear,
   className,
   loading,
-  onDropdownVisibleChange,
+  onOpenChange,
   prefixIcon,
   ...props
 }: MySelectProps) {
@@ -65,15 +65,15 @@ function Select<T>({
         maxTagCount="responsive"
         maxTagPlaceholder={omittedValues => (
           <Tooltip
-            overlayStyle={{ pointerEvents: 'none' }}
+            styles={{ root: { pointerEvents: 'none' } }}
             title={omittedValues.map(({ label }) => label).join(', ')}
           >
             <span>{`+ ${omittedValues.length} ...`}</span>
           </Tooltip>
         )}
-        onDropdownVisibleChange={open => {
+        onOpenChange={open => {
           setIsOpened(open);
-          onDropdownVisibleChange?.(open);
+          onOpenChange?.(open);
         }}
         suffixIcon={suffixIcon}
         {...props}

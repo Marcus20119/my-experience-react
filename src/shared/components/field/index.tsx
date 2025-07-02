@@ -1,4 +1,5 @@
 import GoogleAddressField from './GoogleAddressField';
+import { ContentTranslationField } from './i18n-fields';
 import {
   NationalityOfflineField,
   NationalityOnlineField,
@@ -21,5 +22,6 @@ Field.NationalityOnline = NationalityOnlineField;
 Field.NationalityOffline = NationalityOfflineField;
 Field.GoogleAddressField = GoogleAddressField;
 Field.UploadFile = UploadFileField;
+Field.ContentTranslation = ContentTranslationField;
 
 export { Field };

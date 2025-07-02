@@ -20,5 +20,3 @@ export type IntersectionEachUnion<T, U> = T extends T
 export type ChangeDayjsToString<T extends AnyObject> = {
   [K in keyof T]: T[K] extends Dayjs ? string : T[K];
 };
-
-export type Language = 'en' | 'vi';

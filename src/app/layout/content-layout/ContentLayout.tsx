@@ -1,6 +1,12 @@
-import { Breadcrumb, Dropdown, Flex, Tabs, Typography } from 'antd';
+import { Breadcrumb, Button, Dropdown, Flex, Tabs, Typography } from 'antd';
+import type { ItemType } from 'antd/es/menu/interface';
 import type { BreadcrumbProps } from 'antd/lib';
-import { ArrowDown2, ArrowRight2, ArrowUp2 } from 'iconsax-react';
+import {
+  ArrowDown2,
+  ArrowRight2,
+  ArrowUp2,
+  Menu as MenuIcon,
+} from 'iconsax-react';
 import { useLocation } from 'react-router-dom';
 
 import type { BreadcrumbItem, HeaderTabItem } from '@/app/features/header';
@@ -15,15 +21,17 @@ import ContentLayoutLoading from './ContentLayoutLoading';
 const { Text, Title } = Typography;
 
 interface Props {
+  actionItems?: ItemType[];
   breadCrumb?: BreadcrumbItem[];
   children: React.ReactNode;
   contentNoPadding?: boolean;
   onChangeTab?: (path: RouterPath) => void;
   tabs?: HeaderTabItem[];
-  title: string;
+  title?: string;
 }
 
 function ContentLayout({
+  actionItems,
   breadCrumb,
   children,
   contentNoPadding,
@@ -95,7 +103,19 @@ function ContentLayout({
                 }
               />
             ) : null}
-            <Title>{title}</Title>
+            <Flex align="center" gap="0.75rem">
+              <Title>{title}</Title>
+
+              {actionItems ? (
+                <Dropdown
+                  menu={{
+                    items: actionItems,
+                  }}
+                >
+                  <Button icon={<MenuIcon size="16" />} />
+                </Dropdown>
+              ) : null}
+            </Flex>
           </Flex>
 
           <Flex align="end" className="h-full flex-1">

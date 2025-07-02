@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Select } from '@/shared/components';
 import { useLocalStore } from '@/shared/stores';
-import type { Language } from '@/shared/types';
+import { Language } from '@/shared/tanstack/api/technologies';
 
 function ChangeLanguage() {
   const { t } = useTranslation();
@@ -12,11 +12,11 @@ function ChangeLanguage() {
   const options: DefaultOptionType[] = [
     {
       label: t('common.language.en'),
-      value: 'en',
+      value: Language.En,
     },
     {
       label: t('common.language.vi'),
-      value: 'vi',
+      value: Language.Vi,
     },
   ];
 

@@ -24,7 +24,11 @@ dayjs.extend(isBetween);
 dayjs.extend(relativeTime);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  import.meta.env.VITE_NODE_ENV === 'dev' ? (
     <MainProvider />
-  </React.StrictMode>,
+  ) : (
+    <React.StrictMode>
+      <MainProvider />
+    </React.StrictMode>
+  ),
 );

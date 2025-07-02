@@ -1,4 +1,5 @@
 import { Box1, Colorfilter, Cpu, ElementEqual, Game } from 'iconsax-react';
+import capitalize from 'lodash-es/capitalize';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
@@ -17,7 +18,7 @@ export const useGetSidebarData = () => {
       technologySkeleton?.map(item => {
         let sidebarItem: NonNullable<SidebarItem['children']>[number] = {
           key: item?.technologyType,
-          label: item?.technologyType,
+          label: capitalize(item?.technologyType),
           match: `/technology/${item?.technologyType}`,
           route: {
             param: {
@@ -34,7 +35,7 @@ export const useGetSidebarData = () => {
             match: `/technology/${item?.technologyType}`,
             route: {
               param: {
-                section: item?.technologySections?.[0]?.name?.original,
+                section: item?.technologySections?.[0]?.slug,
                 type: item?.technologyType,
               },
               path: '/technology-type/:type/technology-section/:section',
@@ -166,8 +167,6 @@ export const useGetSidebarData = () => {
   const mainSidebarItems = useMemo(
     () =>
       defaultMainSidebarItems.map(item => {
-        const activeSubKeyFromHistory = mainSidebarHistory?.[item.key];
-
         const subSidebarItems = item.children?.map(child => {
           const subSideBarPathFromHistory = subSidebarHistory?.[child.key];
 
@@ -180,13 +179,7 @@ export const useGetSidebarData = () => {
         return {
           ...item,
           children: subSidebarItems,
-          route: activeSubKeyFromHistory
-            ? subSidebarItems?.find(
-                subItem =>
-                  JSON.stringify(subItem.route) ===
-                  JSON.stringify(activeSubKeyFromHistory),
-              )?.route ?? item.route
-            : item.route,
+          route: mainSidebarHistory?.[item.key] || item.route,
         };
       }),
     [defaultMainSidebarItems, mainSidebarHistory, subSidebarHistory],
