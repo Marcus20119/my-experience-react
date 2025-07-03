@@ -1,4 +1,7 @@
-import { CreateTechnologySectionModal } from '@/app/features/technology';
+import {
+  CreateTechnologySectionModal,
+  DeleteTechnologySectionModal,
+} from '@/app/features/technology';
 import FormModal from '@/pages/component/form/FormModal';
 import type { DeepReadonly } from '@/shared/types';
 
@@ -20,6 +23,11 @@ export const MODAL_ROUTES = [
         element: CreateTechnologySectionModal,
         match: 'create',
         path: '/create',
+      },
+      {
+        element: DeleteTechnologySectionModal,
+        match: 'delete',
+        path: '/delete/:id',
       },
     ],
   },

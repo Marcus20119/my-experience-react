@@ -4,6 +4,9 @@ import type { RouteObject } from 'react-router-dom';
 import type { DeepReadonly } from '@/shared/types';
 
 const TechnologyPage = lazy(() => import('@/pages/technology/TechnologyPage'));
+const TechnologySectionPage = lazy(
+  () => import('@/pages/technology/TechnologySectionPage'),
+);
 
 export const TECHNOLOGY_ROUTES = [
   {
@@ -11,7 +14,7 @@ export const TECHNOLOGY_ROUTES = [
     path: 'technology-type/:type',
   },
   {
-    element: null,
+    element: <TechnologySectionPage />,
     path: 'technology-type/:type/technology-section/:section',
   },
   {

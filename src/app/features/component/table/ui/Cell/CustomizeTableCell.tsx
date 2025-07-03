@@ -14,7 +14,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Icon } from '@iconify/react';
+import { Icon } from '@iconify/react/dist/iconify.js';
 import type { CheckboxProps } from 'antd';
 import { Checkbox, Flex, Popover, Tooltip, Typography } from 'antd';
 import type { AnyObject } from 'antd/lib/_util/type';

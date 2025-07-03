@@ -16,32 +16,25 @@ export const useGetSidebarData = () => {
   const defaultMainSidebarItems: SidebarItem[] = useMemo(() => {
     const technologyItems: SidebarItem['children'] =
       technologySkeleton?.map(item => {
-        let sidebarItem: NonNullable<SidebarItem['children']>[number] = {
+        const sidebarItem: NonNullable<SidebarItem['children']>[number] = {
           key: item?.technologyType,
           label: capitalize(item?.technologyType),
           match: `/technology/${item?.technologyType}`,
-          route: {
-            param: {
-              type: item?.technologyType,
-            },
-            path: '/technology-type/:type',
-          },
-        };
-
-        if (item?.technologySections?.length) {
-          sidebarItem = {
-            key: item?.technologyType,
-            label: item?.technologyType,
-            match: `/technology/${item?.technologyType}`,
-            route: {
-              param: {
-                section: item?.technologySections?.[0]?.slug,
-                type: item?.technologyType,
+          route: item?.technologySections?.length
+            ? {
+                param: {
+                  section: item?.technologySections?.[0]?.slug,
+                  type: item?.technologyType,
+                },
+                path: '/technology-type/:type/technology-section/:section',
+              }
+            : {
+                param: {
+                  type: item?.technologyType,
+                },
+                path: '/technology-type/:type',
               },
-              path: '/technology-type/:type/technology-section/:section',
-            },
-          };
-        }
+        };
 
         return sidebarItem;
       }) ?? [];

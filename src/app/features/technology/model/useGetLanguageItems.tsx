@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react';
+import { Icon } from '@iconify/react/dist/iconify.js';
 import { useTranslation } from 'react-i18next';
 
 import type { ThreeDTicketProps } from '@/shared/components/ticket/ThreeDTicket';

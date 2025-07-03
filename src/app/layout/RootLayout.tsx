@@ -35,7 +35,9 @@ function RootLayout() {
     }
   }, [pathname]);
 
-  const { data, isFetched } = useQuery(technologySectionQueries.skeleton());
+  const { data, isFetched, isRefetching } = useQuery(
+    technologySectionQueries.skeleton(),
+  );
 
   useEffect(() => {
     if (isFetched) {
@@ -48,7 +50,7 @@ function RootLayout() {
         removeSidebarStates(['mainSidebarHistory', 'subSidebarHistory']);
       }
     }
-  }, [isFetched]);
+  }, [isFetched, isRefetching]);
 
   return (
     <Suspense

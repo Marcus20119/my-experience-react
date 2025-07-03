@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react';
+import { Icon } from '@iconify/react/dist/iconify.js';
 import { Button, ColorPicker, Flex } from 'antd';
 import { DocumentDownload } from 'iconsax-react';
 import { useMemo } from 'react';

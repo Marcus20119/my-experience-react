@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react';
+import { Icon } from '@iconify/react/dist/iconify.js';
 import { Image } from 'antd';
 import { Eye } from 'iconsax-react';
 import { useState } from 'react';

@@ -12,7 +12,7 @@ export const queryClient = new QueryClient({
         showError({
           message:
             error instanceof AxiosError
-              ? error.response?.data?.message
+              ? error.response?.data?.message || 'Something went wrong ~'
               : 'Something went wrong ~',
         });
       },

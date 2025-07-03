@@ -22,9 +22,7 @@ function CreateTechnologySectionModal({ onCancel }: Props) {
 
   const { handleCreateTechnologySection, isPending } =
     useCreateTechnologySection({
-      onSuccess: () => {
-        onCancel();
-      },
+      onSuccess: onCancel,
       technologyType: param.type as TechnologyType,
     });
 
@@ -39,7 +37,7 @@ function CreateTechnologySectionModal({ onCancel }: Props) {
       okText={t('common.button.create')}
       onCancel={onCancel}
       open={true}
-      title={`Create section for ${param.type}`}
+      title={`Create section for ${param.type} ~`}
       width={600}
     >
       <UpsertTechnologySectionForm

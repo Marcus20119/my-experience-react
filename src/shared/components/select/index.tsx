@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react';
+import { Icon } from '@iconify/react/dist/iconify.js';
 import { Select as AntSelect, Tooltip } from 'antd';
 import type { SelectProps } from 'antd/lib';
 import { ArrowDown2, ArrowUp2, CloseCircle } from 'iconsax-react';

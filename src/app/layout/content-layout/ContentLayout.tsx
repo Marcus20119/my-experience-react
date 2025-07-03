@@ -1,12 +1,8 @@
+import { Icon } from '@iconify/react/dist/iconify.js';
 import { Breadcrumb, Button, Dropdown, Flex, Tabs, Typography } from 'antd';
 import type { ItemType } from 'antd/es/menu/interface';
 import type { BreadcrumbProps } from 'antd/lib';
-import {
-  ArrowDown2,
-  ArrowRight2,
-  ArrowUp2,
-  Menu as MenuIcon,
-} from 'iconsax-react';
+import { ArrowDown2, ArrowRight2, ArrowUp2 } from 'iconsax-react';
 import { useLocation } from 'react-router-dom';
 
 import type { BreadcrumbItem, HeaderTabItem } from '@/app/features/header';
@@ -14,7 +10,8 @@ import { useHeaderStore } from '@/app/features/header';
 import { useGetSidebarData, useSidebarStore } from '@/app/features/sidebar';
 import { cn } from '@/lib/tailwind';
 import { COLOR } from '@/shared/assets/styles/constants';
-import { useAppRouter } from '@/shared/hooks';
+import type { RouterNavigator } from '@/shared/hooks';
+import { getNavigatePath, useAppRouter } from '@/shared/hooks';
 
 import ContentLayoutLoading from './ContentLayoutLoading';
 
@@ -25,7 +22,7 @@ interface Props {
   breadCrumb?: BreadcrumbItem[];
   children: React.ReactNode;
   contentNoPadding?: boolean;
-  onChangeTab?: (path: RouterPath) => void;
+  onChangeTab?: (route: RouterNavigator) => void;
   tabs?: HeaderTabItem[];
   title?: string;
 }
@@ -112,7 +109,15 @@ function ContentLayout({
                     items: actionItems,
                   }}
                 >
-                  <Button icon={<MenuIcon size="16" />} />
+                  <Button
+                    icon={
+                      <Icon
+                        height="20"
+                        icon="solar:cat-bold-duotone"
+                        width="20"
+                      />
+                    }
+                  />
                 </Dropdown>
               ) : null}
             </Flex>
@@ -122,42 +127,45 @@ function ContentLayout({
             {tabs?.length ? (
               <Tabs
                 className="w-full [&_.ant-tabs-nav-wrap]:justify-end [&_.ant-tabs-nav]:m-0"
-                defaultActiveKey={pathname}
-                items={tabs.map(tab => ({
-                  key: tab.route.path as string,
-                  label: tab.menuItems ? (
-                    <Dropdown
-                      menu={{
-                        items: tab.menuItems,
-                      }}
-                      open={pathname === tab.route.path ? undefined : false}
-                      placement="bottom"
-                      trigger={['hover', 'click']}
-                    >
-                      <Flex align="center" gap="0.5rem">
-                        <Text className="whitespace-nowrap">{tab.label}</Text>
-                        {pathname === tab.route.path ? (
-                          <ArrowDown2 size="16" />
-                        ) : null}
-                      </Flex>
-                    </Dropdown>
-                  ) : (
-                    <Text className="whitespace-nowrap">{tab.label}</Text>
-                  ),
-                }))}
+                defaultActiveKey={JSON.stringify(
+                  tabs?.find(tab => getNavigatePath(tab.route) === pathname)
+                    ?.route,
+                )}
+                items={tabs.map(tab => {
+                  const isActive = getNavigatePath(tab.route) === pathname;
+
+                  return {
+                    key: JSON.stringify(tab.route),
+                    label: tab.menuItems ? (
+                      <Dropdown
+                        menu={{
+                          items: tab.menuItems,
+                        }}
+                        open={isActive ? undefined : false}
+                        placement="bottom"
+                        trigger={['hover', 'click']}
+                      >
+                        <Flex align="center" gap="0.5rem">
+                          <Text className="whitespace-nowrap">{tab.label}</Text>
+                          {isActive ? <ArrowDown2 size="16" /> : null}
+                        </Flex>
+                      </Dropdown>
+                    ) : (
+                      <Text className="whitespace-nowrap">{tab.label}</Text>
+                    ),
+                  };
+                })}
                 more={{
                   visible: false,
                 }}
-                onChange={path => {
-                  navigate({
-                    path: path as '/404', // TEMP: Supposed to be RouterPath
-                  });
-                  onChangeTab?.(path as RouterPath);
+                onChange={routeString => {
+                  const route = JSON.parse(routeString) as RouterNavigator;
+
+                  navigate(route);
+                  onChangeTab?.(route);
 
                   if (activeSubKey) {
-                    setSubSidebarHistory(activeSubKey, {
-                      path: path as '/404',
-                    });
+                    setSubSidebarHistory(activeSubKey, route);
                   }
                 }}
                 rootClassName="hide-underline"

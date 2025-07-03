@@ -1,7 +1,7 @@
 import '../shared/assets/styles/index.css';
 import 'dayjs/locale/vi';
 
-import { addIcon } from '@iconify/react';
+import { addIcon } from '@iconify/react/dist/iconify.js';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import relativeTime from 'dayjs/plugin/relativeTime';
