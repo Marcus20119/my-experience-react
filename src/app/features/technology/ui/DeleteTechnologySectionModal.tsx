@@ -55,7 +55,7 @@ function DeleteTechnologySectionModal({ onCancel }: Props) {
   return (
     <Modal.Confirm
       description={'Are you sure you want to delete this section? ~'}
-      mode="info"
+      mode="error"
       okButtonProps={{
         loading: isPending,
       }}

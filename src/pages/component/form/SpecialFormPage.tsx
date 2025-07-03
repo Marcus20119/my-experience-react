@@ -130,11 +130,11 @@ function SpecialFormPage() {
     {
       children: [
         {
-          onClick: () => onOpenModal({ path: 'user/edit' }),
+          onClick: () => onOpenModal({ path: 'user/update' }),
           title: t('component.button.modal'),
         },
         {
-          onClick: () => onOpenDrawer({ path: 'user/edit' }),
+          onClick: () => onOpenDrawer({ path: 'user/update' }),
           title: t('component.button.drawer'),
         },
       ],

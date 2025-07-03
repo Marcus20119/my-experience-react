@@ -53,22 +53,25 @@ const getTechnologySkeleton = async () => {
 };
 
 const createTechnologySection = async (input: CreateTechnologySectionInput) => {
-  const response = await request.post<TechnologySectionResponse>(
+  const response = await request.post<BasedResponse<TechnologySectionResponse>>(
     '/technology-sections',
     input,
   );
-  return response.data;
+  return response.data.data;
 };
 
-const updateTechnologySection = async (
-  id: string,
-  input: UpdateTechnologySectionInput,
-) => {
-  const response = await request.put<TechnologySectionResponse>(
+const updateTechnologySection = async ({
+  id,
+  input,
+}: {
+  id: string;
+  input: UpdateTechnologySectionInput;
+}) => {
+  const response = await request.put<BasedResponse<TechnologySectionResponse>>(
     `/technology-sections/${id}`,
     input,
   );
-  return response.data;
+  return response.data.data;
 };
 
 const deleteTechnologySection = async (id: string) => {

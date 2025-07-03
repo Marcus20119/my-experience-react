@@ -126,11 +126,11 @@ function ContentLayout({
           <Flex align="end" className="h-full flex-1">
             {tabs?.length ? (
               <Tabs
-                className="w-full [&_.ant-tabs-nav-wrap]:justify-end [&_.ant-tabs-nav]:m-0"
-                defaultActiveKey={JSON.stringify(
+                activeKey={JSON.stringify(
                   tabs?.find(tab => getNavigatePath(tab.route) === pathname)
                     ?.route,
                 )}
+                className="w-full [&_.ant-tabs-nav-wrap]:justify-end [&_.ant-tabs-nav]:m-0"
                 items={tabs.map(tab => {
                   const isActive = getNavigatePath(tab.route) === pathname;
 
@@ -143,7 +143,7 @@ function ContentLayout({
                         }}
                         open={isActive ? undefined : false}
                         placement="bottom"
-                        trigger={['hover', 'click']}
+                        trigger={['hover']}
                       >
                         <Flex align="center" gap="0.5rem">
                           <Text className="whitespace-nowrap">{tab.label}</Text>

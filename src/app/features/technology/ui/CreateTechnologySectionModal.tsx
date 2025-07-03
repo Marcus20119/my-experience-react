@@ -15,14 +15,24 @@ interface Props {
 
 function CreateTechnologySectionModal({ onCancel }: Props) {
   const { t } = useTranslation();
-  const { param } = useAppRouter(
+  const { navigate, param } = useAppRouter(
     '/technology-type/:type/technology-section/:section',
   );
   const [form] = Form.useForm<UpsertTechnologySectionFormEntity>();
 
   const { handleCreateTechnologySection, isPending } =
     useCreateTechnologySection({
-      onSuccess: onCancel,
+      onSuccess: section => {
+        onCancel();
+
+        navigate({
+          param: {
+            section: section.slug,
+            type: section.technologyType,
+          },
+          path: '/technology-type/:type/technology-section/:section',
+        });
+      },
       technologyType: param.type as TechnologyType,
     });
 

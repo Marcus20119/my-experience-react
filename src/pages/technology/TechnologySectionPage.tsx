@@ -1,6 +1,6 @@
 import { Flex } from 'antd';
 import type { ItemType } from 'antd/es/menu/interface';
-import { Add, Trash } from 'iconsax-react';
+import { AddCircle, Edit2, Trash } from 'iconsax-react';
 import { capitalize } from 'lodash-es';
 import { useTranslation } from 'react-i18next';
 
@@ -41,21 +41,6 @@ function TechnologySectionPage() {
   const headerTabs: HeaderTabItem[] =
     technology?.technologySections?.map(section => ({
       label: displayContentTranslation(section.name),
-      menuItems: [
-        {
-          icon: <Trash size="16" />,
-          key: 'delete',
-          label: t('common.button.delete'),
-          onClick: () => {
-            onOpenModal({
-              param: {
-                id: section.id,
-              },
-              path: 'technology-section/delete/:id',
-            });
-          },
-        },
-      ],
       route: {
         param: {
           section: section.slug,
@@ -67,12 +52,38 @@ function TechnologySectionPage() {
 
   const actionItems: ItemType[] = [
     {
-      icon: <Add size="16" />,
+      icon: <AddCircle size="16" />,
       key: 'section',
       label: 'Section ~',
       onClick: () => {
         onOpenModal({
           path: 'technology-section/create',
+        });
+      },
+    },
+    {
+      icon: <Edit2 size="16" />,
+      key: 'update',
+      label: t('common.button.update'),
+      onClick: () => {
+        onOpenModal({
+          param: {
+            id: String(section?.id),
+          },
+          path: 'technology-section/update/:id',
+        });
+      },
+    },
+    {
+      icon: <Trash size="16" />,
+      key: 'delete',
+      label: t('common.button.delete'),
+      onClick: () => {
+        onOpenModal({
+          param: {
+            id: String(section?.id),
+          },
+          path: 'technology-section/delete/:id',
         });
       },
     },
@@ -83,7 +94,7 @@ function TechnologySectionPage() {
       actionItems={actionItems}
       breadCrumb={breadCrumb}
       tabs={headerTabs}
-      title={capitalize(technology?.technologyType)}
+      title={displayContentTranslation(section?.name)}
     >
       <Flex className="h-fit" gap="1.5rem" wrap>
         {/* {languageItems.map((props, index) => (

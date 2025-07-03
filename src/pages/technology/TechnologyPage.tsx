@@ -1,6 +1,6 @@
 import { Flex } from 'antd';
 import type { ItemType } from 'antd/es/menu/interface';
-import { Add } from 'iconsax-react';
+import { AddCircle } from 'iconsax-react';
 import capitalize from 'lodash-es/capitalize';
 import { useTranslation } from 'react-i18next';
 
@@ -30,7 +30,7 @@ function TechnologyPage() {
 
   const actionItems: ItemType[] = [
     {
-      icon: <Add size="16" />,
+      icon: <AddCircle size="16" />,
       key: 'section',
       label: 'Section ~',
       onClick: () => {

@@ -1,6 +1,7 @@
 import {
   CreateTechnologySectionModal,
   DeleteTechnologySectionModal,
+  UpdateTechnologySectionModal,
 } from '@/app/features/technology';
 import FormModal from '@/pages/component/form/FormModal';
 import type { DeepReadonly } from '@/shared/types';
@@ -11,8 +12,8 @@ export const MODAL_ROUTES = [
     routes: [
       {
         element: FormModal,
-        match: 'edit',
-        path: '/edit',
+        match: 'update',
+        path: '/update',
       },
     ],
   },
@@ -28,6 +29,11 @@ export const MODAL_ROUTES = [
         element: DeleteTechnologySectionModal,
         match: 'delete',
         path: '/delete/:id',
+      },
+      {
+        element: UpdateTechnologySectionModal,
+        match: 'update',
+        path: '/update/:id',
       },
     ],
   },
