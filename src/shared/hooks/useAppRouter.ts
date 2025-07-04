@@ -16,7 +16,13 @@ export type RouterNavigator<T extends RouterPath = RouterPath> = T extends T
     }
   : never;
 
-export const getNavigatePath = ({ param, path }: RouterNavigator) => {
+export const getNavigatePath = (route?: RouterNavigator) => {
+  if (!route) {
+    return undefined;
+  }
+
+  const { param, path } = route;
+
   if (!path) {
     return undefined;
   }

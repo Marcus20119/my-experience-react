@@ -32,6 +32,7 @@
       "feature": "Feature",
       "field": "Field",
       "fileReader": "File reader",
+      "floorPlan": "Floor plan",
       "form": "Form",
       "formBuilder": "Form builder",
       "frontend": "Frontend",

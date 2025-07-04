@@ -114,6 +114,12 @@ export const useGetSidebarData = () => {
             route: { path: '/feature/chart-playground' },
           },
           {
+            key: 'floorPlan',
+            label: t('layout.title.floorPlan'),
+            match: '/feature/floor-plan',
+            route: { path: '/feature/floor-plan' },
+          },
+          {
             key: 'formBuilder',
             label: t('layout.title.formBuilder'),
             match: '/feature/form-builder',
