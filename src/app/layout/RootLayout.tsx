@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query';
 import { Flex } from 'antd';
 import { Suspense, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
@@ -6,6 +7,7 @@ import { Header } from '@/app/features/header';
 import { Sidebar, useSidebarStore } from '@/app/features/sidebar';
 import { useAppRouter } from '@/shared/hooks';
 import { useLocalStore } from '@/shared/stores';
+import { technologySectionQueries } from '@/shared/tanstack/queries/technology';
 
 import { ContentLayout } from './content-layout';
 
@@ -13,7 +15,12 @@ function RootLayout() {
   const { navigate } = useAppRouter();
   const { prevRoute } = useLocalStore();
   const { pathname } = useLocation();
-  const { getSidebarWidth } = useSidebarStore();
+  const {
+    getSidebarWidth,
+    removeSidebarStates,
+    setSidebarStates,
+    technologySkeleton,
+  } = useSidebarStore();
 
   useEffect(() => {
     if (pathname === '/') {
@@ -21,11 +28,29 @@ function RootLayout() {
         navigate(prevRoute);
       } else {
         navigate({
-          path: '/technology/frontend/configuration',
+          param: { type: 'frontend' },
+          path: '/technology-type/:type',
         });
       }
     }
   }, [pathname]);
+
+  const { data, isFetched, isRefetching } = useQuery(
+    technologySectionQueries.skeleton(),
+  );
+
+  useEffect(() => {
+    if (isFetched) {
+      setSidebarStates({ technologySkeleton: data?.technologySkeleton });
+
+      if (
+        JSON.stringify(data?.technologySkeleton) !==
+        JSON.stringify(technologySkeleton)
+      ) {
+        removeSidebarStates(['mainSidebarHistory', 'subSidebarHistory']);
+      }
+    }
+  }, [isFetched, isRefetching]);
 
   return (
     <Suspense

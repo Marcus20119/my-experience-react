@@ -39,7 +39,7 @@ export const useDrawerRouter = <P extends DrawerRouterPath>(path?: P) => {
     }
 
     const paramsTmp = {} as Record<string, string>;
-    const hashValue = location.hash.split('/');
+    const hashValue = location.hash.split('#')[1].split('/');
 
     (path as string).split('/').forEach((item: string, key: number) => {
       if (item.includes(':')) {

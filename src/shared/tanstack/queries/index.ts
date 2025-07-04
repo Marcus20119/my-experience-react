@@ -1,5 +1,6 @@
 import { mergeQueryKeys } from '@lukemorales/query-key-factory';
 
-import { countries } from './country';
+import { countryQueries } from './country';
+import { technologySectionQueries } from './technology';
 
-export const queries = mergeQueryKeys(countries);
+export const queries = mergeQueryKeys(countryQueries, technologySectionQueries);

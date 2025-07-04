@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react';
+import { Icon } from '@iconify/react/dist/iconify.js';
 import { Button, Col, Flex, Row, Tooltip } from 'antd';
 import { useTranslation } from 'react-i18next';
 

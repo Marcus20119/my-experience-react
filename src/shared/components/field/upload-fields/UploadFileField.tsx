@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react';
+import { Icon } from '@iconify/react/dist/iconify.js';
 import { Flex, Typography, Upload } from 'antd';
 import type { DraggerProps } from 'antd/es/upload';
 import type { RcFile } from 'antd/lib/upload';

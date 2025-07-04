@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react';
+import { Icon } from '@iconify/react/dist/iconify.js';
 import { Button, Flex, Typography } from 'antd';
 import { Trash } from 'iconsax-react';
 

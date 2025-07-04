@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react';
+import { Icon } from '@iconify/react/dist/iconify.js';
 import { Cascader as AntdCascader, Tooltip } from 'antd';
 import type { GetProps } from 'antd/lib';
 import { ArrowDown2, ArrowRight2, ArrowUp2, CloseCircle } from 'iconsax-react';

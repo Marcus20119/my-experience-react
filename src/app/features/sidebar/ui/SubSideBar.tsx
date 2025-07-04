@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 
 import { cn } from '@/lib/tailwind';
 import { COLOR } from '@/shared/assets/styles/constants';
+import { getNavigatePath } from '@/shared/hooks';
 
 import { useGetSidebarData } from '../lib';
-import type { SubSidebarKey } from '../model';
 import { useSidebarStore } from '../store';
 
 const { Text } = Typography;
@@ -47,9 +47,9 @@ function SubSideBar() {
           <Link
             key={item.key}
             onClick={() => {
-              setMainSidebarHistory(activeMainKey, item.key as SubSidebarKey);
+              setMainSidebarHistory(activeMainKey, item.route);
             }}
-            to={item.path}
+            to={getNavigatePath(item.route) || ''}
           >
             <Flex
               align="center"

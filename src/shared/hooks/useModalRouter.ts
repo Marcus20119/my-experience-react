@@ -36,7 +36,8 @@ export const useModalRouter = <P extends ModalRouterPath>(path?: P) => {
     }
 
     const paramsTmp = {} as Record<string, string>;
-    const hashValue = location.hash.split('/');
+    const hashValue = location.hash.split('#modal/')[1].split('/');
+    console.log(' hashValue:', hashValue);
 
     (path as string).split('/').forEach((item: string, key: number) => {
       if (item.includes(':')) {

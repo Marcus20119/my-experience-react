@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react';
+import { Icon } from '@iconify/react/dist/iconify.js';
 import { Col, Flex, Row } from 'antd';
 
 import { useCanvaEditorContext } from '@/app/features/feature/canva-editor/context';

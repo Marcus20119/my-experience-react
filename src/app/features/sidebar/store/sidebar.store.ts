@@ -2,26 +2,24 @@ import { create } from 'zustand';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 
 import { WIDTH } from '@/shared/assets/styles/constants/width';
+import type { RouterNavigator } from '@/shared/hooks';
+import type { TechnologySkeletonResponse } from '@/shared/tanstack/api/technologies';
 import type { RemoveStates, SetStates } from '@/shared/types';
-
-import type { MainSidebarKey, SubSidebarKey } from '../model';
 
 interface SidebarState {
   isMainBarCollapsed?: boolean;
   isSubBarCollapsed?: boolean;
-  mainSidebarHistory?: Record<MainSidebarKey, SubSidebarKey>;
-  subSidebarHistory?: Record<SubSidebarKey, RouterPath>;
+  mainSidebarHistory?: Record<string, RouterNavigator>;
+  subSidebarHistory?: Record<string, RouterNavigator>;
+  technologySkeleton?: TechnologySkeletonResponse['technologySkeleton'];
 }
 
 interface SidebarAction {
   getSidebarWidth: () => number;
   removeSidebarStates: RemoveStates<SidebarState>;
-  setMainSidebarHistory: (
-    mainKey: MainSidebarKey,
-    subKey: SubSidebarKey,
-  ) => void;
+  setMainSidebarHistory: (mainKey: string, route: RouterNavigator) => void;
   setSidebarStates: SetStates<SidebarState>;
-  setSubSidebarHistory: (subKey: SubSidebarKey, path: RouterPath) => void;
+  setSubSidebarHistory: (subKey: string, route: RouterNavigator) => void;
 }
 
 export const useSidebarStore = create<SidebarAction & SidebarState>()(
@@ -53,14 +51,11 @@ export const useSidebarStore = create<SidebarAction & SidebarState>()(
             keys.forEach(key => (newState[key] = undefined));
             return newState;
           }),
-        setMainSidebarHistory: (mainKey, subKey) => {
+        setMainSidebarHistory: (mainKey, route) => {
           set(state => ({
             mainSidebarHistory: {
-              ...(state.mainSidebarHistory as Record<
-                MainSidebarKey,
-                SubSidebarKey
-              >),
-              [mainKey]: subKey,
+              ...state.mainSidebarHistory,
+              [mainKey]: route,
             },
           }));
         },
@@ -73,11 +68,11 @@ export const useSidebarStore = create<SidebarAction & SidebarState>()(
             });
             return newState;
           }),
-        setSubSidebarHistory: (subKey, path) => {
+        setSubSidebarHistory: (subKey, route) => {
           set(state => ({
             subSidebarHistory: {
-              ...(state.subSidebarHistory as Record<SubSidebarKey, RouterPath>),
-              [subKey]: path,
+              ...state.subSidebarHistory,
+              [subKey]: route,
             },
           }));
         },

@@ -7,8 +7,8 @@ export const DRAWER_ROUTES = [
     routes: [
       {
         element: FormDrawer,
-        match: 'edit',
-        path: '/edit',
+        match: 'update',
+        path: '/update',
       },
     ],
   },
