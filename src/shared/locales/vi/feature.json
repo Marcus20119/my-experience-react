@@ -56,6 +56,12 @@
         "textColor": "Text color",
         "underline": "Underline"
       }
+    },
+    "floorPlan": {
+      "button": {
+        "dragRoom": "Drag room",
+        "pickDesk": "Pick desk"
+      }
     }
   }
 }
