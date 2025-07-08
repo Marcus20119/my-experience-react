@@ -1,9 +1,8 @@
 import { Form, Input } from 'antd';
 import type { FormInstance } from 'antd/lib';
 
+import type { UpsertTechnologySectionFormEntity } from '@/app/features/technology/model';
 import { Field } from '@/shared/components';
-
-import type { UpsertTechnologySectionFormEntity } from '../model';
 
 interface Props {
   form: FormInstance<UpsertTechnologySectionFormEntity>;

@@ -1,10 +1,9 @@
 import { useTranslation } from 'react-i18next';
 
 import { useSidebarStore } from '@/app/features/sidebar';
+import { useDeleteTechnologySection } from '@/app/features/technology/api';
 import { Modal } from '@/shared/components';
 import { useAppRouter, useModalRouter } from '@/shared/hooks';
-
-import { useDeleteTechnologySection } from '../api';
 
 interface Props {
   onCancel: () => void;

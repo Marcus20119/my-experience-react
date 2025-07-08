@@ -66,8 +66,8 @@ function ThreeDTicket({
             <span className="card-title">{title}</span>
           ) : (
             <div className="card-title-group">
-              <span className="card-title">{title[0]}</span>
-              <span className="card-title">{title[1]}</span>
+              <span className="card-title">{title?.[0]}</span>
+              <span className="card-title">{title?.[1]}</span>
             </div>
           )}
           {description ? <p className="card-content">{description}</p> : null}

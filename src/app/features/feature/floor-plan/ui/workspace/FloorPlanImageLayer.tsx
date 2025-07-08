@@ -11,7 +11,7 @@ function FloorPlanImageLayer({ zIndex }: Props) {
 
   return (
     <div className="absolute inset-0" style={{ zIndex }}>
-      <Image src={floorPlanUrl} />
+      <Image height="100%" src={floorPlanUrl} width="100%" />
     </div>
   );
 }

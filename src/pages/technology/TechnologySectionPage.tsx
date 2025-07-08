@@ -62,6 +62,16 @@ function TechnologySectionPage() {
       },
     },
     {
+      icon: <AddCircle size="16" />,
+      key: 'technology',
+      label: 'Technology ~',
+      onClick: () => {
+        onOpenModal({
+          path: 'technology/create',
+        });
+      },
+    },
+    {
       icon: <Edit2 size="16" />,
       key: 'update',
       label: t('common.button.update'),

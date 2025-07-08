@@ -119,34 +119,41 @@ export function FloorPlanEditorProvider({
     shape: RectShapePropEntity;
   }) => {
     if (roomId) {
-      setRooms(
-        rooms.map(room => {
-          if (room.id === roomId) {
-            const newRoom = {
-              ...room,
-              shape: {
+      const newRooms = rooms?.map(room => {
+        if (room.id === roomId) {
+          const newRoom: RoomEntity = {
+            ...room,
+            shape: {
+              ...room.shape,
+              ...shape,
+            },
+          };
+
+          return newRoom;
+        }
+
+        return room;
+      });
+
+      const checkedOverlappedRooms = newRooms?.map(room => {
+        const otherRooms = newRooms?.filter(item => room.id !== item.id);
+
+        const isOverlapped = otherRooms.some(otherRoom =>
+          checkOverlappedRoom(room, otherRoom),
+        );
+
+        return {
+          ...room,
+          shape: room.shape
+            ? {
                 ...room.shape,
-                ...shape,
-              },
-            };
-
-            const otherRooms = rooms.filter(room => room.id !== roomId);
-            const isOverlapped = otherRooms.some(otherRoom =>
-              checkOverlappedRoom(newRoom, otherRoom),
-            );
-
-            return {
-              ...newRoom,
-              shape: {
-                ...newRoom.shape,
                 isOverlapped,
-              },
-            };
-          }
+              }
+            : undefined,
+        };
+      });
 
-          return room;
-        }),
-      );
+      setRooms(checkedOverlappedRooms);
     }
   };
 

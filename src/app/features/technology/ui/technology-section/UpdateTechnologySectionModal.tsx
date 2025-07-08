@@ -3,12 +3,12 @@ import { Form } from 'antd';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useUpdateTechnologySection } from '@/app/features/technology/api';
+import type { UpsertTechnologySectionFormEntity } from '@/app/features/technology/model';
 import { Modal } from '@/shared/components';
 import { useAppRouter, useModalRouter } from '@/shared/hooks';
 import { technologySectionQueries } from '@/shared/tanstack/queries/technology';
 
-import { useUpdateTechnologySection } from '../api';
-import type { UpsertTechnologySectionFormEntity } from '../model';
 import UpsertTechnologySectionForm from './UpsertTechnologySectionForm';
 
 interface Props {

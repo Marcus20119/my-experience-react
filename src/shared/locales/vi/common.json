@@ -44,6 +44,7 @@
       "emptySearch": "Hãy thử sử dụng từ khóa hoặc bộ lọc khác"
     },
     "error": {
+      "canNotUploadFile": "Không thể tải lên tệp {{fileName}}",
       "email": "Vui lòng nhập email hợp lệ",
       "invalidFileType": "Loại tệp không hợp lệ cho tệp có tên: {{fileName}}",
       "maxFileSize": "Kích thước tệp phải nhỏ hơn {{maxFileSize}}MB",

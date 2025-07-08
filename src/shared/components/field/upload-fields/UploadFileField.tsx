@@ -1,4 +1,5 @@
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { useMutation } from '@tanstack/react-query';
 import { Flex, Typography, Upload } from 'antd';
 import type { DraggerProps } from 'antd/es/upload';
 import type { RcFile } from 'antd/lib/upload';
@@ -6,6 +7,12 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuidv4 } from 'uuid';
 
+import type { MimeType } from '@/shared/tanstack/api/storage';
+import {
+  BucketType,
+  FileCategory,
+  storageApi,
+} from '@/shared/tanstack/api/storage';
 import type { FileType } from '@/shared/types';
 import { NotiTool, TextTool } from '@/shared/utils';
 import { FileTool } from '@/shared/utils/file';
@@ -16,7 +23,7 @@ import UploadedFile from './UploadedFile';
 
 const { Dragger } = Upload;
 const { Text } = Typography;
-const { getFileTypeFromName } = FileTool;
+const { getFileTypeFromName, joinFileUrl } = FileTool;
 const { getSlug } = TextTool;
 const { showError } = NotiTool;
 
@@ -36,12 +43,16 @@ type FileProps = MultipleFilesProps | SingleFileProps;
 
 interface Props extends Omit<DraggerProps, 'multiple' | 'onChange'> {
   acceptTypes?: FileType[];
+  bucketType?: BucketType;
+  fileCategory?: FileCategory;
   maxFileSize?: number;
 }
 
 function UploadFileField({
   acceptTypes,
+  bucketType = BucketType.Private,
   disabled,
+  fileCategory = FileCategory.Icon,
   maxFileSize,
   multiple,
   onChange,
@@ -50,6 +61,10 @@ function UploadFileField({
 }: Props & FileProps) {
   const isSetInitialFiles = useRef<boolean>(false);
   const { t } = useTranslation();
+
+  const { mutateAsync: createTechnologySection } = useMutation({
+    mutationFn: storageApi.getPreSignedUrl,
+  });
 
   const [files, setFiles] = useState<UploadedFileProps[]>(() => {
     if (!value) {
@@ -120,14 +135,34 @@ function UploadFileField({
     ]);
 
     // Handle api
-    await new Promise(resolve => setTimeout(resolve, 500));
+    const { key, uploadUrl } = await createTechnologySection({
+      bucketType,
+      category: fileCategory,
+      mimeType: fileType as unknown as MimeType,
+      name: fileName,
+      size: fileSize,
+    });
+
+    if (!uploadUrl) {
+      showError({
+        message: t('common.error.canNotUploadFile', { fileName: file.name }),
+      });
+      return;
+    }
+
+    await storageApi.uploadFile({
+      file,
+      preSignedRequest: uploadUrl,
+    });
 
     setFiles(prev => {
       const newFiles = prev.map(file => {
         if (file.id === fileId) {
           return {
             ...file,
+            isBlob: false,
             loading: false,
+            url: joinFileUrl(key, blobUrl),
           };
         }
 

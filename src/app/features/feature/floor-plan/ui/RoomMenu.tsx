@@ -1,7 +1,13 @@
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { Flex, Menu, Tooltip, Typography } from 'antd';
 import type { ItemType } from 'antd/es/menu/interface';
-import { ArrowDown2, ArrowUp2, FormatSquare, TickCircle } from 'iconsax-react';
+import {
+  ArrowDown2,
+  ArrowUp2,
+  CloseCircle,
+  FormatSquare,
+  TickCircle,
+} from 'iconsax-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -11,6 +17,14 @@ import { useFloorPlanEditorContext } from '../context';
 
 const { Paragraph } = Typography;
 
+function Status({ isOverlapped }: { isOverlapped?: boolean }) {
+  if (isOverlapped) {
+    return <CloseCircle color={COLOR.system.error} size="20" />;
+  }
+
+  return <TickCircle color={COLOR.system.success} size="20" />;
+}
+
 function RoomMenu() {
   const { t } = useTranslation();
   const { draggingRoomId, rooms, setDraggingRoomId, setSelectingRoom } =
@@ -19,7 +33,7 @@ function RoomMenu() {
   const menuItems: ItemType[] = useMemo(() => {
     const items: ItemType[] = rooms?.map(room => ({
       children: room?.desks?.map(desk => ({
-        disabled: !room?.shape,
+        disabled: !room?.shape || room?.shape?.isOverlapped,
         key: desk.id,
         label: (
           <Flex align="center" gap="0.5rem" justify="space-between">
@@ -59,7 +73,7 @@ function RoomMenu() {
           </Paragraph>
           <Flex gap="0.5rem">
             {room?.shape ? (
-              <TickCircle color={COLOR.system.success} size="20" />
+              <Status isOverlapped={room?.shape?.isOverlapped} />
             ) : (
               <Tooltip title={t('feature.floorPlan.button.dragRoom')}>
                 <FormatSquare

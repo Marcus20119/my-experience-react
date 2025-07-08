@@ -1,6 +1,9 @@
 import {
+  CreateTechnologyModal,
   CreateTechnologySectionModal,
+  DeleteTechnologyModal,
   DeleteTechnologySectionModal,
+  UpdateTechnologyModal,
   UpdateTechnologySectionModal,
 } from '@/app/features/technology';
 import FormModal from '@/pages/component/form/FormModal';
@@ -32,6 +35,26 @@ export const MODAL_ROUTES = [
       },
       {
         element: UpdateTechnologySectionModal,
+        match: 'update',
+        path: '/update/:id',
+      },
+    ],
+  },
+  {
+    path: 'technology',
+    routes: [
+      {
+        element: CreateTechnologyModal,
+        match: 'create',
+        path: '/create',
+      },
+      {
+        element: DeleteTechnologyModal,
+        match: 'delete',
+        path: '/delete/:id',
+      },
+      {
+        element: UpdateTechnologyModal,
         match: 'update',
         path: '/update/:id',
       },

@@ -1,12 +1,12 @@
 import { Form } from 'antd';
 import { useTranslation } from 'react-i18next';
 
+import { useCreateTechnologySection } from '@/app/features/technology/api';
+import type { UpsertTechnologySectionFormEntity } from '@/app/features/technology/model';
 import { Modal } from '@/shared/components';
 import { useAppRouter } from '@/shared/hooks';
 import type { TechnologyType } from '@/shared/tanstack/api/technologies';
 
-import { useCreateTechnologySection } from '../api';
-import type { UpsertTechnologySectionFormEntity } from '../model';
 import UpsertTechnologySectionForm from './UpsertTechnologySectionForm';
 
 interface Props {

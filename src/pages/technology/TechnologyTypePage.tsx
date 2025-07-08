@@ -9,7 +9,7 @@ import { useSidebarStore } from '@/app/features/sidebar';
 import { ContentLayout } from '@/app/layout';
 import { useAppRouter, useModalRouter } from '@/shared/hooks';
 
-function TechnologyPage() {
+function TechnologyTypePage() {
   const { t } = useTranslation();
   const { technologySkeleton } = useSidebarStore();
   const { param } = useAppRouter('/technology-type/:type');
@@ -39,6 +39,16 @@ function TechnologyPage() {
         });
       },
     },
+    {
+      icon: <AddCircle size="16" />,
+      key: 'technology',
+      label: 'Technology ~',
+      onClick: () => {
+        onOpenModal({
+          path: 'technology/create',
+        });
+      },
+    },
   ];
 
   return (
@@ -57,4 +67,4 @@ function TechnologyPage() {
   );
 }
 
-export default TechnologyPage;
+export default TechnologyTypePage;

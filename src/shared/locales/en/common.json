@@ -44,6 +44,7 @@
       "emptySearch": "Try using other keywords or filters"
     },
     "error": {
+      "canNotUploadFile": "Can not upload file {{fileName}}",
       "email": "Please enter a valid email",
       "invalidFileType": "Invalid file type for file has name: {{fileName}}",
       "maxFileSize": "File size must be less than {{maxFileSize}}MB",

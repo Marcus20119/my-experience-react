@@ -65,8 +65,28 @@ const downloadURI = (uri: string, name: string) => {
   document.body.removeChild(link);
 };
 
+const joinFileUrl = (key: string, url: string) => `${key}>${url}`;
+
+const splitFileUrl = (fileUrl?: null | string) => {
+  if (!fileUrl) {
+    return {
+      key: undefined,
+      url: undefined,
+    };
+  }
+
+  const [key, url] = fileUrl.split('>');
+
+  return {
+    key,
+    url,
+  };
+};
+
 export const FileTool = {
   downloadURI,
   getFileTypeByExtension,
   getFileTypeFromName,
+  joinFileUrl,
+  splitFileUrl,
 };

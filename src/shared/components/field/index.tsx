@@ -15,7 +15,7 @@ function Field() {
   return null;
 }
 
-Field.search = SearchField;
+Field.Search = SearchField;
 Field.PhoneNumberOnline = PhoneNumberOnlineField;
 Field.PhoneNumberOffline = PhoneNumberOfflineField;
 Field.NationalityOnline = NationalityOnlineField;
