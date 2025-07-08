@@ -20,6 +20,10 @@ export const StyledRoomMenu = styled.div`
     }
   }
 
+  .ant-menu-item:active {
+    background-color: var(--neutral-100-color) !important;
+  }
+
   .ant-menu-item-only-child {
     padding: 0rem 0.75rem !important;
   }

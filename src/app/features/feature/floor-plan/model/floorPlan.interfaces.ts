@@ -2,13 +2,14 @@
 export interface DeskEntity {
   id: string;
   name: string;
+  shape?: CircleShapeEntity;
 }
 
 export interface RoomEntity {
   desks: DeskEntity[];
   id: string;
   name: string;
-  shape?: RectShapePropEntity;
+  shape?: RectShapeEntity;
 }
 
 export interface FloorPlanSize {
@@ -16,7 +17,7 @@ export interface FloorPlanSize {
   width: number;
 }
 
-export interface RectShapePropEntity {
+export interface RectShapeEntity {
   id: string;
   zIndex: number;
   height: number;
@@ -25,6 +26,22 @@ export interface RectShapePropEntity {
   y: number;
   rotation?: number;
   isOverlapped?: boolean;
+
+  // Currently haven't used
+  strokeColor?: string;
+  strokeWidth?: number;
+  cornerRadius?: number;
+  fill?: string;
+}
+
+export interface CircleShapeEntity {
+  id: string;
+  zIndex: number;
+  x: number;
+  y: number;
+  rotation?: number;
+  isOverlapped?: boolean;
+  radiusInPx: number;
 
   // Currently haven't used
   strokeColor?: string;

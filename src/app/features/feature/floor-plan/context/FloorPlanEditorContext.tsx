@@ -1,6 +1,6 @@
 import type Konva from 'konva';
 import type { RefObject } from 'react';
-import { createContext, useContext, useRef, useState } from 'react';
+import { createContext, useContext, useMemo, useRef, useState } from 'react';
 import useImage from 'use-image';
 
 import {
@@ -8,12 +8,23 @@ import {
   useGetContainerSize,
   useInitialFloorPlanEvents,
 } from '../lib';
-import type { FloorPlanSize, RectShapePropEntity, RoomEntity } from '../model';
+import type {
+  CircleShapeEntity,
+  DeskEntity,
+  FloorPlanSize,
+  RectShapeEntity,
+  RoomEntity,
+} from '../model';
 import { FLOOR_PLAN_SIZE } from '../model';
 
 interface UpdateRoomShapeProps {
   roomId: string;
-  shape: RectShapePropEntity;
+  shape: RectShapeEntity;
+}
+
+interface UpdateDeskShapeProps {
+  deskId: string;
+  shape: CircleShapeEntity;
 }
 
 export interface FloorPlanEditorExternalContextProps {
@@ -25,12 +36,18 @@ export interface FloorPlanEditorExternalContextProps {
 
 interface FloorPlanEditorInternalContextProps {
   draggingRoomId: null | string;
+  glowingRoom?: RoomEntity;
   isEditing: boolean;
+  onUpdateDeskShape: (props: UpdateDeskShapeProps) => void;
   onUpdateRoomShape: (props: UpdateRoomShapeProps) => void;
+  pickingDeskId: null | string;
   rooms: RoomEntity[];
+  selectingDesk: DeskEntity | null;
   selectingRoom: null | RoomEntity;
   setDraggingRoomId: React.Dispatch<React.SetStateAction<null | string>>;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
+  setPickingDeskId: React.Dispatch<React.SetStateAction<null | string>>;
+  setSelectingDesk: React.Dispatch<React.SetStateAction<DeskEntity | null>>;
   setSelectingRoom: React.Dispatch<React.SetStateAction<null | RoomEntity>>;
   setZoomLevel: React.Dispatch<React.SetStateAction<number>>;
   stageRef: null | RefObject<Konva.Stage>;
@@ -47,11 +64,16 @@ const FloorPlanEditorContext = createContext<
   floorPlanUrl: '',
   height: 0,
   isEditing: false,
+  onUpdateDeskShape: () => null,
   onUpdateRoomShape: () => null,
+  pickingDeskId: null,
   rooms: [],
+  selectingDesk: null,
   selectingRoom: null,
   setDraggingRoomId: () => null,
   setIsEditing: () => false,
+  setPickingDeskId: () => null,
+  setSelectingDesk: () => null,
   setSelectingRoom: () => null,
   setZoomLevel: () => 0,
   stageRef: null,
@@ -78,6 +100,8 @@ export function FloorPlanEditorProvider({
   const [rooms, setRooms] = useState<RoomEntity[]>(initialRooms);
   const [draggingRoomId, setDraggingRoomId] = useState<null | string>(null);
   const [selectingRoom, setSelectingRoom] = useState<null | RoomEntity>(null);
+  const [pickingDeskId, setPickingDeskId] = useState<null | string>(null);
+  const [selectingDesk, setSelectingDesk] = useState<DeskEntity | null>(null);
   const [isEditing, setIsEditing] = useState(false);
 
   const [img] = useImage(props.floorPlanUrl, 'anonymous');
@@ -111,60 +135,121 @@ export function FloorPlanEditorProvider({
     workspaceRef,
   });
 
-  const onUpdateRoomShape = ({
-    roomId,
-    shape,
-  }: {
-    roomId?: null | string;
-    shape: RectShapePropEntity;
-  }) => {
+  const onUpdateRoomShape = ({ roomId, shape }: UpdateRoomShapeProps) => {
     if (roomId) {
-      const newRooms = rooms?.map(room => {
-        if (room.id === roomId) {
-          const newRoom: RoomEntity = {
-            ...room,
-            shape: {
-              ...room.shape,
-              ...shape,
-            },
-          };
-
-          return newRoom;
-        }
-
-        return room;
-      });
-
-      const checkedOverlappedRooms = newRooms?.map(room => {
-        const otherRooms = newRooms?.filter(item => room.id !== item.id);
-
-        const isOverlapped = otherRooms.some(otherRoom =>
-          checkOverlappedRoom(room, otherRoom),
-        );
-
-        return {
-          ...room,
-          shape: room.shape
-            ? {
+      setRooms(currentRooms => {
+        const newRooms = currentRooms?.map(room => {
+          if (room.id === roomId) {
+            const newRoom: RoomEntity = {
+              ...room,
+              desks: room.desks?.map(desk => ({
+                ...desk,
+                shape: desk?.shape
+                  ? {
+                      ...desk.shape,
+                      x:
+                        shape.x +
+                        ((desk.shape.x - (room?.shape?.x || 0)) /
+                          (room?.shape?.width || 1)) *
+                          shape.width,
+                      y:
+                        shape.y +
+                        ((desk.shape.y - (room?.shape?.y || 0)) /
+                          (room?.shape?.height || 1)) *
+                          shape.height,
+                    }
+                  : undefined,
+              })),
+              shape: {
                 ...room.shape,
-                isOverlapped,
-              }
-            : undefined,
-        };
-      });
+                ...shape,
+              },
+            };
 
-      setRooms(checkedOverlappedRooms);
+            return newRoom;
+          }
+
+          return room;
+        });
+
+        const checkedOverlappedRooms = newRooms?.map(room => {
+          const otherRooms = newRooms?.filter(item => room.id !== item.id);
+
+          const isOverlapped = otherRooms.some(otherRoom =>
+            checkOverlappedRoom(room, otherRoom),
+          );
+
+          return {
+            ...room,
+            shape: room.shape
+              ? {
+                  ...room.shape,
+                  isOverlapped,
+                }
+              : undefined,
+          };
+        });
+
+        return checkedOverlappedRooms;
+      });
+    }
+  };
+
+  const glowingRoom = useMemo(
+    () =>
+      rooms?.find(room =>
+        room?.desks?.some(
+          desk => desk.id === pickingDeskId || desk.id === selectingDesk?.id,
+        ),
+      ),
+    [pickingDeskId, rooms, selectingDesk?.id],
+  );
+
+  const onUpdateDeskShape = ({ deskId, shape }: UpdateDeskShapeProps) => {
+    if (deskId && glowingRoom) {
+      setRooms(currentRooms => {
+        const newRooms = currentRooms?.map(room => {
+          if (room.id === glowingRoom.id) {
+            return {
+              ...room,
+              desks: room.desks?.map(desk => {
+                if (desk.id === deskId) {
+                  return {
+                    ...desk,
+                    shape: {
+                      ...desk.shape,
+                      ...shape,
+                    },
+                  };
+                }
+
+                return desk;
+              }),
+            };
+          }
+
+          return room;
+        });
+
+        return newRooms;
+      });
     }
   };
 
   const internalContext: FloorPlanEditorInternalContextProps = {
     draggingRoomId,
+    glowingRoom,
     isEditing,
+    onUpdateDeskShape,
     onUpdateRoomShape,
+    pickingDeskId,
     rooms,
+    selectingDesk,
     selectingRoom,
     setDraggingRoomId,
     setIsEditing,
+    setPickingDeskId,
+    setSelectingDesk,
     setSelectingRoom,
     setZoomLevel,
     stageRef,

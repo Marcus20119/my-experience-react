@@ -27,31 +27,81 @@ function Status({ isOverlapped }: { isOverlapped?: boolean }) {
 
 function RoomMenu() {
   const { t } = useTranslation();
-  const { draggingRoomId, rooms, setDraggingRoomId, setSelectingRoom } =
-    useFloorPlanEditorContext();
+  const {
+    draggingRoomId,
+    pickingDeskId,
+    rooms,
+    setDraggingRoomId,
+    setPickingDeskId,
+    setSelectingDesk,
+    setSelectingRoom,
+  } = useFloorPlanEditorContext();
 
   const menuItems: ItemType[] = useMemo(() => {
     const items: ItemType[] = rooms?.map(room => ({
-      children: room?.desks?.map(desk => ({
-        disabled: !room?.shape || room?.shape?.isOverlapped,
-        key: desk.id,
-        label: (
-          <Flex align="center" gap="0.5rem" justify="space-between">
-            <Paragraph
-              className="mb-0"
-              ellipsis={{
-                rows: 1,
-                tooltip: true,
-              }}
-            >
-              {desk.name}
-            </Paragraph>
-            <Flex gap="0.5rem">
-              <Icon height="20" icon="@local:pick-point" width="20" />
+      children: room?.desks?.map(desk => {
+        const disabled = !room?.shape || room?.shape?.isOverlapped;
+
+        return {
+          disabled,
+          key: desk.id,
+          label: (
+            <Flex align="center" gap="0.5rem" justify="space-between">
+              <Paragraph
+                className="mb-0"
+                ellipsis={{
+                  rows: 1,
+                  tooltip: true,
+                }}
+              >
+                {desk.name}
+              </Paragraph>
+              <Flex gap="0.5rem">
+                {desk?.shape ? (
+                  <Status isOverlapped={desk?.shape?.isOverlapped} />
+                ) : (
+                  <Tooltip
+                    title={
+                      !disabled
+                        ? t('feature.floorPlan.button.pickDesk')
+                        : undefined
+                    }
+                  >
+                    <Flex
+                      className="hover:opacity-85"
+                      onClick={e => {
+                        e.stopPropagation();
+
+                        if (disabled) return;
+
+                        if (pickingDeskId === desk.id) {
+                          setPickingDeskId(null);
+                        } else {
+                          setPickingDeskId(desk.id);
+                        }
+
+                        setDraggingRoomId(null);
+                        setSelectingRoom(null);
+                        setSelectingDesk(null);
+                      }}
+                    >
+                      <Icon
+                        height="20"
+                        icon={
+                          pickingDeskId === desk.id
+                            ? '@local:pick-point-active'
+                            : '@local:pick-point-default'
+                        }
+                        width="20"
+                      />
+                    </Flex>
+                  </Tooltip>
+                )}
+              </Flex>
             </Flex>
-          </Flex>
-        ),
-      })),
+          ),
+        };
+      }),
       expandIcon: ({ isOpen }) => {
         if (isOpen) {
           return <ArrowDown2 size="16" />;
@@ -93,6 +143,8 @@ function RoomMenu() {
                     }
 
                     setSelectingRoom(null);
+                    setPickingDeskId(null);
+                    setSelectingDesk(null);
                   }}
                   size="20"
                 />
@@ -104,9 +156,18 @@ function RoomMenu() {
     }));
 
     return items;
-  }, [draggingRoomId, rooms, setDraggingRoomId, setSelectingRoom, t]);
+  }, [
+    draggingRoomId,
+    pickingDeskId,
+    rooms,
+    setDraggingRoomId,
+    setPickingDeskId,
+    setSelectingDesk,
+    setSelectingRoom,
+    t,
+  ]);
 
-  return <Menu items={menuItems} mode="inline" />;
+  return <Menu items={menuItems} mode="inline" selectable={false} />;
 }
 
 export default RoomMenu;

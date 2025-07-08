@@ -1,3 +1,4 @@
+import DeskItem from './DeskItem';
 import RoomItem from './RoomItem';
 
 function FloorPlanItem() {
@@ -5,5 +6,6 @@ function FloorPlanItem() {
 }
 
 FloorPlanItem.Room = RoomItem;
+FloorPlanItem.Desk = DeskItem;
 
 export default FloorPlanItem;
