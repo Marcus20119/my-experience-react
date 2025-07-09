@@ -2,7 +2,11 @@ import { Button, Flex, InputNumber, Slider, Tooltip } from 'antd';
 import { Maximize2 } from 'iconsax-react';
 
 import { useFloorPlanEditorContext } from '@/app/features/feature/floor-plan/context';
-import { FLOOR_PLAN_SIZE } from '@/app/features/feature/floor-plan/model';
+import {
+  FLOOR_PLAN_SIZE,
+  MAX_ZOOM_LEVEL,
+  MIN_ZOOM_LEVEL,
+} from '@/app/features/feature/floor-plan/model';
 
 function FloorPlanFooter() {
   const { setZoomLevel, zoomLevel } = useFloorPlanEditorContext();
@@ -33,8 +37,8 @@ function FloorPlanFooter() {
         </Tooltip>
         <Slider
           className="w-48"
-          max={300}
-          min={30}
+          max={MAX_ZOOM_LEVEL * 100}
+          min={MIN_ZOOM_LEVEL * 100}
           onChange={onSetZoomLevel}
           step={1}
           tooltip={{
@@ -47,8 +51,8 @@ function FloorPlanFooter() {
           addonAfter="%"
           className="w-20"
           controls={false}
-          max={300}
-          min={30}
+          max={MAX_ZOOM_LEVEL * 100}
+          min={MIN_ZOOM_LEVEL * 100}
           onChange={onSetZoomLevel}
           precision={0}
           size="small"

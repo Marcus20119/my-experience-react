@@ -3,10 +3,13 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Rect, Transformer } from 'react-konva';
 
 import { useFloorPlanEditorContext } from '@/app/features/feature/floor-plan/context';
-import { checkOverflowedRoom } from '@/app/features/feature/floor-plan/lib';
+import {
+  checkOverflowedDesk,
+  checkOverflowedRoom,
+} from '@/app/features/feature/floor-plan/lib';
 import type {
-  RectShapeEntity,
   RoomEntity,
+  RoomShapeEntity,
 } from '@/app/features/feature/floor-plan/model';
 import { COLOR } from '@/shared/assets/styles/constants';
 
@@ -95,8 +98,10 @@ function RoomItem({ room }: Props) {
       e.cancelBubble = true;
       document.body.style.cursor = 'move';
       setIsEditing(true);
+      setSelectingRoom(room);
+      setSelectingDesk(null);
     },
-    [setIsEditing],
+    [room, setIsEditing, setSelectingDesk, setSelectingRoom],
   );
 
   const onDragEnd = useCallback(
@@ -109,7 +114,7 @@ function RoomItem({ room }: Props) {
       const x = (node.x() * 100) / stageSize.width;
       const y = (node.y() * 100) / stageSize.height;
 
-      const newShape: RectShapeEntity = {
+      const newShape: RoomShapeEntity = {
         ...room?.shape,
         x,
         y,
@@ -195,7 +200,19 @@ function RoomItem({ room }: Props) {
         y,
       });
 
-      if (isOverflowed) {
+      const isDeskOverflowed = room?.desks?.some(
+        desk =>
+          desk.shape &&
+          checkOverflowedDesk({
+            deskPosition: { x: desk.shape.x, y: desk.shape.y },
+            room: {
+              ...room,
+              shape: newShape,
+            },
+          }),
+      );
+
+      if (isOverflowed || isDeskOverflowed) {
         rectRef.current?.setAttrs({
           height: (room?.shape?.height * stageSize.height) / 100,
           offsetX: (room?.shape?.width * stageSize.width) / 200,
@@ -213,14 +230,7 @@ function RoomItem({ room }: Props) {
 
       setIsEditing(false);
     },
-    [
-      room.shape,
-      room.id,
-      stageSize.width,
-      stageSize.height,
-      setIsEditing,
-      onUpdateRoomShape,
-    ],
+    [room, stageSize.width, stageSize.height, setIsEditing, onUpdateRoomShape],
   );
 
   const events = useMemo(() => {

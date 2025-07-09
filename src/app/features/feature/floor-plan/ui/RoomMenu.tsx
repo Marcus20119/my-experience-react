@@ -46,7 +46,12 @@ function RoomMenu() {
           disabled,
           key: desk.id,
           label: (
-            <Flex align="center" gap="0.5rem" justify="space-between">
+            <Flex
+              align="center"
+              className="pl-5"
+              gap="0.5rem"
+              justify="space-between"
+            >
               <Paragraph
                 className="mb-0"
                 ellipsis={{
@@ -112,15 +117,25 @@ function RoomMenu() {
       key: room.id,
       label: (
         <Flex align="center" gap="0.5rem" justify="space-between">
-          <Paragraph
-            className="mb-0 font-semibold"
-            ellipsis={{
-              rows: 1,
-              tooltip: true,
-            }}
-          >
-            {room.name}
-          </Paragraph>
+          <Flex align="center" gap="0.5rem">
+            <Icon
+              color={
+                room.isActive ? COLOR.system.success : COLOR.neutral['400']
+              }
+              height="12"
+              icon="icon-park-outline:dot"
+              width="12"
+            />
+            <Paragraph
+              className="mb-0 font-semibold"
+              ellipsis={{
+                rows: 1,
+                tooltip: true,
+              }}
+            >
+              {room.name}
+            </Paragraph>
+          </Flex>
           <Flex gap="0.5rem">
             {room?.shape ? (
               <Status isOverlapped={room?.shape?.isOverlapped} />

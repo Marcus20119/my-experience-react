@@ -43,6 +43,7 @@ function FloorPlanPage() {
         },
       ],
       id: uuidv4(),
+      isActive: true,
       name: 'Room 101',
     },
     {
@@ -61,6 +62,7 @@ function FloorPlanPage() {
         },
       ],
       id: uuidv4(),
+      isActive: true,
       name: 'Room 102',
     },
     {
@@ -79,7 +81,13 @@ function FloorPlanPage() {
         },
       ],
       id: uuidv4(),
+      isActive: true,
       name: 'Room 103',
+    },
+    {
+      id: uuidv4(),
+      isActive: true,
+      name: 'Room 104',
     },
   ];
 

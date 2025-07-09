@@ -7,10 +7,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { useFloorPlanEditorContext } from '@/app/features/feature/floor-plan/context';
 import { checkOverflowedDesk } from '@/app/features/feature/floor-plan/lib';
-import type { RectShapeEntity } from '@/app/features/feature/floor-plan/model';
+import type { RoomShapeEntity } from '@/app/features/feature/floor-plan/model';
 
 import FloorPlanItem from '../items';
 import FloorPlanImageLayer from './FloorPlanImageLayer';
+import FloorPlanItemActions from './FloorPlanItemActions';
 import OverlayLayer from './OverlayLayer';
 
 function FloorPlanWorkspace() {
@@ -31,7 +32,7 @@ function FloorPlanWorkspace() {
     workspaceSize,
   } = useFloorPlanEditorContext();
 
-  const [newRoomShape, setNewRoomShape] = useState<RectShapeEntity>();
+  const [newRoomShape, setNewRoomShape] = useState<RoomShapeEntity>();
 
   const handleMouseDown = (e: KonvaEventObject<MouseEvent>) => {
     const { x: pointerX, y: pointerY } = e.target
@@ -64,7 +65,6 @@ function FloorPlanWorkspace() {
         deskId: pickingDeskId,
         shape: {
           id: pickingDeskId,
-          radiusInPx: 16, // FIX_ME
           x,
           y,
           zIndex: 1, // FIX_ME
@@ -158,6 +158,7 @@ function FloorPlanWorkspace() {
       >
         <FloorPlanImageLayer zIndex={0} />
         {glowingRoom ? <OverlayLayer zIndex={10} /> : null}
+
         <Stage
           className="absolute z-20"
           height={stageSize.height}
@@ -201,6 +202,8 @@ function FloorPlanWorkspace() {
             ) : null}
           </Layer>
         </Stage>
+
+        <FloorPlanItemActions zIndex={30} />
       </div>
     </Flex>
   );
