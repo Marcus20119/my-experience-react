@@ -7,11 +7,17 @@ interface Props {
 }
 
 function FloorPlanImageLayer({ zIndex }: Props) {
-  const { floorPlanUrl } = useFloorPlanEditorContext();
+  const { floorPlanUrl, stageSize } = useFloorPlanEditorContext();
 
   return (
     <div className="absolute inset-0" style={{ zIndex }}>
-      <Image height="100%" src={floorPlanUrl} width="100%" />
+      <img
+        style={{
+          height: stageSize.height,
+          width: stageSize.width,
+        }}
+        src={floorPlanUrl}
+      />
     </div>
   );
 }

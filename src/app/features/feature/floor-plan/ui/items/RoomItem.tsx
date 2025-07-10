@@ -1,3 +1,4 @@
+import { notification } from 'antd';
 import type Konva from 'konva';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Rect, Transformer } from 'react-konva';
@@ -12,6 +13,9 @@ import type {
   RoomShapeEntity,
 } from '@/app/features/feature/floor-plan/model';
 import { COLOR } from '@/shared/assets/styles/constants';
+import { NotiTool } from '@/shared/utils';
+
+const { showError } = NotiTool;
 
 interface Props {
   room: RoomEntity;
@@ -31,6 +35,7 @@ function RoomItem({ room }: Props) {
     setSelectingDesk,
     setSelectingRoom,
     stageSize,
+    workspaceRef,
   } = useFloorPlanEditorContext();
 
   // Attach the transformer to the image
@@ -136,6 +141,18 @@ function RoomItem({ room }: Props) {
           x: (room?.shape?.x * stageSize.width) / 100,
           y: (room?.shape?.y * stageSize.height) / 100,
         });
+
+        const { y } = workspaceRef?.current?.getBoundingClientRect() || {
+          y: 0,
+        };
+
+        notification.config({
+          top: y + 16, // FIX_ME
+        });
+
+        showError({
+          message: 'Lỗi rồi nè',
+        });
       } else {
         onUpdateRoomShape({
           roomId: room.id,
@@ -151,6 +168,7 @@ function RoomItem({ room }: Props) {
       stageSize.width,
       stageSize.height,
       setIsEditing,
+      workspaceRef,
       onUpdateRoomShape,
     ],
   );
