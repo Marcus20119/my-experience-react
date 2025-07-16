@@ -1,5 +1,3 @@
-import { Image } from 'antd';
-
 import { useFloorPlanEditorContext } from '@/app/features/feature/floor-plan/context';
 
 interface Props {
@@ -12,11 +10,12 @@ function FloorPlanImageLayer({ zIndex }: Props) {
   return (
     <div className="absolute inset-0" style={{ zIndex }}>
       <img
+        alt="Floor plan"
+        src={floorPlanUrl}
         style={{
           height: stageSize.height,
           width: stageSize.width,
         }}
-        src={floorPlanUrl}
       />
     </div>
   );

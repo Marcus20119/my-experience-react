@@ -24,6 +24,9 @@ function CreateTechnologyModal({ onCancel }: Props) {
         loading: false,
         onClick: () => {
           form.submit();
+
+          const values = form.getFieldsValue();
+          console.log('🚀 ~ CreateTechnologyModal ~ values:', values);
         },
       }}
       okText={t('common.button.create')}

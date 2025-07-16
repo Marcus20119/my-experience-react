@@ -63,7 +63,7 @@ function UploadFileField({
   const { t } = useTranslation();
 
   const { mutateAsync: createTechnologySection } = useMutation({
-    mutationFn: storageApi.getPreSignedUrl,
+    mutationFn: storageApi.getPresignedUrl,
   });
 
   const [files, setFiles] = useState<UploadedFileProps[]>(() => {

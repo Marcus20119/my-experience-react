@@ -51,12 +51,12 @@ export interface BaseResponse {
   data: object;
 }
 
-export interface PreSignedUrlResponse {
+export interface PresignedUrlResponse {
   key: string;
   uploadUrl: string;
 }
 
-export interface CreatePreSignedUrlInput {
+export interface CreatePresignedUrlInput {
   bucketType: BucketType;
   category: FileCategory;
   name: string;

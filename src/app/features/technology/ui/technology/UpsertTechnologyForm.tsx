@@ -13,6 +13,7 @@ import {
 } from 'antd';
 import type { Color } from 'antd/es/color-picker';
 import type { FormInstance } from 'antd/lib';
+import { useEffect, useState } from 'react';
 
 import type { UpsertTechnologyFormEntity } from '@/app/features/technology/model';
 import { COLOR } from '@/shared/assets/styles/constants';
@@ -30,8 +31,20 @@ interface Props {
 }
 
 function UpsertTechnologyForm({ form, onFinish }: Props) {
+  const [showPreviewCard, setShowPreviewCard] = useState(false);
+
   const { width } = useWindowDimensions();
-  const iconType = Form.useWatch('iconType', form) as IconType;
+  const iconType = Form.useWatch('iconType', form);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowPreviewCard(true);
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
 
   return (
     <Form<UpsertTechnologyFormEntity>
@@ -140,43 +153,46 @@ function UpsertTechnologyForm({ form, onFinish }: Props) {
         </Col>
       </Row>
 
-      <Form.Item<UpsertTechnologyFormEntity> noStyle shouldUpdate>
-        {({ getFieldsValue }) => {
-          const values = getFieldsValue();
-          return (
-            <Flex
-              className="fixed top-1/2 -translate-y-1/2"
-              style={{
-                right: (width - 600) / 4 - 260 / 2, // 600 is the width of the form, 260 is the width of the ticket
-              }}
-            >
-              <Ticket.ThreeD
-                color1={values.color1 || COLOR.secondary}
-                color2={values.color2}
-                color3={values.color3}
-                description={values.description}
-                icon={
-                  values.iconType === IconType.Iconify ? (
-                    <Icon
-                      height="56"
-                      icon={values.iconName as unknown as IconifyIcon}
-                      width="56"
-                    />
-                  ) : (
-                    <Image
-                      height="50"
-                      src={splitFileUrl(values.iconUrl).url}
-                      width="50"
-                    />
-                  )
-                }
-                rate={values.rate}
-                title={values.name || 'Title'}
-              />
-            </Flex>
-          );
-        }}
-      </Form.Item>
+      {showPreviewCard ? (
+        <Form.Item<UpsertTechnologyFormEntity> noStyle shouldUpdate>
+          {({ getFieldsValue }) => {
+            const values = getFieldsValue();
+            return (
+              <Flex
+                className="fixed top-1/2 -translate-y-1/2"
+                style={{
+                  animation: 'fadeIn 1s ease-out forwards',
+                  right: (width - 600) / 4 - 260 / 2, // 600 is the width of the form, 260 is the width of the ticket
+                }}
+              >
+                <Ticket.ThreeD
+                  color1={values.color1 || COLOR.secondary}
+                  color2={values.color2}
+                  color3={values.color3}
+                  description={values.description}
+                  icon={
+                    values.iconType === IconType.Custom && values.iconUrl ? (
+                      <Image
+                        height="50"
+                        src={splitFileUrl(values.iconUrl).url}
+                        width="50"
+                      />
+                    ) : (
+                      <Icon
+                        height="56"
+                        icon={values.iconName as unknown as IconifyIcon}
+                        width="56"
+                      />
+                    )
+                  }
+                  rate={values.rate}
+                  title={values.name || 'Title'}
+                />
+              </Flex>
+            );
+          }}
+        </Form.Item>
+      ) : null}
     </Form>
   );
 }

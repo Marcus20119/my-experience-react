@@ -1,15 +1,15 @@
 import axios from 'axios';
 
 import type { BasedResponse } from './base-schemas';
-import type { CreatePreSignedUrlInput, PreSignedUrlResponse } from './schemas';
+import type { CreatePresignedUrlInput, PresignedUrlResponse } from './schemas';
 
 const request = axios.create({
   baseURL: import.meta.env.VITE_MONGO_API,
 });
 
-const getPreSignedUrl = async (input: CreatePreSignedUrlInput) => {
-  const response = await request.post<BasedResponse<PreSignedUrlResponse>>(
-    '/s3/pre-signed-url',
+const getPresignedUrl = async (input: CreatePresignedUrlInput) => {
+  const response = await request.post<BasedResponse<PresignedUrlResponse>>(
+    '/s3/presigned-url',
     input,
   );
   return response.data.data;
@@ -39,4 +39,4 @@ const uploadFile = async ({
     url: preSignedRequest,
   });
 
-export const storageApi = { getPreSignedUrl, uploadFile };
+export const storageApi = { getPresignedUrl, uploadFile };
