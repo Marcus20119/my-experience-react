@@ -134,11 +134,7 @@ function UpsertTechnologyForm({ form, onFinish }: Props) {
         </Col>
 
         <Col span={12}>
-          <Form.Item<UpsertTechnologyFormEntity>
-            label={'Rate ~'}
-            name="rate"
-            rules={[{ required: true }]}
-          >
+          <Form.Item<UpsertTechnologyFormEntity> label={'Rate ~'} name="rate">
             <Rate allowHalf />
           </Form.Item>
         </Col>

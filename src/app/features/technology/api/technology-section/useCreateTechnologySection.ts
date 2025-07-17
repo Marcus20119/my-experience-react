@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
+import type { UpsertTechnologySectionFormEntity } from '@/app/features/technology/model';
 import { queryClient } from '@/lib/tanstack-client';
 import type {
   TechnologySectionResponse,
@@ -8,8 +9,6 @@ import type {
 import { technologySectionApi } from '@/shared/tanstack/api/technologies';
 import { technologySectionQueries } from '@/shared/tanstack/queries/technology';
 import { NotiTool } from '@/shared/utils';
-
-import type { UpsertTechnologySectionFormEntity } from '../model';
 
 const { showSuccess } = NotiTool;
 

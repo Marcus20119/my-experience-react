@@ -1,12 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
 
+import type { UpsertTechnologySectionFormEntity } from '@/app/features/technology/model';
 import { queryClient } from '@/lib/tanstack-client';
 import type { TechnologySectionResponse } from '@/shared/tanstack/api/technologies';
 import { technologySectionApi } from '@/shared/tanstack/api/technologies';
 import { technologySectionQueries } from '@/shared/tanstack/queries/technology';
 import { NotiTool } from '@/shared/utils';
-
-import type { UpsertTechnologySectionFormEntity } from '../model';
 
 const { showSuccess } = NotiTool;
 
@@ -35,7 +34,12 @@ export const useUpdateTechnologySection = ({ id, onSuccess }: Props) => {
   ) => {
     if (!id) return;
 
-    updateTechnologySection({ id, input });
+    updateTechnologySection({
+      id,
+      input: {
+        name: input.name,
+      },
+    });
   };
 
   return {

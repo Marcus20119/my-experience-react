@@ -61,7 +61,7 @@ function UpdateTechnologySectionModal({ onCancel }: Props) {
       }}
       okText={t('common.button.update')}
       onCancel={onCancel}
-      open={true}
+      open
       title={`Update section ~`}
       width={600}
     >

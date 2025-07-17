@@ -1,8 +1,8 @@
 import type { IMeta } from './schemas';
 
 export interface PaginatedResponse<T> {
-  items: T[];
-  meta: IMeta;
+  data: { items: T[]; meta: IMeta };
+  statusCode: number;
 }
 
 export interface BasedResponse<T> {

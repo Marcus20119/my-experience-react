@@ -171,7 +171,7 @@ export interface CreateTechnologyInput {
    */
   rate?: number;
   technologyType: TechnologyType;
-  technologySectionId: string;
+  technologySectionId?: string;
 }
 
 export interface UpdateTechnologyInput {
@@ -188,6 +188,11 @@ export interface UpdateTechnologyInput {
    * @max 5
    */
   rate?: number;
+  technologyType?: TechnologyType;
+  technologySectionId?: string;
+}
+
+export interface TechnologyQueryFilter {
   technologyType?: TechnologyType;
   technologySectionId?: string;
 }

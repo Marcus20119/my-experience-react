@@ -1,3 +1,2 @@
-export * from './useCreateTechnologySection';
-export * from './useDeleteTechnologySection';
-export * from './useUpdateTechnologySection';
+export * from './technology';
+export * from './technology-section';

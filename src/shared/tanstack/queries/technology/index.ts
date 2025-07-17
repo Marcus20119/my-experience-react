@@ -1,1 +1,2 @@
-export * from './techonology-section';
+export * from './technology';
+export * from './technology-section';

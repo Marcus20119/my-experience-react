@@ -46,7 +46,7 @@ function CreateTechnologySectionModal({ onCancel }: Props) {
       }}
       okText={t('common.button.create')}
       onCancel={onCancel}
-      open={true}
+      open
       title={`Create section for ${param.type} ~`}
       width={600}
     >

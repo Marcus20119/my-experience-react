@@ -12,9 +12,9 @@ import { getListQueryString } from '../utils';
 import { request } from './request';
 
 export interface ListTechnologySectionsQuery {
-  filter: TechnologySectionQueryFilter;
-  orderBy: OrderDto;
-  pagination: PaginationDto;
+  filter?: TechnologySectionQueryFilter;
+  orderBy?: OrderDto;
+  pagination?: PaginationDto;
 }
 
 const getTechnologySections = async ({
@@ -27,7 +27,7 @@ const getTechnologySections = async ({
     pagination,
   });
 
-  if (filter.technologyType) {
+  if (filter?.technologyType) {
     queryString += `&technologyType=${filter.technologyType}`;
   }
 

@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 
 export const StyledThreeDTicket = styled.div<{
   color1: string;
-  color2?: string;
-  color3?: string;
+  color2?: null | string;
+  color3?: null | string;
   width?: string;
   height?: string;
   shouldHighlightRate?: boolean;

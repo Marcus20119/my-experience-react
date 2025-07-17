@@ -9,13 +9,13 @@ import { StyledThreeDTicket } from './styles';
 
 export interface ThreeDTicketProps {
   color1: string;
-  color2?: string;
-  color3?: string;
-  description?: string;
+  color2?: null | string;
+  color3?: null | string;
+  description?: null | string;
   height?: string;
   icon: React.ReactNode;
   path?: RouterPath;
-  rate?: number;
+  rate?: null | number;
   shouldHighlightRate?: boolean;
   title: [string, string] | string;
   width?: string;

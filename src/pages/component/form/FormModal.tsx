@@ -41,7 +41,7 @@ function FormModal({ onCancel }: Props) {
         onClick: singleStepForm.submit,
       }}
       onCancel={onCancel}
-      open={true}
+      open
       title={t('component.title.modalRouterForm')}
       width={WIDTH.form}
     >
