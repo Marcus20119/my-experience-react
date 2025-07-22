@@ -2,10 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import type { UpsertTechnologyFormEntity } from '@/app/features/technology/model';
 import { queryClient } from '@/lib/tanstack-client';
-import type {
-  TechnologyResponse,
-  TechnologyType,
-} from '@/shared/tanstack/api/technologies';
+import type { TechnologyResponse } from '@/shared/tanstack/api/technologies';
 import { IconType, technologyApi } from '@/shared/tanstack/api/technologies';
 import { technologyQueries } from '@/shared/tanstack/queries/technology';
 import { NotiTool } from '@/shared/utils';
@@ -15,25 +12,27 @@ const { showSuccess } = NotiTool;
 interface Props {
   id?: string;
   onSuccess?: (technology: TechnologyResponse) => void;
-  technologySectionId?: string;
-  technologyType: TechnologyType;
 }
 
-export const useUpdateTechnology = ({
-  id,
-  onSuccess,
-  technologySectionId,
-  technologyType,
-}: Props) => {
+export const useUpdateTechnology = ({ id, onSuccess }: Props) => {
   const { isPending, mutate: updateTechnology } = useMutation({
     mutationFn: technologyApi.updateTechnology,
-    onSuccess: data => {
-      onSuccess?.(data);
+    onSuccess: technology => {
+      onSuccess?.(technology);
+
       queryClient.invalidateQueries({
         queryKey: technologyQueries.all({
-          filter: { technologySectionId, technologyType },
+          filter: {
+            technologySectionId: technology.technologySectionId,
+          },
         }).queryKey,
       });
+
+      if (technology.id) {
+        queryClient.invalidateQueries({
+          queryKey: technologyQueries.detail(technology.id).queryKey,
+        });
+      }
 
       showSuccess({
         message: 'Technology updated successfully! ~',
@@ -51,10 +50,10 @@ export const useUpdateTechnology = ({
         color2: input.color2,
         color3: input.color3,
         description: input.description,
-        iconName:
-          input.iconType === IconType.Iconify ? input.iconName : undefined,
+        iconFileKey:
+          input.iconType === IconType.Custom ? input.iconFileKey : null,
+        iconName: input.iconType === IconType.Iconify ? input.iconName : null,
         iconType: input.iconType,
-        iconUrl: input.iconType === IconType.Custom ? input.iconUrl : undefined,
         name: input.name,
         rate: input.rate,
       },

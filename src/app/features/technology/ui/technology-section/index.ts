@@ -1,3 +1,3 @@
-export { default as CreateTechnologySectionModal } from './CreateTechnologySectionModal';
+export { default as CreateTechnologySectionDrawer } from './CreateTechnologySectionDrawer';
 export { default as DeleteTechnologySectionModal } from './DeleteTechnologySectionModal';
-export { default as UpdateTechnologySectionModal } from './UpdateTechnologySectionModal';
+export { default as UpdateTechnologySectionDrawer } from './UpdateTechnologySectionDrawer';

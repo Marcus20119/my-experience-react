@@ -48,13 +48,13 @@ export interface BaseTechnologyResponse {
   id: string;
   name: string;
   iconType: IconType;
-  iconUrl?: string | null;
+  iconFileKey?: string | null;
   iconName?: string | null;
   color1: string;
   color2?: string | null;
   color3?: string | null;
   description?: string | null;
-  rate?: number | null;
+  rate?: number;
   slug: string;
 }
 
@@ -63,7 +63,7 @@ export interface TechnologySectionResponse {
   name: DisplayName;
   slug: string;
   technologyType: TechnologyType;
-  technologies?: BaseTechnologyResponse[] | null;
+  technologies?: BaseTechnologyResponse[];
 }
 
 export interface CreateTechnologySectionInput {
@@ -114,7 +114,7 @@ export interface PaginationDto {
 
 export interface OrderDto {
   /** Format: fieldName:[asc,desc] */
-  order?: string | null;
+  order?: string;
 }
 
 export interface TechnologySectionQueryFilter {
@@ -125,16 +125,18 @@ export interface BaseKnowledgeItemResponse {
   id: string;
   name: DisplayName;
   iconType: IconType;
-  iconUrl: string;
-  iconName: string;
-  color: string;
-  rate: number;
+  iconFileKey?: string | null;
+  iconName?: string | null;
+  color1: string;
+  color2?: string | null;
+  color3?: string | null;
+  rate?: number | null;
 }
 
 export interface BaseKnowledgeGroupResponse {
   id: string;
   name: DisplayName;
-  description: string;
+  description?: string | null;
   knowledgeItems: BaseKnowledgeItemResponse[];
 }
 
@@ -142,34 +144,34 @@ export interface TechnologyResponse {
   id: string;
   name: string;
   iconType: IconType;
-  iconUrl?: string | null;
+  iconFileKey?: string | null;
   iconName?: string | null;
   color1: string;
   color2?: string | null;
   color3?: string | null;
   description?: string | null;
-  rate?: number | null;
+  rate?: number;
   slug: string;
-  type?: TechnologyType | null;
-  technologySectionId?: string | null;
-  knowledgeGroups?: BaseKnowledgeGroupResponse[] | null;
-  knowledgeItems?: BaseKnowledgeItemResponse[] | null;
+  technologyType?: TechnologyType;
+  technologySectionId?: string;
+  knowledgeGroups?: BaseKnowledgeGroupResponse[];
+  knowledgeItems?: BaseKnowledgeItemResponse[];
 }
 
 export interface CreateTechnologyInput {
   name: string;
   iconType: IconType;
-  iconUrl?: string;
-  iconName?: string;
+  iconFileKey?: string | null;
+  iconName?: string | null;
   color1: string;
-  color2?: string;
-  color3?: string;
-  description?: string;
+  color2?: string | null;
+  color3?: string | null;
+  description?: string | null;
   /**
    * @min 0
    * @max 5
    */
-  rate?: number;
+  rate: number;
   technologyType: TechnologyType;
   technologySectionId?: string;
 }
@@ -177,12 +179,12 @@ export interface CreateTechnologyInput {
 export interface UpdateTechnologyInput {
   name?: string;
   iconType?: IconType;
-  iconUrl?: string;
-  iconName?: string;
+  iconFileKey?: string | null;
+  iconName?: string | null;
   color1?: string;
-  color2?: string;
-  color3?: string;
-  description?: string;
+  color2?: string | null;
+  color3?: string | null;
+  description?: string | null;
   /**
    * @min 0
    * @max 5

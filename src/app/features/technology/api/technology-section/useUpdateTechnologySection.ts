@@ -22,6 +22,9 @@ export const useUpdateTechnologySection = ({ id, onSuccess }: Props) => {
       queryClient.invalidateQueries({
         queryKey: technologySectionQueries.skeleton().queryKey,
       });
+      queryClient.invalidateQueries({
+        queryKey: technologySectionQueries.detail(String(id)).queryKey,
+      });
 
       showSuccess({
         message: 'Section updated successfully! ~',

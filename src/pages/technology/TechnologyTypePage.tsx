@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query';
 import { Flex } from 'antd';
 import type { ItemType } from 'antd/es/menu/interface';
 import { AddCircle } from 'iconsax-react';
@@ -6,14 +7,17 @@ import { useTranslation } from 'react-i18next';
 
 import type { BreadcrumbItem } from '@/app/features/header';
 import { useSidebarStore } from '@/app/features/sidebar';
+import { TechnologyTicket } from '@/app/features/technology';
 import { ContentLayout } from '@/app/layout';
-import { useAppRouter, useModalRouter } from '@/shared/hooks';
+import { useAppRouter, useDrawerRouter } from '@/shared/hooks';
+import type { TechnologyType } from '@/shared/tanstack/api/technologies';
+import { technologyQueries } from '@/shared/tanstack/queries/technology';
 
 function TechnologyTypePage() {
   const { t } = useTranslation();
   const { technologySkeleton } = useSidebarStore();
   const { param } = useAppRouter('/technology-type/:type');
-  const { onOpenModal } = useModalRouter();
+  const { onOpenDrawer } = useDrawerRouter();
 
   const technology = technologySkeleton?.find(
     item => item.technologyType === param.type,
@@ -28,13 +32,26 @@ function TechnologyTypePage() {
     },
   ];
 
+  // FIX_ME: handle loading
+  const { data } = useQuery({
+    ...technologyQueries.all({
+      filter: {
+        technologyType: param.type as TechnologyType,
+      },
+    }),
+    enabled: !!param.type,
+  });
+
+  const technologies = data?.items;
+
   const actionItems: ItemType[] = [
     {
+      disabled: !!technologies?.length,
       icon: <AddCircle size="16" />,
       key: 'section',
       label: 'Section ~',
       onClick: () => {
-        onOpenModal({
+        onOpenDrawer({
           path: 'technology-section/create',
         });
       },
@@ -44,7 +61,7 @@ function TechnologyTypePage() {
       key: 'technology',
       label: 'Technology ~',
       onClick: () => {
-        onOpenModal({
+        onOpenDrawer({
           path: 'technology/create',
         });
       },
@@ -58,10 +75,20 @@ function TechnologyTypePage() {
       title={capitalize(technology?.technologyType)}
     >
       <Flex className="h-fit" gap="1.5rem" wrap>
-        {/* {languageItems.map((props, index) => (
-          <Ticket.ThreeD key={index} {...props} />
-        ))} */}
-        {technology?.technologyType}
+        {data?.items.map(technology => (
+          <TechnologyTicket
+            key={technology.id}
+            onClick={() => {
+              onOpenDrawer({
+                param: {
+                  id: technology.id,
+                },
+                path: 'technology/update/:id',
+              });
+            }}
+            technology={technology}
+          />
+        ))}
       </Flex>
     </ContentLayout>
   );

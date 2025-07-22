@@ -49,12 +49,15 @@ function UpsertTechnologyForm({ form, onFinish }: Props) {
   return (
     <Form<UpsertTechnologyFormEntity>
       form={form}
+      initialValues={{
+        iconType: IconType.Iconify,
+      }}
       layout="vertical"
       onFinish={onFinish}
       size="middle"
     >
       <Row gutter={16}>
-        <Col span={12}>
+        <Col span={24}>
           <Form.Item<UpsertTechnologyFormEntity>
             label="Name ~"
             name="name"
@@ -114,7 +117,7 @@ function UpsertTechnologyForm({ form, onFinish }: Props) {
           </Form.Item>
         </Col>
 
-        <Col span={12}>
+        <Col span={24}>
           <Form.Item<UpsertTechnologyFormEntity>
             hidden={iconType !== IconType.Iconify}
             label="Icon name ~"
@@ -126,25 +129,25 @@ function UpsertTechnologyForm({ form, onFinish }: Props) {
           <Form.Item<UpsertTechnologyFormEntity>
             hidden={iconType !== IconType.Custom}
             label="Icon ~"
-            name="iconUrl"
+            name="iconFileKey"
             rules={[{ required: iconType === IconType.Custom }]}
           >
-            <Field.UploadFile acceptTypes={[FileType.Svg]} />
+            <Field.UploadFile acceptTypes={[FileType.Svg]} maxFileSize={5} />
           </Form.Item>
         </Col>
 
-        <Col span={12}>
-          <Form.Item<UpsertTechnologyFormEntity> label={'Rate ~'} name="rate">
-            <Rate allowHalf />
-          </Form.Item>
-        </Col>
-
-        <Col span={12}>
+        <Col span={24}>
           <Form.Item<UpsertTechnologyFormEntity>
             label={'Description ~'}
             name="description"
           >
-            <Input.TextArea placeholder="Enter description ~" />
+            <Input.TextArea placeholder="Enter description ~" rows={3} />
+          </Form.Item>
+        </Col>
+
+        <Col span={24}>
+          <Form.Item<UpsertTechnologyFormEntity> label={'Rate ~'} name="rate">
+            <Rate allowHalf />
           </Form.Item>
         </Col>
       </Row>
@@ -155,10 +158,10 @@ function UpsertTechnologyForm({ form, onFinish }: Props) {
             const values = getFieldsValue();
             return (
               <Flex
-                className="fixed top-1/2 -translate-y-1/2"
+                className="fixed top-1/2 -translate-x-1/2 -translate-y-1/2 scale-150"
                 style={{
                   animation: 'fadeIn 1s ease-out forwards',
-                  right: (width - 600) / 4 - 260 / 2, // 600 is the width of the form, 260 is the width of the ticket
+                  left: (width - 600) / 2, // 600 is the width of the form
                 }}
               >
                 <Ticket.ThreeD
@@ -167,10 +170,11 @@ function UpsertTechnologyForm({ form, onFinish }: Props) {
                   color3={values.color3}
                   description={values.description}
                   icon={
-                    values.iconType === IconType.Custom && values.iconUrl ? (
+                    values.iconType === IconType.Custom &&
+                    values.iconFileKey ? (
                       <Image
                         height="50"
-                        src={splitFileUrl(values.iconUrl).url}
+                        src={splitFileUrl(values.iconFileKey).url}
                         width="50"
                       />
                     ) : (

@@ -67,18 +67,20 @@ const downloadURI = (uri: string, name: string) => {
 
 const joinFileUrl = (key: string, url: string) => `${key}>${url}`;
 
-const splitFileUrl = (fileUrl?: null | string) => {
-  if (!fileUrl) {
+const splitFileUrl = (fileKey?: null | string) => {
+  if (!fileKey) {
     return {
       key: undefined,
+      name: undefined,
       url: undefined,
     };
   }
 
-  const [key, url] = fileUrl.split('>');
+  const [key, url, name] = fileKey.split('>');
 
   return {
     key,
+    name,
     url,
   };
 };

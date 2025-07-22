@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 
 import { useUpdateTechnologySection } from '@/app/features/technology/api';
 import type { UpsertTechnologySectionFormEntity } from '@/app/features/technology/model';
-import { Modal } from '@/shared/components';
-import { useAppRouter, useModalRouter } from '@/shared/hooks';
+import { Drawer } from '@/shared/components';
+import { useAppRouter, useDrawerRouter } from '@/shared/hooks';
 import { technologySectionQueries } from '@/shared/tanstack/queries/technology';
 
 import UpsertTechnologySectionForm from './UpsertTechnologySectionForm';
@@ -15,16 +15,15 @@ interface Props {
   onCancel: () => void;
 }
 
-function UpdateTechnologySectionModal({ onCancel }: Props) {
+function UpdateTechnologySectionDrawer({ onCancel }: Props) {
   const { t } = useTranslation();
-  const { param } = useModalRouter('technology-section/update/:id');
+  const { param } = useDrawerRouter('technology-section/update/:id');
   const { navigate } = useAppRouter();
   const [form] = Form.useForm<UpsertTechnologySectionFormEntity>();
 
   const { data: section, isFetched } = useQuery({
     ...technologySectionQueries.detail(String(param?.id)),
     enabled: !!param?.id,
-    staleTime: 30000,
   });
 
   useEffect(() => {
@@ -52,7 +51,7 @@ function UpdateTechnologySectionModal({ onCancel }: Props) {
     });
 
   return (
-    <Modal.FormWrapper
+    <Drawer.FormWrapper
       okButtonProps={{
         loading: isPending,
         onClick: () => {
@@ -60,7 +59,7 @@ function UpdateTechnologySectionModal({ onCancel }: Props) {
         },
       }}
       okText={t('common.button.update')}
-      onCancel={onCancel}
+      onClose={onCancel}
       open
       title={`Update section ~`}
       width={600}
@@ -69,8 +68,8 @@ function UpdateTechnologySectionModal({ onCancel }: Props) {
         form={form}
         onFinish={handleUpdateTechnologySection}
       />
-    </Modal.FormWrapper>
+    </Drawer.FormWrapper>
   );
 }
 
-export default UpdateTechnologySectionModal;
+export default UpdateTechnologySectionDrawer;

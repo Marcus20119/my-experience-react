@@ -1,7 +1,5 @@
-import type { IconifyIcon } from '@iconify/react/dist/iconify.js';
-import { Icon } from '@iconify/react/dist/iconify.js';
 import { useQuery } from '@tanstack/react-query';
-import { Flex, Image, Typography } from 'antd';
+import { Flex, Typography } from 'antd';
 import type { ItemType } from 'antd/es/menu/interface';
 import { AddCircle, Edit2, Trash } from 'iconsax-react';
 import { capitalize } from 'lodash-es';
@@ -9,17 +7,14 @@ import { useTranslation } from 'react-i18next';
 
 import type { BreadcrumbItem, HeaderTabItem } from '@/app/features/header';
 import { useSidebarStore } from '@/app/features/sidebar';
+import { TechnologyTicket } from '@/app/features/technology';
 import { ContentLayout } from '@/app/layout';
-import { Ticket } from '@/shared/components';
-import { displayContentTranslation } from '@/shared/components/field/i18n-fields';
-import { useAppRouter, useModalRouter } from '@/shared/hooks';
-import { IconType } from '@/shared/tanstack/api/technologies';
-import { technologyQueries } from '@/shared/tanstack/queries/technology';
-import { FileTool } from '@/shared/utils/file';
 import { COLOR } from '@/shared/assets/styles/constants';
+import { displayContentTranslation } from '@/shared/components/field/i18n-fields';
+import { useAppRouter, useDrawerRouter, useModalRouter } from '@/shared/hooks';
+import { technologyQueries } from '@/shared/tanstack/queries/technology';
 
 const { Text } = Typography;
-const { splitFileUrl } = FileTool;
 
 function TechnologySectionPage() {
   const { t } = useTranslation();
@@ -27,6 +22,7 @@ function TechnologySectionPage() {
     '/technology-type/:type/technology-section/:section',
   );
   const { onOpenModal } = useModalRouter();
+  const { onOpenDrawer } = useDrawerRouter();
   const { technologySkeleton } = useSidebarStore();
 
   const technology = technologySkeleton?.find(
@@ -68,7 +64,7 @@ function TechnologySectionPage() {
           key: 'section',
           label: 'Section ~',
           onClick: () => {
-            onOpenModal({
+            onOpenDrawer({
               path: 'technology-section/create',
             });
           },
@@ -77,7 +73,7 @@ function TechnologySectionPage() {
           key: 'technology',
           label: 'Technology ~',
           onClick: () => {
-            onOpenModal({
+            onOpenDrawer({
               path: 'technology/create',
             });
           },
@@ -98,7 +94,7 @@ function TechnologySectionPage() {
       key: 'update',
       label: t('common.button.update'),
       onClick: () => {
-        onOpenModal({
+        onOpenDrawer({
           param: {
             id: String(section?.id),
           },
@@ -140,29 +136,17 @@ function TechnologySectionPage() {
     >
       <Flex className="h-fit" gap="1.5rem" wrap>
         {data?.items.map(technology => (
-          <Ticket.ThreeD
-            color1={technology.color1}
-            color2={technology.color2}
-            color3={technology.color3}
-            description={technology.description}
-            icon={
-              technology.iconType === IconType.Custom && technology.iconUrl ? (
-                <Image
-                  height="50"
-                  src={splitFileUrl(technology.iconUrl).url}
-                  width="50"
-                />
-              ) : (
-                <Icon
-                  height="56"
-                  icon={technology.iconName as unknown as IconifyIcon}
-                  width="56"
-                />
-              )
-            }
+          <TechnologyTicket
             key={technology.id}
-            rate={technology.rate}
-            title={technology.name}
+            onClick={() => {
+              onOpenDrawer({
+                param: {
+                  id: technology.id,
+                },
+                path: 'technology/update/:id',
+              });
+            }}
+            technology={technology}
           />
         ))}
       </Flex>

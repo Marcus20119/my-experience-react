@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useSidebarStore } from '@/app/features/sidebar';
 import { useCreateTechnology } from '@/app/features/technology/api';
 import type { UpsertTechnologyFormEntity } from '@/app/features/technology/model';
-import { Modal } from '@/shared/components';
+import { Drawer } from '@/shared/components';
 import { useAppRouter } from '@/shared/hooks';
 import type { TechnologyType } from '@/shared/tanstack/api/technologies';
 
@@ -14,7 +14,7 @@ interface Props {
   onCancel: () => void;
 }
 
-function CreateTechnologyModal({ onCancel }: Props) {
+function CreateTechnologyDrawer({ onCancel }: Props) {
   const { t } = useTranslation();
   const { technologySkeleton } = useSidebarStore();
   const { param } = useAppRouter(
@@ -35,7 +35,7 @@ function CreateTechnologyModal({ onCancel }: Props) {
   });
 
   return (
-    <Modal.FormWrapper
+    <Drawer.FormWrapper
       okButtonProps={{
         loading: isPending,
         onClick: () => {
@@ -43,14 +43,14 @@ function CreateTechnologyModal({ onCancel }: Props) {
         },
       }}
       okText={t('common.button.create')}
-      onCancel={onCancel}
+      onClose={onCancel}
       open
-      title={`Create section for ${param.type} ~`}
+      title={`Create technology~`}
       width={600}
     >
       <UpsertTechnologyForm form={form} onFinish={handleCreateTechnology} />
-    </Modal.FormWrapper>
+    </Drawer.FormWrapper>
   );
 }
 
-export default CreateTechnologyModal;
+export default CreateTechnologyDrawer;

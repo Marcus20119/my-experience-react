@@ -36,7 +36,7 @@ function FormWrapperModal({
       <Modal
         cancelText={t('common.button.cancel')}
         centered
-        destroyOnClose
+        destroyOnHidden
         maskClosable={false}
         okText={t('common.button.save')}
         {...props}

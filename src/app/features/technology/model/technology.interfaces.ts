@@ -1,13 +1,14 @@
 import type { IconType } from '@/shared/tanstack/api/technologies';
+import type { Maybe } from '@/shared/types';
 
 export interface UpsertTechnologyFormEntity {
   color1: string;
-  color2?: string;
-  color3?: string;
-  description?: string;
-  iconName?: string;
+  color2: Maybe<string>;
+  color3: Maybe<string>;
+  description: Maybe<string>;
+  iconFileKey: Maybe<string>;
+  iconName: Maybe<string>;
   iconType: IconType;
-  iconUrl?: string;
   name: string;
   rate?: number;
 }

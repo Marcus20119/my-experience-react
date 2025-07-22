@@ -12,7 +12,7 @@ interface Props {
   id?: string;
   onSuccess?: () => void;
   technologySectionId?: string;
-  technologyType: TechnologyType;
+  technologyType?: TechnologyType;
 }
 
 export const useDeleteTechnology = ({
@@ -25,11 +25,22 @@ export const useDeleteTechnology = ({
     mutationFn: technologyApi.deleteTechnology,
     onSuccess: () => {
       onSuccess?.();
-      queryClient.invalidateQueries({
-        queryKey: technologyQueries.all({
-          filter: { technologySectionId, technologyType },
-        }).queryKey,
-      });
+
+      if (technologySectionId) {
+        queryClient.invalidateQueries({
+          queryKey: technologyQueries.all({
+            filter: { technologySectionId },
+          }).queryKey,
+        });
+      }
+
+      if (technologyType) {
+        queryClient.invalidateQueries({
+          queryKey: technologyQueries.all({
+            filter: { technologyType },
+          }).queryKey,
+        });
+      }
 
       showSuccess({
         message: 'Technology deleted successfully! ~',

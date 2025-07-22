@@ -32,6 +32,11 @@ export const useCreateTechnology = ({
           filter: { technologySectionId },
         }).queryKey,
       });
+      queryClient.invalidateQueries({
+        queryKey: technologyQueries.all({
+          filter: { technologyType },
+        }).queryKey,
+      });
 
       showSuccess({
         message: 'Technology created successfully! ~',
@@ -45,12 +50,13 @@ export const useCreateTechnology = ({
       color2: input.color2,
       color3: input.color3,
       description: input.description,
+      iconFileKey:
+        input.iconType === IconType.Custom ? input.iconFileKey : undefined,
       iconName:
         input.iconType === IconType.Iconify ? input.iconName : undefined,
       iconType: input.iconType,
-      iconUrl: input.iconType === IconType.Custom ? input.iconUrl : undefined,
       name: input.name,
-      rate: input.rate,
+      rate: input.rate || 0,
       technologySectionId,
       technologyType,
     });

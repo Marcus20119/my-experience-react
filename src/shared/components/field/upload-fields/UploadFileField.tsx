@@ -23,7 +23,7 @@ import UploadedFile from './UploadedFile';
 
 const { Dragger } = Upload;
 const { Text } = Typography;
-const { getFileTypeFromName, joinFileUrl } = FileTool;
+const { getFileTypeFromName, joinFileUrl, splitFileUrl } = FileTool;
 const { getSlug } = TextTool;
 const { showError } = NotiTool;
 
@@ -66,39 +66,7 @@ function UploadFileField({
     mutationFn: storageApi.getPresignedUrl,
   });
 
-  const [files, setFiles] = useState<UploadedFileProps[]>(() => {
-    if (!value) {
-      return [];
-    }
-
-    if (multiple) {
-      return value.map(file => {
-        const name = file.split('/').pop() as string;
-        const type = getFileTypeFromName(name);
-
-        return {
-          id: uuidv4(),
-          loading: false,
-          name,
-          type,
-          url: file,
-        };
-      });
-    }
-
-    const name = value?.split('/').pop() as string;
-    const type = getFileTypeFromName(name);
-
-    return [
-      {
-        id: uuidv4(),
-        loading: false,
-        name,
-        type,
-        url: value,
-      },
-    ];
-  });
+  const [files, setFiles] = useState<UploadedFileProps[]>([]);
 
   const handleUpload = async (file: RcFile) => {
     const fileName = getSlug(file.name);
@@ -135,42 +103,51 @@ function UploadFileField({
     ]);
 
     // Handle api
-    const { key, uploadUrl } = await createTechnologySection({
-      bucketType,
-      category: fileCategory,
-      mimeType: fileType as unknown as MimeType,
-      name: fileName,
-      size: fileSize,
-    });
 
-    if (!uploadUrl) {
+    try {
+      const { key, uploadUrl } = await createTechnologySection({
+        bucketType,
+        category: fileCategory,
+        mimeType: fileType as unknown as MimeType,
+        name: fileName,
+        size: fileSize,
+      });
+
+      if (!uploadUrl) {
+        showError({
+          message: t('common.error.canNotUploadFile', { fileName: file.name }),
+        });
+        return;
+      }
+
+      await storageApi.uploadFile({
+        file,
+        preSignedRequest: uploadUrl,
+      });
+
+      setFiles(prev => {
+        const newFiles = prev.map(file => {
+          if (file.id === fileId) {
+            return {
+              ...file,
+              isBlob: false,
+              loading: false,
+              url: joinFileUrl(key, blobUrl),
+            };
+          }
+
+          return file;
+        });
+
+        return newFiles;
+      });
+    } catch (error) {
       showError({
         message: t('common.error.canNotUploadFile', { fileName: file.name }),
       });
-      return;
+
+      setFiles(prev => prev.filter(file => file.id !== fileId));
     }
-
-    await storageApi.uploadFile({
-      file,
-      preSignedRequest: uploadUrl,
-    });
-
-    setFiles(prev => {
-      const newFiles = prev.map(file => {
-        if (file.id === fileId) {
-          return {
-            ...file,
-            isBlob: false,
-            loading: false,
-            url: joinFileUrl(key, blobUrl),
-          };
-        }
-
-        return file;
-      });
-
-      return newFiles;
-    });
   };
 
   const allowedTypesText = useMemo(() => {
@@ -186,7 +163,7 @@ function UploadFileField({
       return `${types.join(', ')} ${t('common.conjunction.or')} ${lastType}`;
     }
 
-    return '';
+    return lastType;
   }, [acceptTypes, t]);
 
   const maxFileSizeText = useMemo(() => {
@@ -211,30 +188,40 @@ function UploadFileField({
 
   useEffect(() => {
     if (value?.length && !files.length && !isSetInitialFiles?.current) {
-      setFiles(
-        multiple
-          ? value.map(file => {
-              const name = file.split('/').pop() as string;
-              const type = getFileTypeFromName(name);
+      setFiles(() => {
+        if (!value) {
+          return [];
+        }
 
-              return {
-                id: uuidv4(),
-                loading: false,
-                name,
-                type,
-                url: file,
-              };
-            })
-          : [
-              {
-                id: uuidv4(),
-                loading: false,
-                name: value.split('/').pop() as string,
-                type: getFileTypeFromName(value.split('/').pop() as string),
-                url: value,
-              },
-            ],
-      );
+        if (multiple) {
+          return value.map(file => {
+            const { key, name } = splitFileUrl(file);
+
+            const type = getFileTypeFromName(name);
+
+            return {
+              id: uuidv4(),
+              loading: false,
+              name: name || key || 'unknown',
+              type,
+              url: file,
+            };
+          });
+        }
+
+        const { key, name } = splitFileUrl(value);
+        const type = getFileTypeFromName(name);
+
+        return [
+          {
+            id: uuidv4(),
+            loading: false,
+            name: name || key || 'unknown',
+            type,
+            url: value,
+          },
+        ];
+      });
 
       isSetInitialFiles.current = true;
     }

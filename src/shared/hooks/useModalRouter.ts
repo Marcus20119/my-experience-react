@@ -31,15 +31,14 @@ export const useModalRouter = <P extends ModalRouterPath>(path?: P) => {
   const location = useLocation();
 
   const param: PathProps<P> | undefined = useMemo(() => {
-    if (!path) {
+    if (!path || !location.hash.startsWith('#modal/')) {
       return undefined;
     }
 
     const paramsTmp = {} as Record<string, string>;
-    const hashValue = location.hash.split('#modal/')[1].split('/');
-    console.log(' hashValue:', hashValue);
+    const hashValue = location?.hash?.split('#modal/')[1]?.split('/');
 
-    (path as string).split('/').forEach((item: string, key: number) => {
+    (path as string)?.split('/')?.forEach((item: string, key: number) => {
       if (item.includes(':')) {
         paramsTmp[item.replace(':', '')] = hashValue[key];
       }

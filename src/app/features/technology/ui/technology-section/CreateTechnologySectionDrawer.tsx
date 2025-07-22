@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useCreateTechnologySection } from '@/app/features/technology/api';
 import type { UpsertTechnologySectionFormEntity } from '@/app/features/technology/model';
-import { Modal } from '@/shared/components';
+import { Drawer } from '@/shared/components';
 import { useAppRouter } from '@/shared/hooks';
 import type { TechnologyType } from '@/shared/tanstack/api/technologies';
 
@@ -13,7 +13,7 @@ interface Props {
   onCancel: () => void;
 }
 
-function CreateTechnologySectionModal({ onCancel }: Props) {
+function CreateTechnologySectionDrawer({ onCancel }: Props) {
   const { t } = useTranslation();
   const { navigate, param } = useAppRouter(
     '/technology-type/:type/technology-section/:section',
@@ -37,7 +37,7 @@ function CreateTechnologySectionModal({ onCancel }: Props) {
     });
 
   return (
-    <Modal.FormWrapper
+    <Drawer.FormWrapper
       okButtonProps={{
         loading: isPending,
         onClick: () => {
@@ -45,7 +45,7 @@ function CreateTechnologySectionModal({ onCancel }: Props) {
         },
       }}
       okText={t('common.button.create')}
-      onCancel={onCancel}
+      onClose={onCancel}
       open
       title={`Create section for ${param.type} ~`}
       width={600}
@@ -54,8 +54,8 @@ function CreateTechnologySectionModal({ onCancel }: Props) {
         form={form}
         onFinish={handleCreateTechnologySection}
       />
-    </Modal.FormWrapper>
+    </Drawer.FormWrapper>
   );
 }
 
-export default CreateTechnologySectionModal;
+export default CreateTechnologySectionDrawer;
