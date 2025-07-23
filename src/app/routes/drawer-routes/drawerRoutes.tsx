@@ -1,6 +1,8 @@
 import {
+  CreateKnowledgeGroupDrawer,
   CreateTechnologyDrawer,
   CreateTechnologySectionDrawer,
+  UpdateKnowledgeGroupDrawer,
   UpdateTechnologyDrawer,
   UpdateTechnologySectionDrawer,
 } from '@/app/features/technology';
@@ -43,6 +45,21 @@ export const DRAWER_ROUTES = [
       },
       {
         element: UpdateTechnologyDrawer,
+        match: 'update',
+        path: '/update/:id',
+      },
+    ],
+  },
+  {
+    path: 'knowledge-group',
+    routes: [
+      {
+        element: CreateKnowledgeGroupDrawer,
+        match: 'create',
+        path: '/create',
+      },
+      {
+        element: UpdateKnowledgeGroupDrawer,
         match: 'update',
         path: '/update/:id',
       },

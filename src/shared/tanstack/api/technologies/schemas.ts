@@ -198,3 +198,28 @@ export interface TechnologyQueryFilter {
   technologyType?: TechnologyType;
   technologySectionId?: string;
 }
+
+export interface KnowledgeGroupResponse {
+  id: string;
+  name: DisplayName;
+  description?: string | null;
+  knowledgeItems: BaseKnowledgeItemResponse[];
+  search: string;
+  technologyId: string;
+  technologySectionId?: string | null;
+}
+
+export interface CreateKnowledgeGroupInput {
+  name: DisplayName;
+  description?: string | null;
+  technologyId: string;
+}
+
+export interface UpdateKnowledgeGroupInput {
+  name?: DisplayName;
+  description?: string | null;
+}
+
+export interface KnowledgeGroupQueryFilter {
+  technologyId?: string;
+}

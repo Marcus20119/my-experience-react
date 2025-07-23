@@ -66,6 +66,16 @@ function TechnologyTypePage() {
         });
       },
     },
+    {
+      icon: <AddCircle size="16" />,
+      key: 'knowledge-group',
+      label: 'Knowledge group ~',
+      onClick: () => {
+        onOpenDrawer({
+          path: 'knowledge-group/create',
+        });
+      },
+    },
   ];
 
   return (

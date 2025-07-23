@@ -1,3 +1,4 @@
+export * from './knowledge-group.interfaces';
 export * from './technology-section.interfaces';
 export * from './technology.interfaces';
 export * from './useGetCloudItems';

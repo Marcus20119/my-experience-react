@@ -78,6 +78,15 @@ function TechnologySectionPage() {
             });
           },
         },
+        {
+          key: 'knowledge-group',
+          label: 'Knowledge group ~',
+          onClick: () => {
+            onOpenDrawer({
+              path: 'knowledge-group/create',
+            });
+          },
+        },
       ],
       key: 'create',
       label: (

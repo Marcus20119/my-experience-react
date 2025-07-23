@@ -21,6 +21,10 @@ export const TECHNOLOGY_ROUTES = [
   },
   {
     element: null,
-    path: 'technology-type/:type/technology/:technology',
+    path: 'technology-type/:type/technology-section/:section/technology/:id',
+  },
+  {
+    element: null,
+    path: 'technology-type/:type/technology/:id',
   },
 ] as const satisfies DeepReadonly<RouteObject[]>;
