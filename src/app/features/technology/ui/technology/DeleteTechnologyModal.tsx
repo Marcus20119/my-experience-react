@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 
-import { useSidebarStore } from '@/app/features/sidebar';
 import { useDeleteTechnology } from '@/app/features/technology/api';
 import { Modal } from '@/shared/components';
 import { useAppRouter, useModalRouter } from '@/shared/hooks';
@@ -22,24 +21,14 @@ function DeleteTechnologyModal({
   technologyType: technologyTypeFromProps,
 }: Props) {
   const { t } = useTranslation();
-  const { technologySkeleton } = useSidebarStore();
   const { param } = useModalRouter('technology/delete/:id');
   const {
     navigate,
-    param: { section, type },
-  } = useAppRouter('/technology-type/:type/technology-section/:section');
-
-  const technology = technologySkeleton?.find(
-    item => item.technologyType === type,
-  );
-
-  const technologySection = technology?.technologySections?.find(
-    item => item.slug === section,
-  );
+    param: { sectionId, type },
+  } = useAppRouter('/technology-type/:type/technology-section/:sectionId');
 
   const id = idFromProps || param?.id;
-  const technologySectionId =
-    technologySectionIdFromProps || technologySection?.id;
+  const technologySectionId = technologySectionIdFromProps || sectionId;
   const technologyType = technologyTypeFromProps || (type as TechnologyType);
 
   const { handleDeleteTechnology, isPending } = useDeleteTechnology({
@@ -48,13 +37,13 @@ function DeleteTechnologyModal({
       onCancel();
       onOk?.();
 
-      if (technologySection) {
+      if (sectionId) {
         navigate({
           param: {
-            section: technologySection.slug,
+            sectionId,
             type,
           },
-          path: '/technology-type/:type/technology-section/:section',
+          path: '/technology-type/:type/technology-section/:sectionId',
         });
       } else {
         navigate({

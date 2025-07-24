@@ -2,9 +2,13 @@ import { useMutation } from '@tanstack/react-query';
 
 import type { UpsertKnowledgeGroupFormEntity } from '@/app/features/technology/model';
 import { queryClient } from '@/lib/tanstack-client';
+import { useAppRouter } from '@/shared/hooks';
 import type { KnowledgeGroupResponse } from '@/shared/tanstack/api/technologies';
 import { knowledgeGroupApi } from '@/shared/tanstack/api/technologies';
-import { knowledgeGroupQueries } from '@/shared/tanstack/queries/technology';
+import {
+  knowledgeGroupQueries,
+  technologyQueries,
+} from '@/shared/tanstack/queries/technology';
 import { NotiTool } from '@/shared/utils';
 
 const { showSuccess } = NotiTool;
@@ -14,6 +18,12 @@ interface Props {
 }
 
 export const useCreateKnowledgeGroup = ({ onSuccess }: Props) => {
+  const {
+    param: { sectionId },
+  } = useAppRouter(
+    '/technology-type/:type/technology-section/:sectionId/technology/:id',
+  );
+
   const { isPending, mutate: createKnowledgeGroup } = useMutation({
     mutationFn: knowledgeGroupApi.createKnowledgeGroup,
     onSuccess: data => {
@@ -23,6 +33,14 @@ export const useCreateKnowledgeGroup = ({ onSuccess }: Props) => {
           filter: { technologyId: data.technologyId },
         }).queryKey,
       });
+
+      if (sectionId) {
+        queryClient.invalidateQueries({
+          queryKey: technologyQueries.all({
+            filter: { technologySectionId: sectionId },
+          }).queryKey,
+        });
+      }
 
       showSuccess({
         message: 'Knowledge group created successfully! ~',

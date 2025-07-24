@@ -15,9 +15,10 @@ interface Props {
 
 function CreateTechnologySectionDrawer({ onCancel }: Props) {
   const { t } = useTranslation();
-  const { navigate, param } = useAppRouter(
-    '/technology-type/:type/technology-section/:section',
-  );
+  const {
+    navigate,
+    param: { sectionId, type },
+  } = useAppRouter('/technology-type/:type/technology-section/:sectionId');
   const [form] = Form.useForm<UpsertTechnologySectionFormEntity>();
 
   const { handleCreateTechnologySection, isPending } =
@@ -27,13 +28,13 @@ function CreateTechnologySectionDrawer({ onCancel }: Props) {
 
         navigate({
           param: {
-            section: section.slug,
+            sectionId,
             type: section.technologyType,
           },
-          path: '/technology-type/:type/technology-section/:section',
+          path: '/technology-type/:type/technology-section/:sectionId',
         });
       },
-      technologyType: param.type as TechnologyType,
+      technologyType: type as TechnologyType,
     });
 
   return (
@@ -47,7 +48,7 @@ function CreateTechnologySectionDrawer({ onCancel }: Props) {
       okText={t('common.button.create')}
       onClose={onCancel}
       open
-      title={`Create section for ${param.type} ~`}
+      title={`Create section for ${type} ~`}
       width={600}
     >
       <UpsertTechnologySectionForm

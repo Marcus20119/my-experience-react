@@ -15,15 +15,15 @@ function DeleteTechnologySectionModal({ onCancel }: Props) {
   const { param } = useModalRouter('technology-section/delete/:id');
   const {
     navigate,
-    param: { section, type },
-  } = useAppRouter('/technology-type/:type/technology-section/:section');
+    param: { sectionId, type },
+  } = useAppRouter('/technology-type/:type/technology-section/:sectionId');
 
   const technology = technologySkeleton?.find(
     item => item.technologyType === type,
   );
 
   const nextSection = technology?.technologySections?.find(
-    item => item.slug !== section,
+    item => item.slug !== sectionId,
   );
 
   const { handleDeleteTechnologySection, isPending } =
@@ -35,10 +35,10 @@ function DeleteTechnologySectionModal({ onCancel }: Props) {
         if (nextSection) {
           navigate({
             param: {
-              section: nextSection.slug,
+              sectionId: nextSection.id,
               type,
             },
-            path: '/technology-type/:type/technology-section/:section',
+            path: '/technology-type/:type/technology-section/:sectionId',
           });
         } else {
           navigate({

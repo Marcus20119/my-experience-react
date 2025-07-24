@@ -3,7 +3,6 @@ import { Form } from 'antd';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useSidebarStore } from '@/app/features/sidebar';
 import { useUpdateKnowledgeGroup } from '@/app/features/technology/api';
 import type { UpsertKnowledgeGroupFormEntity } from '@/app/features/technology/model';
 import { Drawer } from '@/shared/components';
@@ -19,21 +18,13 @@ interface Props {
 
 function UpdateKnowledgeGroupDrawer({ onCancel }: Props) {
   const { t } = useTranslation();
-  const { technologySkeleton } = useSidebarStore();
   const { param } = useDrawerRouter('technology-section/update/:id');
   const {
-    param: { section, type },
+    param: { sectionId, type },
   } = useAppRouter(
-    '/technology-type/:type/technology-section/:section/technology/:id',
+    '/technology-type/:type/technology-section/:sectionId/technology/:id',
   );
   const [form] = Form.useForm<UpsertKnowledgeGroupFormEntity>();
-
-  const technology = technologySkeleton?.find(
-    item => item.technologyType === type,
-  );
-  const technologySection = technology?.technologySections?.find(
-    item => item.slug === section,
-  );
 
   const { data: knowledgeGroup, isFetched } = useQuery({
     ...knowledgeGroupQueries.detail(String(param?.id)),
@@ -74,7 +65,7 @@ function UpdateKnowledgeGroupDrawer({ onCancel }: Props) {
       <UpsertKnowledgeGroupForm
         form={form}
         onFinish={handleUpdateKnowledgeGroup}
-        technologySectionId={technologySection?.id}
+        technologySectionId={sectionId}
         technologyType={type as TechnologyType}
       />
     </Drawer.FormWrapper>

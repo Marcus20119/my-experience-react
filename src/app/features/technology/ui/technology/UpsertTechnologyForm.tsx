@@ -132,7 +132,16 @@ function UpsertTechnologyForm({ form, onFinish }: Props) {
             name="iconFileKey"
             rules={[{ required: iconType === IconType.Custom }]}
           >
-            <Field.UploadFile acceptTypes={[FileType.Svg]} maxFileSize={5} />
+            <Field.UploadFile
+              acceptTypes={[
+                FileType.Svg,
+                FileType.Png,
+                FileType.Jpg,
+                FileType.Jpeg,
+                FileType.Gif,
+              ]}
+              maxFileSize={5}
+            />
           </Form.Item>
         </Col>
 

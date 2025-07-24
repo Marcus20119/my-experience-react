@@ -42,10 +42,10 @@ function UpdateTechnologySectionDrawer({ onCancel }: Props) {
 
         navigate({
           param: {
-            section: section.slug,
+            sectionId: section.id,
             type: section.technologyType,
           },
-          path: '/technology-type/:type/technology-section/:section',
+          path: '/technology-type/:type/technology-section/:sectionId',
         });
       },
     });

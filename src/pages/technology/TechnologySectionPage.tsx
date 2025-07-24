@@ -18,19 +18,18 @@ const { Text } = Typography;
 
 function TechnologySectionPage() {
   const { t } = useTranslation();
-  const { param } = useAppRouter(
-    '/technology-type/:type/technology-section/:section',
-  );
+  const {
+    param: { sectionId, type },
+  } = useAppRouter('/technology-type/:type/technology-section/:sectionId');
   const { onOpenModal } = useModalRouter();
   const { onOpenDrawer } = useDrawerRouter();
   const { technologySkeleton } = useSidebarStore();
 
   const technology = technologySkeleton?.find(
-    item => item.technologyType === param.type,
+    item => item.technologyType === type,
   );
-
   const section = technology?.technologySections?.find(
-    section => section.slug === param.section,
+    section => section.id === sectionId,
   );
 
   const breadCrumb: BreadcrumbItem[] = [
@@ -50,10 +49,10 @@ function TechnologySectionPage() {
       label: displayContentTranslation(section.name),
       route: {
         param: {
-          section: section.slug,
+          sectionId: section.id,
           type: technology.technologyType,
         },
-        path: '/technology-type/:type/technology-section/:section',
+        path: '/technology-type/:type/technology-section/:sectionId',
       },
     })) || [];
 

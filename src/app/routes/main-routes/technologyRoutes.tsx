@@ -17,11 +17,11 @@ export const TECHNOLOGY_ROUTES = [
   },
   {
     element: <TechnologySectionPage />,
-    path: 'technology-type/:type/technology-section/:section',
+    path: 'technology-type/:type/technology-section/:sectionId',
   },
   {
     element: null,
-    path: 'technology-type/:type/technology-section/:section/technology/:id',
+    path: 'technology-type/:type/technology-section/:sectionId/technology/:id',
   },
   {
     element: null,

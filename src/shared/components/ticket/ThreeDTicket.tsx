@@ -77,7 +77,13 @@ function ThreeDTicket({
           )}
           {description ? <p className="card-content">{description}</p> : null}
           {route ? (
-            <Link className="see-more" to={String(getNavigatePath(route))}>
+            <Link
+              className="see-more"
+              onClick={e => {
+                e.stopPropagation();
+              }}
+              to={String(getNavigatePath(route))}
+            >
               {t('common.button.seeMore')}
             </Link>
           ) : null}
