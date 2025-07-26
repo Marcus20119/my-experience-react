@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Flex, Typography } from 'antd';
 import type { ItemType } from 'antd/es/menu/interface';
 import { AddCircle, Edit2, Trash } from 'iconsax-react';
-import { capitalize } from 'lodash-es';
+import capitalize from 'lodash-es/capitalize';
 import { useTranslation } from 'react-i18next';
 
 import type { BreadcrumbItem, HeaderTabItem } from '@/app/features/header';
@@ -31,6 +31,18 @@ function TechnologySectionPage() {
   const section = technology?.technologySections?.find(
     section => section.id === sectionId,
   );
+
+  // FIX_ME: handle loading
+  const { data } = useQuery({
+    ...technologyQueries.all({
+      filter: {
+        technologySectionId: section?.id,
+      },
+    }),
+    enabled: !!section?.id,
+  });
+
+  const technologies = data?.items || [];
 
   const breadCrumb: BreadcrumbItem[] = [
     {
@@ -96,7 +108,6 @@ function TechnologySectionPage() {
       ),
       type: 'group',
     },
-
     {
       icon: <Edit2 size="16" />,
       key: 'update',
@@ -125,16 +136,6 @@ function TechnologySectionPage() {
     },
   ];
 
-  // FIX_ME: handle loading
-  const { data } = useQuery({
-    ...technologyQueries.all({
-      filter: {
-        technologySectionId: section?.id,
-      },
-    }),
-    enabled: !!section?.id,
-  });
-
   return (
     <ContentLayout
       actionItems={actionItems}
@@ -143,7 +144,7 @@ function TechnologySectionPage() {
       title={displayContentTranslation(section?.name)}
     >
       <Flex className="h-fit" gap="1.5rem" wrap>
-        {data?.items.map(technology => (
+        {technologies.map(technology => (
           <TechnologyTicket
             key={technology.id}
             onClick={() => {

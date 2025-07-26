@@ -23,7 +23,7 @@ function DeleteTechnologySectionModal({ onCancel }: Props) {
   );
 
   const nextSection = technology?.technologySections?.find(
-    item => item.slug !== sectionId,
+    item => item.id !== sectionId,
   );
 
   const { handleDeleteTechnologySection, isPending } =

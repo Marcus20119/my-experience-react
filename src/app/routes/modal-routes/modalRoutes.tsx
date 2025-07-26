@@ -1,4 +1,5 @@
 import {
+  DeleteKnowledgeGroupModal,
   DeleteTechnologyModal,
   DeleteTechnologySectionModal,
 } from '@/app/features/technology';
@@ -31,6 +32,16 @@ export const MODAL_ROUTES = [
     routes: [
       {
         element: DeleteTechnologyModal,
+        match: 'delete',
+        path: '/delete/:id',
+      },
+    ],
+  },
+  {
+    path: 'knowledge-group',
+    routes: [
+      {
+        element: DeleteKnowledgeGroupModal,
         match: 'delete',
         path: '/delete/:id',
       },

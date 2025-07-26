@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 import type { RouteObject } from 'react-router-dom';
 
+import TechnologyDetailPage from '@/pages/technology/TechnologyDetailPage';
 import type { DeepReadonly } from '@/shared/types';
 
 const TechnologyTypePage = lazy(
@@ -20,11 +21,11 @@ export const TECHNOLOGY_ROUTES = [
     path: 'technology-type/:type/technology-section/:sectionId',
   },
   {
-    element: null,
-    path: 'technology-type/:type/technology-section/:sectionId/technology/:id',
+    element: <TechnologyDetailPage />,
+    path: 'technology-type/:type/technology-section/:sectionId/technology/:technologyId',
   },
   {
-    element: null,
-    path: 'technology-type/:type/technology/:id',
+    element: <TechnologyDetailPage />,
+    path: 'technology-type/:type/technology/:technologyId',
   },
 ] as const satisfies DeepReadonly<RouteObject[]>;

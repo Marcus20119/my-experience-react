@@ -16,11 +16,13 @@ import { technologyQueries } from '@/shared/tanstack/queries/technology';
 function TechnologyTypePage() {
   const { t } = useTranslation();
   const { technologySkeleton } = useSidebarStore();
-  const { param } = useAppRouter('/technology-type/:type');
+  const {
+    param: { type },
+  } = useAppRouter('/technology-type/:type');
   const { onOpenDrawer } = useDrawerRouter();
 
-  const technology = technologySkeleton?.find(
-    item => item.technologyType === param.type,
+  const technologyType = technologySkeleton?.find(
+    item => item.technologyType === type,
   );
 
   const breadCrumb: BreadcrumbItem[] = [
@@ -28,7 +30,7 @@ function TechnologyTypePage() {
       title: t('layout.title.technology'),
     },
     {
-      title: capitalize(technology?.technologyType),
+      title: capitalize(technologyType?.technologyType),
     },
   ];
 
@@ -36,10 +38,10 @@ function TechnologyTypePage() {
   const { data } = useQuery({
     ...technologyQueries.all({
       filter: {
-        technologyType: param.type as TechnologyType,
+        technologyType: type as TechnologyType,
       },
     }),
-    enabled: !!param.type,
+    enabled: !!type,
   });
 
   const technologies = data?.items;
@@ -82,7 +84,7 @@ function TechnologyTypePage() {
     <ContentLayout
       actionItems={actionItems}
       breadCrumb={breadCrumb}
-      title={capitalize(technology?.technologyType)}
+      title={capitalize(technologyType?.technologyType)}
     >
       <Flex className="h-fit" gap="1.5rem" wrap>
         {data?.items.map(technology => (

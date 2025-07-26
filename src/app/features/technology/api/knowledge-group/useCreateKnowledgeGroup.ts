@@ -21,7 +21,7 @@ export const useCreateKnowledgeGroup = ({ onSuccess }: Props) => {
   const {
     param: { sectionId },
   } = useAppRouter(
-    '/technology-type/:type/technology-section/:sectionId/technology/:id',
+    '/technology-type/:type/technology-section/:sectionId/technology/:technologyId',
   );
 
   const { isPending, mutate: createKnowledgeGroup } = useMutation({

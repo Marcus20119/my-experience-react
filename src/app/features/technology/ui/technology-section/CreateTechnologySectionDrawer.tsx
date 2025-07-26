@@ -17,7 +17,7 @@ function CreateTechnologySectionDrawer({ onCancel }: Props) {
   const { t } = useTranslation();
   const {
     navigate,
-    param: { sectionId, type },
+    param: { type },
   } = useAppRouter('/technology-type/:type/technology-section/:sectionId');
   const [form] = Form.useForm<UpsertTechnologySectionFormEntity>();
 
@@ -28,7 +28,7 @@ function CreateTechnologySectionDrawer({ onCancel }: Props) {
 
         navigate({
           param: {
-            sectionId,
+            sectionId: section.id,
             type: section.technologyType,
           },
           path: '/technology-type/:type/technology-section/:sectionId',

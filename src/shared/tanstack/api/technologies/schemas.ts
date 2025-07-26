@@ -205,8 +205,9 @@ export interface KnowledgeGroupResponse {
   description?: string | null;
   knowledgeItems: BaseKnowledgeItemResponse[];
   search: string;
+  technologyType: TechnologyType;
+  technologySectionId?: string;
   technologyId: string;
-  technologySectionId?: string | null;
 }
 
 export interface CreateKnowledgeGroupInput {

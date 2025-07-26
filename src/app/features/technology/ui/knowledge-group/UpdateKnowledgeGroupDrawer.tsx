@@ -22,7 +22,7 @@ function UpdateKnowledgeGroupDrawer({ onCancel }: Props) {
   const {
     param: { sectionId, type },
   } = useAppRouter(
-    '/technology-type/:type/technology-section/:sectionId/technology/:id',
+    '/technology-type/:type/technology-section/:sectionId/technology/:technologyId',
   );
   const [form] = Form.useForm<UpsertKnowledgeGroupFormEntity>();
 

@@ -24,20 +24,20 @@ function TechnologyTicket({ technology, ...props }: Props) {
     if (technology?.technologySectionId) {
       return {
         param: {
-          id: String(technology.id),
           sectionId: String(technology.technologySectionId),
+          technologyId: String(technology.id),
           type: String(technology.technologyType),
         },
-        path: '/technology-type/:type/technology-section/:sectionId/technology/:id',
+        path: '/technology-type/:type/technology-section/:sectionId/technology/:technologyId',
       };
     }
 
     return {
       param: {
-        id: String(technology.id),
+        technologyId: String(technology.id),
         type: String(technology.technologyType),
       },
-      path: '/technology-type/:type/technology/:id',
+      path: '/technology-type/:type/technology/:technologyId',
     };
   }, [
     technology.id,
