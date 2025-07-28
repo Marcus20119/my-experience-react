@@ -30,6 +30,7 @@ function UpdateTechnologySectionDrawer({ onCancel }: Props) {
     if (isFetched) {
       form.setFieldsValue({
         name: section?.name,
+        technologyType: section?.technologyType,
       });
     }
   }, [isFetched]);

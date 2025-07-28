@@ -2,7 +2,7 @@ import { Flex } from 'antd';
 
 import type { FloorPlanEditorExternalContextProps } from '../context';
 import { FloorPlanEditorProvider } from '../context';
-import { FLOOR_PLAN_SIZE } from '../model';
+import { FLOOR_PLAN_EDITOR_SIZE } from '../model';
 import { FloorPlanFooter } from './footer';
 import { FloorPlanHeader } from './header';
 import RoomMenu from './RoomMenu';
@@ -30,7 +30,7 @@ function FloorPlanEditor({ floorPlanUrl, height, initialRooms, width }: Props) {
         gap="1rem"
         style={{
           height,
-          padding: FLOOR_PLAN_SIZE.padding,
+          padding: FLOOR_PLAN_EDITOR_SIZE.padding,
           width,
         }}
       >
@@ -40,7 +40,7 @@ function FloorPlanEditor({ floorPlanUrl, height, initialRooms, width }: Props) {
         <div
           className="flex-1 transition-all duration-300"
           style={{
-            height: height - FLOOR_PLAN_SIZE.padding * 2,
+            height: height - FLOOR_PLAN_EDITOR_SIZE.padding * 2,
           }}
         >
           <FloorPlanHeader />

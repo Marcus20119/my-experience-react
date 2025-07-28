@@ -46,6 +46,14 @@ function TechnologyDetailPage() {
         title: t('layout.title.technology'),
       },
       {
+        route: !section
+          ? {
+              param: {
+                type: String(technologyType?.technologyType),
+              },
+              path: '/technology-type/:type',
+            }
+          : undefined,
         title: capitalize(technologyType?.technologyType),
       },
       {
@@ -64,13 +72,7 @@ function TechnologyDetailPage() {
     ];
 
     return breadCrumb?.filter(item => !!item.title);
-  }, [
-    t,
-    technologyType?.technologyType,
-    section?.id,
-    section?.name,
-    technology,
-  ]);
+  }, [t, section, technologyType?.technologyType, technology]);
 
   const actionItems: ItemType[] = [
     {

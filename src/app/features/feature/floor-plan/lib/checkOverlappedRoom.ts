@@ -1,6 +1,9 @@
-import type { RoomEntity } from '../model';
+import type { FloorPlanRoomItemEntity } from '../model';
 
-export const checkOverlappedRoom = (roomA: RoomEntity, roomB: RoomEntity) => {
+export const checkOverlappedRoom = (
+  roomA: FloorPlanRoomItemEntity,
+  roomB: FloorPlanRoomItemEntity,
+) => {
   const { shape: shapeA } = roomA;
   const { shape: shapeB } = roomB;
 

@@ -2,10 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import type { UpsertTechnologyFormEntity } from '@/app/features/technology/model';
 import { queryClient } from '@/lib/tanstack-client';
-import type {
-  TechnologyResponse,
-  TechnologyType,
-} from '@/shared/tanstack/api/technologies';
+import type { TechnologyResponse } from '@/shared/tanstack/api/technologies';
 import { IconType, technologyApi } from '@/shared/tanstack/api/technologies';
 import { technologyQueries } from '@/shared/tanstack/queries/technology';
 import { NotiTool } from '@/shared/utils';
@@ -14,28 +11,15 @@ const { showSuccess } = NotiTool;
 
 interface Props {
   onSuccess?: (technology: TechnologyResponse) => void;
-  technologySectionId?: string;
-  technologyType: TechnologyType;
 }
 
-export const useCreateTechnology = ({
-  onSuccess,
-  technologySectionId,
-  technologyType,
-}: Props) => {
+export const useCreateTechnology = ({ onSuccess }: Props) => {
   const { isPending, mutate: createTechnology } = useMutation({
     mutationFn: technologyApi.createTechnology,
     onSuccess: data => {
       onSuccess?.(data);
       queryClient.invalidateQueries({
-        queryKey: technologyQueries.all({
-          filter: { technologySectionId },
-        }).queryKey,
-      });
-      queryClient.invalidateQueries({
-        queryKey: technologyQueries.all({
-          filter: { technologyType },
-        }).queryKey,
+        queryKey: technologyQueries.all({}).queryKey,
       });
 
       showSuccess({
@@ -57,8 +41,8 @@ export const useCreateTechnology = ({
       iconType: input.iconType,
       name: input.name,
       rate: input.rate || 0,
-      technologySectionId,
-      technologyType,
+      technologySectionId: input.technologySectionId,
+      technologyType: input.technologyType,
     });
   };
 

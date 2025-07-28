@@ -3,6 +3,7 @@ import {
   DeleteTechnologyModal,
   DeleteTechnologySectionModal,
 } from '@/app/features/technology';
+import { DeleteKnowledgeItemModal } from '@/app/features/technology/ui/knowledge-item';
 import FormModal from '@/pages/component/form/FormModal';
 import type { DeepReadonly } from '@/shared/types';
 
@@ -42,6 +43,16 @@ export const MODAL_ROUTES = [
     routes: [
       {
         element: DeleteKnowledgeGroupModal,
+        match: 'delete',
+        path: '/delete/:id',
+      },
+    ],
+  },
+  {
+    path: 'knowledge-item',
+    routes: [
+      {
+        element: DeleteKnowledgeItemModal,
         match: 'delete',
         path: '/delete/:id',
       },

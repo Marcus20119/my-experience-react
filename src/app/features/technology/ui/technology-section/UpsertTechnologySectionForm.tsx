@@ -4,6 +4,8 @@ import type { FormInstance } from 'antd/lib';
 import type { UpsertTechnologySectionFormEntity } from '@/app/features/technology/model';
 import { Field } from '@/shared/components';
 
+import { TechnologyTypeSelect } from '../technology-type';
+
 interface Props {
   form: FormInstance<UpsertTechnologySectionFormEntity>;
   onFinish?: (values: UpsertTechnologySectionFormEntity) => void;
@@ -30,6 +32,14 @@ function UpsertTechnologySectionForm({ form, onFinish }: Props) {
         name={['name', 'translations']}
       >
         <Field.ContentTranslation placeholder="Enter display name ~" />
+      </Form.Item>
+
+      <Form.Item<UpsertTechnologySectionFormEntity>
+        label="Technology type ~"
+        name="technologyType"
+        rules={[{ required: true }]}
+      >
+        <TechnologyTypeSelect />
       </Form.Item>
     </Form>
   );

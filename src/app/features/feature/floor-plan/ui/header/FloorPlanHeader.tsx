@@ -2,7 +2,7 @@ import { Flex, Image, InputNumber, Slider } from 'antd';
 
 import { useFloorPlanEditorContext } from '@/app/features/feature/floor-plan/context';
 import {
-  FLOOR_PLAN_SIZE,
+  FLOOR_PLAN_EDITOR_SIZE,
   MAX_DESK_SIZE,
   MIN_DESK_SIZE,
 } from '@/app/features/feature/floor-plan/model';
@@ -16,7 +16,7 @@ function FloorPlanHeader() {
       className="w-full px-4"
       justify="space-between"
       style={{
-        height: FLOOR_PLAN_SIZE.headerHeight,
+        height: FLOOR_PLAN_EDITOR_SIZE.headerHeight,
       }}
     >
       <Flex align="center" gap="0.75rem">

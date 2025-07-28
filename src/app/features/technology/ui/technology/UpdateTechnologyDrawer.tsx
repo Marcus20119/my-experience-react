@@ -43,6 +43,8 @@ function UpdateTechnologyDrawer({ onCancel }: Props) {
         iconType: technology?.iconType,
         name: technology?.name,
         rate: technology?.rate,
+        technologySectionId: technology?.technologySectionId,
+        technologyType: technology?.technologyType,
       });
     }
   }, [isFetched]);
@@ -87,8 +89,6 @@ function UpdateTechnologyDrawer({ onCancel }: Props) {
           id={param?.id}
           onCancel={onCloseDeleteModal}
           onOk={onCancel}
-          technologySectionId={technology?.technologySectionId}
-          technologyType={technology?.technologyType}
         />
       ) : null}
     </>

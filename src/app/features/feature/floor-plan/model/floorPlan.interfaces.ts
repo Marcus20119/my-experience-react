@@ -1,16 +1,36 @@
 /* eslint-disable perfectionist/sort-interfaces */
-export interface DeskEntity {
+export interface FloorPlanRoomShapeEntity {
   id: string;
-  name: string;
-  shape?: DeskShapeEntity;
+  zIndex: number;
+  height: number;
+  width: number;
+  x: number;
+  y: number;
+  rotation?: number;
+  isOverlapped?: boolean;
 }
 
-export interface RoomEntity {
-  isActive: boolean;
-  desks?: DeskEntity[];
+export interface FloorPlanDeskShapeEntity {
+  id: string;
+  zIndex: number;
+  x: number;
+  y: number;
+  rotation?: number;
+  isDuplicated?: boolean;
+}
+
+export interface FloorPlanDeskItemEntity {
   id: string;
   name: string;
-  shape?: RoomShapeEntity;
+  shape?: FloorPlanDeskShapeEntity;
+}
+
+export interface FloorPlanRoomItemEntity {
+  isActive: boolean;
+  desks?: FloorPlanDeskItemEntity[];
+  id: string;
+  name: string;
+  shape?: FloorPlanRoomShapeEntity;
 }
 
 export interface FloorPlanSize {
@@ -18,22 +38,13 @@ export interface FloorPlanSize {
   width: number;
 }
 
-export interface RoomShapeEntity {
-  id: string;
-  zIndex: number;
-  height: number;
-  width: number;
-  x: number;
-  y: number;
-  rotation?: number;
-  isOverlapped?: boolean;
+export interface FloorPlanValue {
+  rooms: FloorPlanRoomItemEntity[];
+  floorPlanImage?: string;
+  deskSize: number;
 }
 
-export interface DeskShapeEntity {
-  id: string;
-  zIndex: number;
-  x: number;
-  y: number;
-  rotation?: number;
-  isOverlapped?: boolean;
+export interface FloorPlanRef {
+  getData: () => FloorPlanValue;
+  resetData: () => void;
 }

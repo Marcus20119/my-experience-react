@@ -23,6 +23,9 @@ import { IconType } from '@/shared/tanstack/api/technologies';
 import { FileType } from '@/shared/types';
 import { FileTool } from '@/shared/utils/file';
 
+import { TechnologySectionSelect } from '../technology-section';
+import { TechnologyTypeSelect } from '../technology-type';
+
 const { splitFileUrl } = FileTool;
 
 interface Props {
@@ -35,6 +38,7 @@ function UpsertTechnologyForm({ form, onFinish }: Props) {
 
   const { width } = useWindowDimensions();
   const iconType = Form.useWatch('iconType', form);
+  const technologyType = Form.useWatch('technologyType', form);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -64,6 +68,31 @@ function UpsertTechnologyForm({ form, onFinish }: Props) {
             rules={[{ required: true }]}
           >
             <Input placeholder="Enter name ~" />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item<UpsertTechnologyFormEntity>
+            label="Technology type ~"
+            name="technologyType"
+            rules={[{ required: true }]}
+          >
+            <TechnologyTypeSelect
+              onChange={() => {
+                form.resetFields(['technologySectionId']);
+              }}
+            />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item<UpsertTechnologyFormEntity>
+            label="Technology section ~"
+            name="technologySectionId"
+          >
+            <TechnologySectionSelect
+              allowClear
+              disabled={!technologyType}
+              technologyType={technologyType}
+            />
           </Form.Item>
         </Col>
         <Col span={12}>

@@ -27,11 +27,13 @@ const getKnowledgeGroups = async ({
   });
 
   if (filter?.technologyId) {
-    queryString += `&technologyId=${filter.technologyId}`;
+    queryString += `technologyId=${filter.technologyId}&`;
   }
 
+  queryString = `?${queryString}`.slice(0, -1);
+
   const response = await request.get<PaginatedResponse<KnowledgeGroupResponse>>(
-    `/knowledge-groups?${queryString}`,
+    `/knowledge-groups${queryString}`,
   );
 
   return response.data.data;

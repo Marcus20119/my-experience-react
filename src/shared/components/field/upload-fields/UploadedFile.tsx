@@ -31,7 +31,6 @@ function UploadedFile({
   file: { id, isBlob, loading, name, type, url },
   onRemove,
 }: Props) {
-  console.log('🚀 ~ url:', url);
   return (
     <Flex
       align="center"

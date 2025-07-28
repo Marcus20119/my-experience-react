@@ -1,4 +1,5 @@
 import { Form } from 'antd';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useCreateTechnologySection } from '@/app/features/technology/api';
@@ -34,8 +35,13 @@ function CreateTechnologySectionDrawer({ onCancel }: Props) {
           path: '/technology-type/:type/technology-section/:sectionId',
         });
       },
+    });
+
+  useEffect(() => {
+    form.setFieldsValue({
       technologyType: type as TechnologyType,
     });
+  }, [form, type]);
 
   return (
     <Drawer.FormWrapper

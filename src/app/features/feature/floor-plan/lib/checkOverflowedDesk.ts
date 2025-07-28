@@ -1,11 +1,11 @@
-import type { RoomEntity } from '../model';
+import type { FloorPlanRoomItemEntity } from '../model';
 
 interface Props {
   deskPosition: {
     x: number;
     y: number;
   };
-  room?: RoomEntity;
+  room?: FloorPlanRoomItemEntity;
 }
 
 export const checkOverflowedDesk = ({ deskPosition, room }: Props) => {

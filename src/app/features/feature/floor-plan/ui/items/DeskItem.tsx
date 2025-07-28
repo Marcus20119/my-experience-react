@@ -6,13 +6,13 @@ import useImage from 'use-image';
 import { useFloorPlanEditorContext } from '@/app/features/feature/floor-plan/context';
 import { checkOverflowedDesk } from '@/app/features/feature/floor-plan/lib';
 import type {
-  DeskEntity,
-  DeskShapeEntity,
+  FloorPlanDeskItemEntity,
+  FloorPlanDeskShapeEntity,
 } from '@/app/features/feature/floor-plan/model';
 import { COLOR } from '@/shared/assets/styles/constants';
 
 interface Props {
-  desk: DeskEntity;
+  desk: FloorPlanDeskItemEntity;
 }
 
 function DeskItem({ desk }: Props) {
@@ -102,7 +102,7 @@ function DeskItem({ desk }: Props) {
       const x = (node.x() * 100) / stageSize.width;
       const y = (node.y() * 100) / stageSize.height;
 
-      const newShape: DeskShapeEntity = {
+      const newShape: FloorPlanDeskShapeEntity = {
         ...desk?.shape,
         x,
         y,
@@ -165,7 +165,7 @@ function DeskItem({ desk }: Props) {
       const x = (node.x() * 100) / stageSize.width;
       const y = (node.y() * 100) / stageSize.height;
 
-      const newShape: DeskShapeEntity = {
+      const newShape: FloorPlanDeskShapeEntity = {
         ...desk.shape,
         rotation: node.rotation(),
         x,

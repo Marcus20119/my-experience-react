@@ -63,7 +63,7 @@ function RoomMenu() {
               </Paragraph>
               <Flex gap="0.5rem">
                 {desk?.shape ? (
-                  <Status isOverlapped={desk?.shape?.isOverlapped} />
+                  <Status isOverlapped={desk?.shape?.isDuplicated} />
                 ) : (
                   <Tooltip
                     title={

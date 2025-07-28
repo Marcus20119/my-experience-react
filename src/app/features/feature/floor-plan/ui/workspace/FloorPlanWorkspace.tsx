@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { useFloorPlanEditorContext } from '@/app/features/feature/floor-plan/context';
 import { checkOverflowedDesk } from '@/app/features/feature/floor-plan/lib';
-import type { RoomShapeEntity } from '@/app/features/feature/floor-plan/model';
+import type { FloorPlanRoomShapeEntity } from '@/app/features/feature/floor-plan/model';
 
 import FloorPlanItem from '../items';
 import FloorPlanImageLayer from './FloorPlanImageLayer';
@@ -32,7 +32,7 @@ function FloorPlanWorkspace() {
     workspaceSize,
   } = useFloorPlanEditorContext();
 
-  const [newRoomShape, setNewRoomShape] = useState<RoomShapeEntity>();
+  const [newRoomShape, setNewRoomShape] = useState<FloorPlanRoomShapeEntity>();
 
   const handleMouseDown = (e: KonvaEventObject<MouseEvent>) => {
     const { x: pointerX, y: pointerY } = e.target

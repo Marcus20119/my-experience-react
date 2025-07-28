@@ -20,9 +20,7 @@ export const useUpdateKnowledgeGroup = ({ id, onSuccess }: Props) => {
     onSuccess: data => {
       onSuccess?.(data);
       queryClient.invalidateQueries({
-        queryKey: knowledgeGroupQueries.all({
-          filter: { technologyId: data.technologyId },
-        }).queryKey,
+        queryKey: knowledgeGroupQueries.all({}).queryKey,
       });
       queryClient.invalidateQueries({
         queryKey: knowledgeGroupQueries.detail(String(id)).queryKey,

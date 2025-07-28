@@ -28,14 +28,16 @@ const getTechnologySections = async ({
   });
 
   if (filter?.technologyType) {
-    queryString += `&technologyType=${filter.technologyType}`;
+    queryString += `technologyType=${filter.technologyType}&`;
   }
+
+  queryString = `?${queryString}`.slice(0, -1);
 
   const response = await request.get<
     PaginatedResponse<TechnologySectionResponse>
-  >(`/technology-sections?${queryString}`);
+  >(`/technology-sections${queryString}`);
 
-  return response.data;
+  return response.data.data;
 };
 
 const getTechnologySection = async (id: string) => {

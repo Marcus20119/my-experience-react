@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 import { queryClient } from '@/lib/tanstack-client';
 import { knowledgeGroupApi } from '@/shared/tanstack/api/technologies';
@@ -16,25 +16,16 @@ interface Props {
 }
 
 export const useDeleteKnowledgeGroup = ({ id, onSuccess }: Props) => {
-  const { data: knowledgeGroup } = useQuery({
-    ...knowledgeGroupQueries.detail(String(id)),
-    enabled: !!id,
-  });
-
   const { isPending, mutate: deleteKnowledgeGroup } = useMutation({
     mutationFn: knowledgeGroupApi.deleteKnowledgeGroup,
     onSuccess: () => {
       onSuccess?.();
-      queryClient.invalidateQueries({
-        queryKey: knowledgeGroupQueries.all({
-          filter: { technologyId: knowledgeGroup?.technologyId },
-        }).queryKey,
-      });
 
       queryClient.invalidateQueries({
-        queryKey: technologyQueries.all({
-          filter: { technologySectionId: knowledgeGroup?.technologySectionId },
-        }).queryKey,
+        queryKey: knowledgeGroupQueries.all({}).queryKey,
+      });
+      queryClient.invalidateQueries({
+        queryKey: technologyQueries.all({}).queryKey,
       });
 
       showSuccess({

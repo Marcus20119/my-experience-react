@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { v4 as uuidv4 } from 'uuid';
 
-import type { RoomEntity } from '@/app/features/feature/floor-plan';
+import type { FloorPlanRoomItemEntity } from '@/app/features/feature/floor-plan';
 import { FloorPlanEditor } from '@/app/features/feature/floor-plan';
 import { type BreadcrumbItem, useHeaderStore } from '@/app/features/header';
 import { useSidebarStore } from '@/app/features/sidebar';
@@ -26,7 +26,7 @@ function FloorPlanPage() {
     },
   ];
 
-  const mockedRooms: RoomEntity[] = [
+  const mockedRooms: FloorPlanRoomItemEntity[] = [
     {
       desks: [
         {

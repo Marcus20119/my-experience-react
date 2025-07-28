@@ -2,14 +2,17 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import { useQuery } from '@tanstack/react-query';
 import { Button, Collapse, Dropdown, Flex, Typography } from 'antd';
 import type { ItemType } from 'antd/es/menu/interface';
-import { ArrowDown2, Edit2, Trash } from 'iconsax-react';
+import { AddCircle, ArrowUp2, Edit2, Trash } from 'iconsax-react';
 import { useTranslation } from 'react-i18next';
 
 import { cn } from '@/lib/tailwind';
+import { COLOR } from '@/shared/assets/styles/constants';
 import { displayContentTranslation } from '@/shared/components/field/i18n-fields';
 import { useDrawerRouter, useModalRouter } from '@/shared/hooks';
 import type { KnowledgeGroupResponse } from '@/shared/tanstack/api/technologies';
 import { knowledgeGroupQueries } from '@/shared/tanstack/queries/technology';
+
+import { KnowledgeItemList } from '../knowledge-item';
 
 const { Text } = Typography;
 
@@ -41,6 +44,30 @@ function KnowledgeGroupCollapse({ technologyId }: Props) {
   const getCollapseItems = (group: KnowledgeGroupResponse) => {
     const actionItems: ItemType[] = [
       {
+        children: [
+          {
+            key: 'knowledge-item',
+            label: 'Knowledge Item ~',
+            onClick: () => {
+              onOpenDrawer({
+                param: {
+                  groupId: String(group?.id),
+                },
+                path: 'knowledge-item/create/:groupId',
+              });
+            },
+          },
+        ],
+        key: 'create',
+        label: (
+          <Flex align="center" gap="0.5rem">
+            <AddCircle color={COLOR.neutral['700']} size="16" />
+            <Text>{t('common.button.create')}</Text>
+          </Flex>
+        ),
+        type: 'group',
+      },
+      {
         icon: <Edit2 size="16" />,
         key: 'update',
         label: t('common.button.update'),
@@ -70,7 +97,8 @@ function KnowledgeGroupCollapse({ technologyId }: Props) {
 
     return [
       {
-        children: 'hehe con cặc',
+        children: <KnowledgeItemList knowledgeItems={group.knowledgeItems} />,
+        key: group.id,
         label: (
           <Flex align="center" gap="0.75rem">
             <Text className="text-base font-semibold">
@@ -113,12 +141,13 @@ function KnowledgeGroupCollapse({ technologyId }: Props) {
   };
 
   return (
-    <Flex className="w-full" gap="0.5rem" vertical>
+    <Flex className="w-full" gap="0.75rem" vertical>
       {knowledgeGroups?.map(group => (
         <Collapse
+          defaultActiveKey={[group.id]}
           destroyOnHidden
           expandIcon={({ isActive }) => (
-            <ArrowDown2
+            <ArrowUp2
               className={cn('transition-all', isActive ? '' : 'rotate-180')}
               size="20"
             />

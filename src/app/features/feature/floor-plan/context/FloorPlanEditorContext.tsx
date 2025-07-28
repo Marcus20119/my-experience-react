@@ -9,51 +9,55 @@ import {
   useInitialFloorPlanEvents,
 } from '../lib';
 import type {
-  DeskEntity,
-  DeskShapeEntity,
+  FloorPlanDeskItemEntity,
+  FloorPlanDeskShapeEntity,
+  FloorPlanRoomItemEntity,
+  FloorPlanRoomShapeEntity,
   FloorPlanSize,
-  RoomEntity,
-  RoomShapeEntity,
 } from '../model';
-import { FLOOR_PLAN_SIZE } from '../model';
+import { FLOOR_PLAN_EDITOR_SIZE } from '../model';
 
 interface UpdateRoomShapeProps {
   roomId: string;
-  shape: RoomShapeEntity;
+  shape: FloorPlanRoomShapeEntity;
 }
 
 interface UpdateDeskShapeProps {
   deskId: string;
-  shape: DeskShapeEntity;
+  shape: FloorPlanDeskShapeEntity;
 }
 
 export interface FloorPlanEditorExternalContextProps {
   floorPlanUrl: string;
   height: number;
   initialDeskSize?: number;
-  initialRooms?: RoomEntity[];
+  initialRooms?: FloorPlanRoomItemEntity[];
   width: number;
 }
 
 interface FloorPlanEditorInternalContextProps {
   deskSize: number;
   draggingRoomId: null | string;
-  glowingRoom?: RoomEntity;
+  glowingRoom?: FloorPlanRoomItemEntity;
   isEditing: boolean;
   onRemoveDeskShape: (deskId: string) => void;
   onRemoveRoomShape: (roomId: string) => void;
   onUpdateDeskShape: (props: UpdateDeskShapeProps) => void;
   onUpdateRoomShape: (props: UpdateRoomShapeProps) => void;
   pickingDeskId: null | string;
-  rooms: RoomEntity[];
-  selectingDesk: DeskEntity | null;
-  selectingRoom: null | RoomEntity;
+  rooms: FloorPlanRoomItemEntity[];
+  selectingDesk: FloorPlanDeskItemEntity | null;
+  selectingRoom: FloorPlanRoomItemEntity | null;
   setDeskSize: React.Dispatch<React.SetStateAction<number>>;
   setDraggingRoomId: React.Dispatch<React.SetStateAction<null | string>>;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
   setPickingDeskId: React.Dispatch<React.SetStateAction<null | string>>;
-  setSelectingDesk: React.Dispatch<React.SetStateAction<DeskEntity | null>>;
-  setSelectingRoom: React.Dispatch<React.SetStateAction<null | RoomEntity>>;
+  setSelectingDesk: React.Dispatch<
+    React.SetStateAction<FloorPlanDeskItemEntity | null>
+  >;
+  setSelectingRoom: React.Dispatch<
+    React.SetStateAction<FloorPlanRoomItemEntity | null>
+  >;
   setZoomLevel: React.Dispatch<React.SetStateAction<number>>;
   stageRef: null | RefObject<Konva.Stage>;
   stageSize: FloorPlanSize;
@@ -107,11 +111,13 @@ export function FloorPlanEditorProvider({
   const workspaceRef = useRef<HTMLDivElement>(null);
 
   const [zoomLevel, setZoomLevel] = useState(1);
-  const [rooms, setRooms] = useState<RoomEntity[]>(initialRooms);
+  const [rooms, setRooms] = useState<FloorPlanRoomItemEntity[]>(initialRooms);
   const [draggingRoomId, setDraggingRoomId] = useState<null | string>(null);
-  const [selectingRoom, setSelectingRoom] = useState<null | RoomEntity>(null);
+  const [selectingRoom, setSelectingRoom] =
+    useState<FloorPlanRoomItemEntity | null>(null);
   const [pickingDeskId, setPickingDeskId] = useState<null | string>(null);
-  const [selectingDesk, setSelectingDesk] = useState<DeskEntity | null>(null);
+  const [selectingDesk, setSelectingDesk] =
+    useState<FloorPlanDeskItemEntity | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [deskSize, setDeskSize] = useState(initialDeskSize);
 
@@ -120,12 +126,13 @@ export function FloorPlanEditorProvider({
   const workspaceSize = {
     height:
       props.height -
-      (FLOOR_PLAN_SIZE.footerHeight +
-        FLOOR_PLAN_SIZE.headerHeight +
-        FLOOR_PLAN_SIZE.padding * 2),
+      (FLOOR_PLAN_EDITOR_SIZE.footerHeight +
+        FLOOR_PLAN_EDITOR_SIZE.headerHeight +
+        FLOOR_PLAN_EDITOR_SIZE.padding * 2),
     width:
       props.width -
-      (FLOOR_PLAN_SIZE.roomMenuWidth + FLOOR_PLAN_SIZE.padding * 3),
+      (FLOOR_PLAN_EDITOR_SIZE.roomMenuWidth +
+        FLOOR_PLAN_EDITOR_SIZE.padding * 3),
   };
 
   const originalStageSize = useGetContainerSize({
@@ -165,7 +172,7 @@ export function FloorPlanEditorProvider({
               room.shape?.width !== shape.width ||
               room.shape?.height !== shape.height;
 
-            const newRoom: RoomEntity = {
+            const newRoom: FloorPlanRoomItemEntity = {
               ...room,
               desks: room.desks?.map(desk => ({
                 ...desk,

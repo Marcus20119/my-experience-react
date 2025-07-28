@@ -27,15 +27,17 @@ const getTechnologies = async ({
   });
 
   if (filter?.technologyType) {
-    queryString += `&technologyType=${filter.technologyType}`;
+    queryString += `technologyType=${filter.technologyType}&`;
   }
 
   if (filter?.technologySectionId) {
-    queryString += `&technologySectionId=${filter.technologySectionId}`;
+    queryString += `technologySectionId=${filter.technologySectionId}&`;
   }
 
+  queryString = `?${queryString}`.slice(0, -1);
+
   const response = await request.get<PaginatedResponse<TechnologyResponse>>(
-    `/technologies?${queryString}`,
+    `/technologies${queryString}`,
   );
 
   return response.data.data;

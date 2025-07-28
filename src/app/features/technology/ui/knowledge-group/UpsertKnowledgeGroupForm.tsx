@@ -45,6 +45,7 @@ function UpsertKnowledgeGroupForm({
       <Form.Item<UpsertKnowledgeGroupFormEntity>
         label={'Technology ~'}
         name="technologyId"
+        rules={[{ required: true }]}
       >
         <TechnologySelect
           technologySectionId={technologySectionId}

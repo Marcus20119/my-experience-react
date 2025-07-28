@@ -3,7 +3,7 @@ import { Maximize2 } from 'iconsax-react';
 
 import { useFloorPlanEditorContext } from '@/app/features/feature/floor-plan/context';
 import {
-  FLOOR_PLAN_SIZE,
+  FLOOR_PLAN_EDITOR_SIZE,
   MAX_ZOOM_LEVEL,
   MIN_ZOOM_LEVEL,
 } from '@/app/features/feature/floor-plan/model';
@@ -23,7 +23,7 @@ function FloorPlanFooter() {
       className="w-full px-4"
       justify="end"
       style={{
-        height: FLOOR_PLAN_SIZE.footerHeight,
+        height: FLOOR_PLAN_EDITOR_SIZE.footerHeight,
       }}
     >
       <Flex align="center" gap="0.75rem">

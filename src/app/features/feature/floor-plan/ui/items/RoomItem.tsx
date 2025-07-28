@@ -9,8 +9,8 @@ import {
   checkOverflowedRoom,
 } from '@/app/features/feature/floor-plan/lib';
 import type {
-  RoomEntity,
-  RoomShapeEntity,
+  FloorPlanRoomItemEntity,
+  FloorPlanRoomShapeEntity,
 } from '@/app/features/feature/floor-plan/model';
 import { COLOR } from '@/shared/assets/styles/constants';
 import { NotiTool } from '@/shared/utils';
@@ -18,7 +18,7 @@ import { NotiTool } from '@/shared/utils';
 const { showError } = NotiTool;
 
 interface Props {
-  room: RoomEntity;
+  room: FloorPlanRoomItemEntity;
 }
 
 function RoomItem({ room }: Props) {
@@ -119,7 +119,7 @@ function RoomItem({ room }: Props) {
       const x = (node.x() * 100) / stageSize.width;
       const y = (node.y() * 100) / stageSize.height;
 
-      const newShape: RoomShapeEntity = {
+      const newShape: FloorPlanRoomShapeEntity = {
         ...room?.shape,
         x,
         y,

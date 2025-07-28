@@ -21,18 +21,11 @@ export const useUpdateTechnology = ({ id, onSuccess }: Props) => {
       onSuccess?.(technology);
 
       queryClient.invalidateQueries({
-        queryKey: technologyQueries.all({
-          filter: {
-            technologySectionId: technology.technologySectionId,
-          },
-        }).queryKey,
+        queryKey: technologyQueries.all({}).queryKey,
       });
-
-      if (technology.id) {
-        queryClient.invalidateQueries({
-          queryKey: technologyQueries.detail(technology.id).queryKey,
-        });
-      }
+      queryClient.invalidateQueries({
+        queryKey: technologyQueries.detail(technology.id).queryKey,
+      });
 
       showSuccess({
         message: 'Technology updated successfully! ~',
@@ -47,15 +40,17 @@ export const useUpdateTechnology = ({ id, onSuccess }: Props) => {
       id,
       input: {
         color1: input.color1,
-        color2: input.color2,
-        color3: input.color3,
-        description: input.description,
+        color2: input.color2 || null,
+        color3: input.color3 || null,
+        description: input.description || null,
         iconFileKey:
           input.iconType === IconType.Custom ? input.iconFileKey : null,
         iconName: input.iconType === IconType.Iconify ? input.iconName : null,
         iconType: input.iconType,
         name: input.name,
-        rate: input.rate,
+        rate: input.rate || 0,
+        technologySectionId: input.technologySectionId || null,
+        technologyType: input.technologyType,
       },
     });
   };

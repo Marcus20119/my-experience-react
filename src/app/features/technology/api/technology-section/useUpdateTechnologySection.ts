@@ -23,7 +23,7 @@ export const useUpdateTechnologySection = ({ id, onSuccess }: Props) => {
         queryKey: technologySectionQueries.skeleton().queryKey,
       });
       queryClient.invalidateQueries({
-        queryKey: technologySectionQueries.detail(String(id)).queryKey,
+        queryKey: technologySectionQueries.detail(data.id).queryKey,
       });
 
       showSuccess({
@@ -41,6 +41,7 @@ export const useUpdateTechnologySection = ({ id, onSuccess }: Props) => {
       id,
       input: {
         name: input.name,
+        technologyType: input.technologyType,
       },
     });
   };

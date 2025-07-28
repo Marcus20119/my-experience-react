@@ -72,8 +72,8 @@ export interface CreateTechnologySectionInput {
 }
 
 export interface UpdateTechnologySectionInput {
-  technologyType?: TechnologyType;
-  name?: DisplayName;
+  technologyType: TechnologyType;
+  name: DisplayName;
 }
 
 export interface BaseTechnologySectionResponse {
@@ -123,7 +123,7 @@ export interface TechnologySectionQueryFilter {
 
 export interface BaseKnowledgeItemResponse {
   id: string;
-  name: DisplayName;
+  name: string;
   iconType: IconType;
   iconFileKey?: string | null;
   iconName?: string | null;
@@ -152,8 +152,8 @@ export interface TechnologyResponse {
   description?: string | null;
   rate?: number;
   slug: string;
-  technologyType?: TechnologyType;
-  technologySectionId?: string;
+  technologyType: TechnologyType;
+  technologySectionId?: string | null;
   knowledgeGroups?: BaseKnowledgeGroupResponse[];
   knowledgeItems?: BaseKnowledgeItemResponse[];
 }
@@ -173,15 +173,15 @@ export interface CreateTechnologyInput {
    */
   rate: number;
   technologyType: TechnologyType;
-  technologySectionId?: string;
+  technologySectionId?: string | null;
 }
 
 export interface UpdateTechnologyInput {
-  name?: string;
-  iconType?: IconType;
+  name: string;
+  iconType: IconType;
   iconFileKey?: string | null;
   iconName?: string | null;
-  color1?: string;
+  color1: string;
   color2?: string | null;
   color3?: string | null;
   description?: string | null;
@@ -189,9 +189,9 @@ export interface UpdateTechnologyInput {
    * @min 0
    * @max 5
    */
-  rate?: number;
-  technologyType?: TechnologyType;
-  technologySectionId?: string;
+  rate: number;
+  technologyType: TechnologyType;
+  technologySectionId?: string | null;
 }
 
 export interface TechnologyQueryFilter {
@@ -217,10 +217,70 @@ export interface CreateKnowledgeGroupInput {
 }
 
 export interface UpdateKnowledgeGroupInput {
-  name?: DisplayName;
+  name: DisplayName;
   description?: string | null;
 }
 
 export interface KnowledgeGroupQueryFilter {
   technologyId?: string;
+}
+
+export interface KnowledgeItemResponse {
+  id: string;
+  name: string;
+  iconType: IconType;
+  iconFileKey?: string | null;
+  iconName?: string | null;
+  color1: string;
+  color2?: string | null;
+  color3?: string | null;
+  rate?: number | null;
+  technologyType: TechnologyType;
+  technologySectionId?: string;
+  technologyId: string;
+  knowledgeGroupId?: string | null;
+  content?: string | null;
+  imageFileKeys?: string[] | null;
+}
+
+export interface CreateKnowledgeItemInput {
+  name: string;
+  iconType: IconType;
+  iconFileKey?: string | null;
+  iconName?: string | null;
+  color1: string;
+  color2?: string | null;
+  color3?: string | null;
+  content?: string | null;
+  imageFileKeys?: string[] | null;
+  /**
+   * @min 0
+   * @max 5
+   */
+  rate: number;
+  technologyId: string;
+  knowledgeGroupId?: string | null;
+}
+
+export interface UpdateKnowledgeItemInput {
+  name?: string;
+  iconType?: IconType;
+  iconFileKey?: string | null;
+  iconName?: string | null;
+  color1?: string;
+  color2?: string | null;
+  color3?: string | null;
+  content?: string | null;
+  imageFileKeys?: string[] | null;
+  /**
+   * @min 0
+   * @max 5
+   */
+  rate?: number;
+  technologyId?: string;
+  knowledgeGroupId?: string | null;
+}
+
+export interface KnowledgeItemQueryFilter {
+  knowledgeGroupId?: string;
 }
