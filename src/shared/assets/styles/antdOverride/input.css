@@ -9,3 +9,19 @@
 .ant-color-picker-hex-input.ant-input-affix-wrapper {
   padding: 4px 7px !important;
 }
+
+.input-xs {
+  * {
+    font-size: 0.75rem !important;
+  }
+
+  .ant-input-number-input {
+    height: 1.5rem !important;
+    padding: 0.25rem 0.5rem !important;
+    min-height: unset !important;
+  }
+
+  .ant-input-number-group-addon {
+    padding: 0.25rem 0.5rem !important;
+  }
+}

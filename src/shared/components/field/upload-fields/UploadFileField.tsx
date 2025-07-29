@@ -1,4 +1,5 @@
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { useMutation } from '@tanstack/react-query';
 import { Flex, Typography, Upload } from 'antd';
 import type { DraggerProps } from 'antd/es/upload';
 import type { RcFile } from 'antd/lib/upload';
@@ -6,8 +7,14 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuidv4 } from 'uuid';
 
+import type { MimeType } from '@/shared/tanstack/api/storage';
+import {
+  BucketType,
+  FileCategory,
+  storageApi,
+} from '@/shared/tanstack/api/storage';
 import type { FileType } from '@/shared/types';
-import { NotiTool, TextTool } from '@/shared/utils';
+import { NotiTool } from '@/shared/utils';
 import { FileTool } from '@/shared/utils/file';
 
 import { getFileExtension } from './getFileExtension';
@@ -16,8 +23,7 @@ import UploadedFile from './UploadedFile';
 
 const { Dragger } = Upload;
 const { Text } = Typography;
-const { getFileTypeFromName } = FileTool;
-const { getSlug } = TextTool;
+const { getFileTypeFromName, joinFileUrl, splitFileUrl } = FileTool;
 const { showError } = NotiTool;
 
 interface SingleFileProps {
@@ -36,12 +42,16 @@ type FileProps = MultipleFilesProps | SingleFileProps;
 
 interface Props extends Omit<DraggerProps, 'multiple' | 'onChange'> {
   acceptTypes?: FileType[];
+  bucketType?: BucketType;
+  fileCategory?: FileCategory;
   maxFileSize?: number;
 }
 
 function UploadFileField({
   acceptTypes,
+  bucketType = BucketType.Private,
   disabled,
+  fileCategory = FileCategory.Icon,
   maxFileSize,
   multiple,
   onChange,
@@ -51,42 +61,14 @@ function UploadFileField({
   const isSetInitialFiles = useRef<boolean>(false);
   const { t } = useTranslation();
 
-  const [files, setFiles] = useState<UploadedFileProps[]>(() => {
-    if (!value) {
-      return [];
-    }
-
-    if (multiple) {
-      return value.map(file => {
-        const name = file.split('/').pop() as string;
-        const type = getFileTypeFromName(name);
-
-        return {
-          id: uuidv4(),
-          loading: false,
-          name,
-          type,
-          url: file,
-        };
-      });
-    }
-
-    const name = value?.split('/').pop() as string;
-    const type = getFileTypeFromName(name);
-
-    return [
-      {
-        id: uuidv4(),
-        loading: false,
-        name,
-        type,
-        url: value,
-      },
-    ];
+  const { mutateAsync: createPresignUrl } = useMutation({
+    mutationFn: storageApi.getPresignedUrl,
   });
 
+  const [files, setFiles] = useState<UploadedFileProps[]>([]);
+
   const handleUpload = async (file: RcFile) => {
-    const fileName = getSlug(file.name);
+    const fileName = file.name;
     const fileType = getFileTypeFromName(fileName);
     const fileSize = file.size;
     const blobUrl = URL.createObjectURL(file);
@@ -120,22 +102,50 @@ function UploadFileField({
     ]);
 
     // Handle api
-    await new Promise(resolve => setTimeout(resolve, 500));
-
-    setFiles(prev => {
-      const newFiles = prev.map(file => {
-        if (file.id === fileId) {
-          return {
-            ...file,
-            loading: false,
-          };
-        }
-
-        return file;
+    try {
+      const { key, uploadUrl } = await createPresignUrl({
+        bucketType,
+        category: fileCategory,
+        mimeType: fileType as unknown as MimeType,
+        name: fileName,
+        size: fileSize,
       });
 
-      return newFiles;
-    });
+      if (!uploadUrl) {
+        showError({
+          message: t('common.error.canNotUploadFile', { fileName: file.name }),
+        });
+        return;
+      }
+
+      await storageApi.uploadFile({
+        file,
+        preSignedRequest: uploadUrl,
+      });
+
+      setFiles(prev => {
+        const newFiles = prev.map(file => {
+          if (file.id === fileId) {
+            return {
+              ...file,
+              isBlob: false,
+              loading: false,
+              url: joinFileUrl(key, blobUrl),
+            };
+          }
+
+          return file;
+        });
+
+        return newFiles;
+      });
+    } catch (error) {
+      showError({
+        message: t('common.error.canNotUploadFile', { fileName: file.name }),
+      });
+
+      setFiles(prev => prev.filter(file => file.id !== fileId));
+    }
   };
 
   const allowedTypesText = useMemo(() => {
@@ -151,7 +161,7 @@ function UploadFileField({
       return `${types.join(', ')} ${t('common.conjunction.or')} ${lastType}`;
     }
 
-    return '';
+    return lastType;
   }, [acceptTypes, t]);
 
   const maxFileSizeText = useMemo(() => {
@@ -176,30 +186,40 @@ function UploadFileField({
 
   useEffect(() => {
     if (value?.length && !files.length && !isSetInitialFiles?.current) {
-      setFiles(
-        multiple
-          ? value.map(file => {
-              const name = file.split('/').pop() as string;
-              const type = getFileTypeFromName(name);
+      setFiles(() => {
+        if (!value) {
+          return [];
+        }
 
-              return {
-                id: uuidv4(),
-                loading: false,
-                name,
-                type,
-                url: file,
-              };
-            })
-          : [
-              {
-                id: uuidv4(),
-                loading: false,
-                name: value.split('/').pop() as string,
-                type: getFileTypeFromName(value.split('/').pop() as string),
-                url: value,
-              },
-            ],
-      );
+        if (multiple) {
+          return value.map(file => {
+            const { key, name } = splitFileUrl(file);
+
+            const type = getFileTypeFromName(name);
+
+            return {
+              id: uuidv4(),
+              loading: false,
+              name: name || key || 'unknown',
+              type,
+              url: file,
+            };
+          });
+        }
+
+        const { key, name } = splitFileUrl(value);
+        const type = getFileTypeFromName(name);
+
+        return [
+          {
+            id: uuidv4(),
+            loading: false,
+            name: name || key || 'unknown',
+            type,
+            url: value,
+          },
+        ];
+      });
 
       isSetInitialFiles.current = true;
     }

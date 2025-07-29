@@ -52,7 +52,7 @@ function FormDrawer({ onCancel }: Props) {
         </Flex>
       }
       onClose={onCancel}
-      open={true}
+      open
       title={t('component.title.drawerRouterForm')}
       width={WIDTH.form}
     >

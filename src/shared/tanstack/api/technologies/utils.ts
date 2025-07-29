@@ -10,15 +10,15 @@ export const getListQueryString = ({
   let queryString = '';
 
   if (orderBy?.order) {
-    queryString += `&orderBy=${orderBy?.order}`;
+    queryString += `orderBy=${orderBy?.order}&`;
   }
 
   if (pagination?.limit) {
-    queryString += `&limit=${pagination?.limit}`;
+    queryString += `limit=${pagination?.limit}&`;
   }
 
   if (pagination?.offset) {
-    queryString += `&offset=${pagination?.offset}`;
+    queryString += `offset=${pagination?.offset}&`;
   }
 
   if (queryString[0] === '&') {

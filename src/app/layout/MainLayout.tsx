@@ -63,7 +63,9 @@ function MainLayout() {
   const contextHeaderMenuItems: ItemType[] = [
     {
       key: 'sticky',
-      label: isContentHeaderSticky ? 'Unstick header' : 'Stick header',
+      label: isContentHeaderSticky
+        ? t('layout.action.unstickHeader')
+        : t('layout.action.stickHeader'),
       onClick: () =>
         setHeaderStates({
           isContentHeaderSticky: !isContentHeaderSticky,

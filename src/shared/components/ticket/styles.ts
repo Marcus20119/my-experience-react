@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 
 export const StyledThreeDTicket = styled.div<{
   color1: string;
-  color2?: string;
-  color3?: string;
+  color2?: null | string;
+  color3?: null | string;
   width?: string;
   height?: string;
   shouldHighlightRate?: boolean;
@@ -103,7 +103,7 @@ export const StyledThreeDTicket = styled.div<{
 
   .content-box .see-more {
     margin-top: 1rem;
-    display: inline-block;
+    display: block;
     font-weight: 900;
     font-size: 9px;
     text-transform: uppercase;
@@ -116,6 +116,7 @@ export const StyledThreeDTicket = styled.div<{
     transform: translate3d(0px, 0px, 20px);
     letter-spacing: 0.5px;
     border-radius: 4px;
+    width: fit-content;
   }
 
   .content-box .see-more:hover {

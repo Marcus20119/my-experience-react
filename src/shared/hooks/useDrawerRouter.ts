@@ -34,14 +34,14 @@ export const useDrawerRouter = <P extends DrawerRouterPath>(path?: P) => {
   const location = useLocation();
 
   const param: PathProps<P> | undefined = useMemo(() => {
-    if (!path) {
+    if (!path || !location.hash.startsWith('#drawer/')) {
       return undefined;
     }
 
     const paramsTmp = {} as Record<string, string>;
-    const hashValue = location.hash.split('#')[1].split('/');
+    const hashValue = location?.hash?.split('#drawer/')[1]?.split('/');
 
-    (path as string).split('/').forEach((item: string, key: number) => {
+    (path as string)?.split('/')?.forEach((item: string, key: number) => {
       if (item.includes(':')) {
         paramsTmp[item.replace(':', '')] = hashValue[key];
       }

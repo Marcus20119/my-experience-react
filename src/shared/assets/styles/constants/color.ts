@@ -7,6 +7,7 @@ export const COLOR = {
     ['300']: '#e0e0e0',
     ['400']: '#bbbdbe',
     ['500']: '#8E9193',
+    ['550']: '#50575E',
     ['600']: '#34383d',
     ['700']: '#1E2328',
     ['800']: '#0a0a0a',
@@ -19,6 +20,7 @@ export const COLOR = {
   system: {
     alert: '#FFCC00',
     alertSoft: '#FFF9E5',
+    disable: '#8E9193',
     error: '#FF3B30',
     errorHover: '#E62A1F',
     errorSoft: '#FFEBEA',

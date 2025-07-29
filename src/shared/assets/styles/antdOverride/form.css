@@ -25,3 +25,7 @@
 .ant-form-item-tooltip {
   margin-top: 0.125rem !important;
 }
+
+.ant-form-item-control-input:has(.ant-radio-group) {
+  height: 40px !important;
+}

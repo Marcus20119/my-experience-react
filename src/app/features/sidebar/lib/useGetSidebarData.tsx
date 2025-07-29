@@ -23,10 +23,10 @@ export const useGetSidebarData = () => {
           route: item?.technologySections?.length
             ? {
                 param: {
-                  section: item?.technologySections?.[0]?.slug,
+                  sectionId: item?.technologySections?.[0]?.id,
                   type: item?.technologyType,
                 },
-                path: '/technology-type/:type/technology-section/:section',
+                path: '/technology-type/:type/technology-section/:sectionId',
               }
             : {
                 param: {

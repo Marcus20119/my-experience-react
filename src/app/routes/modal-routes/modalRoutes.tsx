@@ -1,8 +1,9 @@
 import {
-  CreateTechnologySectionModal,
+  DeleteKnowledgeGroupModal,
+  DeleteTechnologyModal,
   DeleteTechnologySectionModal,
-  UpdateTechnologySectionModal,
 } from '@/app/features/technology';
+import { DeleteKnowledgeItemModal } from '@/app/features/technology/ui/knowledge-item';
 import FormModal from '@/pages/component/form/FormModal';
 import type { DeepReadonly } from '@/shared/types';
 
@@ -21,19 +22,39 @@ export const MODAL_ROUTES = [
     path: 'technology-section',
     routes: [
       {
-        element: CreateTechnologySectionModal,
-        match: 'create',
-        path: '/create',
-      },
-      {
         element: DeleteTechnologySectionModal,
         match: 'delete',
         path: '/delete/:id',
       },
+    ],
+  },
+  {
+    path: 'technology',
+    routes: [
       {
-        element: UpdateTechnologySectionModal,
-        match: 'update',
-        path: '/update/:id',
+        element: DeleteTechnologyModal,
+        match: 'delete',
+        path: '/delete/:id',
+      },
+    ],
+  },
+  {
+    path: 'knowledge-group',
+    routes: [
+      {
+        element: DeleteKnowledgeGroupModal,
+        match: 'delete',
+        path: '/delete/:id',
+      },
+    ],
+  },
+  {
+    path: 'knowledge-item',
+    routes: [
+      {
+        element: DeleteKnowledgeItemModal,
+        match: 'delete',
+        path: '/delete/:id',
       },
     ],
   },

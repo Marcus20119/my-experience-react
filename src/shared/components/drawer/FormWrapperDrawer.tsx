@@ -1,5 +1,6 @@
-import { ConfigProvider, Drawer, Flex, Typography } from 'antd';
-import type { DrawerProps } from 'antd/lib';
+import { Button, ConfigProvider, Drawer, Flex, Typography } from 'antd';
+import type { ButtonProps, DrawerProps } from 'antd/lib';
+import { useTranslation } from 'react-i18next';
 
 import { cn } from '@/lib/tailwind';
 import { COLOR, Z_INDEX } from '@/shared/assets/styles/constants';
@@ -7,20 +8,34 @@ import { COLOR, Z_INDEX } from '@/shared/assets/styles/constants';
 const { Text, Title } = Typography;
 
 interface Props extends Omit<DrawerProps, 'title'> {
+  cancelButtonProps?: ButtonProps;
+  cancelText?: string;
+  extraAction?: React.ReactNode;
   extraHeader?: React.ReactNode;
+  hidden?: boolean;
+  okButtonProps?: ButtonProps;
+  okText?: string;
   subTitle?: string;
   title?: string;
 }
 
 function FormWrapperDrawer({
+  cancelButtonProps,
+  cancelText,
   children,
   classNames,
+  extraAction,
   extraHeader,
+  hidden,
+  okButtonProps,
+  okText,
   styles,
   subTitle,
   title,
   ...props
 }: Props) {
+  const { t } = useTranslation();
+
   return (
     <ConfigProvider
       theme={{
@@ -30,7 +45,28 @@ function FormWrapperDrawer({
       }}
     >
       <Drawer
-        destroyOnClose
+        destroyOnHidden
+        footer={
+          <Flex
+            align="center"
+            gap="0.5rem"
+            justify={extraAction ? 'space-between' : 'end'}
+          >
+            {extraAction}
+            <Flex align="center" gap="0.5rem">
+              <Button
+                onClick={props.onClose}
+                size="middle"
+                {...cancelButtonProps}
+              >
+                {cancelText || t('common.button.cancel')}
+              </Button>
+              <Button size="middle" type="primary" {...okButtonProps}>
+                {okText || t('common.button.save')}
+              </Button>
+            </Flex>
+          </Flex>
+        }
         maskClosable={false}
         {...props}
         classNames={{
@@ -40,6 +76,7 @@ function FormWrapperDrawer({
             classNames?.header,
           ),
         }}
+        rootClassName={cn(hidden ? 'hidden transition-all' : '')}
         styles={{
           ...styles,
           body: {

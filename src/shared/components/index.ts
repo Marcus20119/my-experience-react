@@ -11,4 +11,5 @@ export * from './picker';
 export * from './select';
 export * from './thumbnail';
 export * from './ticket';
+export * from './toast-message';
 export * from './value';

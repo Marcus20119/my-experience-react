@@ -2,8 +2,8 @@ function setWebsiteTitle(title: string) {
   document.title = title;
 }
 
-function setWebIcon(iconUrl?: string) {
-  if (!iconUrl) {
+function setWebIcon(iconFileKey?: string) {
+  if (!iconFileKey) {
     return;
   }
 
@@ -20,7 +20,7 @@ function setWebIcon(iconUrl?: string) {
   const link = document.createElement('link');
   link.type = 'image/x-icon';
   link.rel = 'icon';
-  link.href = iconUrl.replace('http://', 'https://');
+  link.href = iconFileKey.replace('http://', 'https://');
 
   // Append the new favicon link to the head
   head.appendChild(link);

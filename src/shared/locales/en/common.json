@@ -18,6 +18,7 @@
       "loadMore": "Load more",
       "next": "Next",
       "ok": "OK",
+      "remove": "Remove",
       "reset": "Reset",
       "save": "Save",
       "search": "Search",
@@ -44,6 +45,7 @@
       "emptySearch": "Try using other keywords or filters"
     },
     "error": {
+      "canNotUploadFile": "Can not upload file {{fileName}}",
       "email": "Please enter a valid email",
       "invalidFileType": "Invalid file type for file has name: {{fileName}}",
       "maxFileSize": "File size must be less than {{maxFileSize}}MB",
@@ -81,6 +83,10 @@
     "unit": {
       "million": "M",
       "thousand": "K"
+    },
+    "upload": {
+      "description": "<span>Click to upload</span> or drag and drop",
+      "uploadSingleSpecification": "{{fileTypes}} (max size is {{maxSize}} MB)"
     }
   }
 }

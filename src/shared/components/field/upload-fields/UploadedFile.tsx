@@ -5,10 +5,12 @@ import { Trash } from 'iconsax-react';
 import { cn } from '@/lib/tailwind';
 import { COLOR } from '@/shared/assets/styles/constants';
 import type { FileType } from '@/shared/types';
+import { FileTool } from '@/shared/utils/file';
 
 import FileIcon from './FileIcon';
 
 const { Text } = Typography;
+const { splitFileUrl } = FileTool;
 
 export interface UploadedFileProps {
   id: string;
@@ -26,7 +28,7 @@ interface Props {
 }
 
 function UploadedFile({
-  file: { id, loading, name, type, url },
+  file: { id, isBlob, loading, name, type, url },
   onRemove,
 }: Props) {
   return (
@@ -37,13 +39,13 @@ function UploadedFile({
       justify="space-between"
     >
       <Flex align="center" gap="0.5rem">
-        <FileIcon fileType={type} src={url} />
+        <FileIcon fileType={type} src={isBlob ? url : splitFileUrl(url).url} />
         <a
           className={cn(
             'flex-1 text-neutral-700',
             url ? 'cursor-pointer hover:underline' : 'cursor-default',
           )}
-          href={url}
+          href={isBlob ? url : splitFileUrl(url).url}
           onClick={e => {
             if (!url) {
               e.preventDefault();

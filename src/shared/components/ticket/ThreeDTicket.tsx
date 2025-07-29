@@ -1,21 +1,24 @@
 import { Flex, Rate } from 'antd';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 import { cn } from '@/lib/tailwind';
-import { useAppRouter } from '@/shared/hooks';
+import type { RouterNavigator } from '@/shared/hooks';
+import { getNavigatePath } from '@/shared/hooks';
 
 import { StyledThreeDTicket } from './styles';
 
 export interface ThreeDTicketProps {
   color1: string;
-  color2?: string;
-  color3?: string;
-  description?: string;
+  color2?: null | string;
+  color3?: null | string;
+  description?: null | string;
   height?: string;
   icon: React.ReactNode;
-  path?: RouterPath;
-  rate?: number;
+  onClick?: () => void;
+  rate?: null | number;
+  route?: RouterNavigator;
   shouldHighlightRate?: boolean;
   title: [string, string] | string;
   width?: string;
@@ -28,35 +31,37 @@ function ThreeDTicket({
   description,
   height,
   icon,
-  path,
+  onClick,
   rate,
+  route,
   shouldHighlightRate,
   title,
   width,
 }: ThreeDTicketProps) {
   const { t } = useTranslation();
-  const { navigate } = useAppRouter();
 
   const defaultHeight = useMemo(() => {
-    if (!description && !path) {
+    if (!description && !route) {
       return '172px';
     }
 
-    if (description && !path) {
+    if (description && !route) {
       return '220px';
     }
 
     return '260px';
-  }, [description, path]);
+  }, [description, route]);
 
   return (
     <StyledThreeDTicket
-      className={cn(path ? 'cursor-pointer' : 'cursor-default')}
+      className={cn(onClick ? 'cursor-pointer' : 'cursor-default')}
       color1={color1}
       color2={color2}
       color3={color3}
       height={height ?? defaultHeight}
-      onClick={() => path && navigate({ path: path as '/' })}
+      onClick={() => {
+        onClick?.();
+      }}
       shouldHighlightRate={shouldHighlightRate}
       width={width}
     >
@@ -66,13 +71,21 @@ function ThreeDTicket({
             <span className="card-title">{title}</span>
           ) : (
             <div className="card-title-group">
-              <span className="card-title">{title[0]}</span>
-              <span className="card-title">{title[1]}</span>
+              <span className="card-title">{title?.[0]}</span>
+              <span className="card-title">{title?.[1]}</span>
             </div>
           )}
           {description ? <p className="card-content">{description}</p> : null}
-          {path ? (
-            <span className="see-more">{t('common.button.seeMore')}</span>
+          {route ? (
+            <Link
+              className="see-more"
+              onClick={e => {
+                e.stopPropagation();
+              }}
+              to={String(getNavigatePath(route))}
+            >
+              {t('common.button.seeMore')}
+            </Link>
           ) : null}
         </div>
         <div className="icon-box">{icon}</div>

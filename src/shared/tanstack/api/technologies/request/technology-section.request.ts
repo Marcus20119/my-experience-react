@@ -12,9 +12,9 @@ import { getListQueryString } from '../utils';
 import { request } from './request';
 
 export interface ListTechnologySectionsQuery {
-  filter: TechnologySectionQueryFilter;
-  orderBy: OrderDto;
-  pagination: PaginationDto;
+  filter?: TechnologySectionQueryFilter;
+  orderBy?: OrderDto;
+  pagination?: PaginationDto;
 }
 
 const getTechnologySections = async ({
@@ -27,15 +27,17 @@ const getTechnologySections = async ({
     pagination,
   });
 
-  if (filter.technologyType) {
-    queryString += `&technologyType=${filter.technologyType}`;
+  if (filter?.technologyType) {
+    queryString += `technologyType=${filter.technologyType}&`;
   }
+
+  queryString = `?${queryString}`.slice(0, -1);
 
   const response = await request.get<
     PaginatedResponse<TechnologySectionResponse>
-  >(`/technology-sections?${queryString}`);
+  >(`/technology-sections${queryString}`);
 
-  return response.data;
+  return response.data.data;
 };
 
 const getTechnologySection = async (id: string) => {

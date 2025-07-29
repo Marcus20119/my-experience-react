@@ -1,0 +1,48 @@
+import { Form, Input } from 'antd';
+import type { FormInstance } from 'antd/lib';
+
+import type { UpsertTechnologySectionFormEntity } from '@/app/features/technology/model';
+import { Field } from '@/shared/components';
+
+import { TechnologyTypeSelect } from '../technology-type';
+
+interface Props {
+  form: FormInstance<UpsertTechnologySectionFormEntity>;
+  onFinish?: (values: UpsertTechnologySectionFormEntity) => void;
+}
+
+function UpsertTechnologySectionForm({ form, onFinish }: Props) {
+  return (
+    <Form<UpsertTechnologySectionFormEntity>
+      form={form}
+      layout="vertical"
+      onFinish={onFinish}
+      size="middle"
+    >
+      <Form.Item<UpsertTechnologySectionFormEntity>
+        label="Name ~"
+        name={['name', 'original']}
+        rules={[{ required: true }]}
+      >
+        <Input allowClear={false} placeholder="Enter display name ~" />
+      </Form.Item>
+
+      <Form.Item<UpsertTechnologySectionFormEntity>
+        label="Display name ~"
+        name={['name', 'translations']}
+      >
+        <Field.ContentTranslation placeholder="Enter display name ~" />
+      </Form.Item>
+
+      <Form.Item<UpsertTechnologySectionFormEntity>
+        label="Technology type ~"
+        name="technologyType"
+        rules={[{ required: true }]}
+      >
+        <TechnologyTypeSelect />
+      </Form.Item>
+    </Form>
+  );
+}
+
+export default UpsertTechnologySectionForm;

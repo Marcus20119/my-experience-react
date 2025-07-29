@@ -33,7 +33,7 @@ describe('ThemeTool', () => {
       head.appendChild(link);
     });
 
-    it('should do nothing if no iconUrl is provided', () => {
+    it('should do nothing if no iconFileKey is provided', () => {
       const [head] = document.getElementsByTagName('head');
 
       setWebIcon();
@@ -48,7 +48,7 @@ describe('ThemeTool', () => {
     it('should remove existing favicons and add a new one with https', () => {
       const [head] = document.getElementsByTagName('head');
 
-      // Call the function with a new iconUrl
+      // Call the function with a new iconFileKey
       setWebIcon('http://newicon.com/favicon.ico');
 
       // Check that the existing favicon was removed
