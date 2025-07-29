@@ -127,6 +127,11 @@ describe('NumberTool', () => {
         language: 'en',
       });
       expect(roundMoney(value)).toBe(expected);
+
+      useLocalStore.getState = vi.fn().mockReturnValue({
+        language: undefined,
+      });
+      expect(roundMoney(value)).toBe(expected);
     });
 
     test.each([
@@ -139,11 +144,6 @@ describe('NumberTool', () => {
       const { useLocalStore } = await import('@/shared/stores');
       useLocalStore.getState = vi.fn().mockReturnValue({
         language: 'vi',
-      });
-      expect(roundMoney(value)).toBe(expected);
-
-      useLocalStore.getState = vi.fn().mockReturnValue({
-        language: undefined,
       });
       expect(roundMoney(value)).toBe(expected);
     });

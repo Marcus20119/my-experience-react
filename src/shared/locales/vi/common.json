@@ -1,92 +1,91 @@
 {
   "common": {
     "button": {
-      "addMore": "Add more",
-      "apply": "Apply",
-      "back": "Back",
-      "cancel": "Cancel",
-      "clickToUpload": "Click to upload",
-      "confirm": "Confirm",
-      "continue": "Continue",
-      "create": "Create",
-      "customizeColumns": "Customize columns",
-      "delete": "Delete",
-      "deleteAll": "Delete all",
-      "finish": "Finish",
-      "home": "Home",
-      "language": "Language",
-      "loadMore": "Load more",
-      "next": "Next",
+      "addMore": "Thêm",
+      "apply": "Áp dụng",
+      "back": "Trở lại",
+      "cancel": "Hủy",
+      "clickToUpload": "Nhấn để tải lên",
+      "confirm": "Xác nhận",
+      "continue": "Tiếp tục",
+      "create": "Tạo",
+      "customizeColumns": "Tùy chỉnh cột",
+      "delete": "Xóa",
+      "deleteAll": "Xóa tất cả",
+      "finish": "Kết thúc",
+      "home": "Trang chủ",
+      "language": "Ngôn ngữ",
+      "loadMore": "Xem thêm",
+      "next": "Tiếp theo",
       "ok": "OK",
-      "remove": "Remove",
-      "reset": "Reset",
-      "save": "Save",
-      "search": "Search",
-      "seeMore": "See more",
-      "update": "Update",
-      "uploadPhoto": "Upload photo",
-      "viewLess": "View less",
-      "viewMore": "View more"
+      "remove": "Xoá",
+      "reset": "Làm mới",
+      "save": "Lưu",
+      "search": "Tìm kiếm",
+      "seeMore": "Xem thêm",
+      "update": "Chỉnh sửa",
+      "uploadPhoto": "Tải ảnh lên",
+      "viewLess": "Ẩn bớt",
+      "viewMore": "Xem thêm"
     },
     "conjunction": {
       "and": "and",
       "or": "or"
     },
     "dayOfWeek": {
-      "fri": "Fri",
-      "mon": "Mon",
-      "sat": "Sat",
-      "sun": "Sun",
-      "thu": "Thu",
-      "tue": "Tue",
-      "wed": "Wed"
+      "fri": "Thứ 6",
+      "mon": "Thứ 2",
+      "sat": "Thứ 7",
+      "sun": "Chủ nhật",
+      "thu": "Thứ 5",
+      "tue": "Thứ 3",
+      "wed": "Thứ 4"
     },
     "description": {
-      "emptySearch": "Try using other keywords or filters"
+      "emptySearch": "Hãy thử sử dụng từ khóa hoặc bộ lọc khác"
     },
     "error": {
-      "canNotUploadFile": "Can not upload file {{fileName}}",
-      "email": "Please enter a valid email",
-      "invalidFileType": "Invalid file type for file has name: {{fileName}}",
-      "maxFileSize": "File size must be less than {{maxFileSize}}MB",
-      "phoneNumber": "Please enter a valid phone number",
-      "smtWentWrong": "Something went wrong, please try again later."
+      "canNotUploadFile": "Không thể tải lên tệp {{fileName}}",
+      "email": "Vui lòng nhập email hợp lệ",
+      "invalidFileType": "Loại tệp không hợp lệ cho tệp có tên: {{fileName}}",
+      "maxFileSize": "Kích thước tệp phải nhỏ hơn {{maxFileSize}}MB",
+      "phoneNumber": "Vui lòng nhập số điện thoại hợp lệ",
+      "smtWentWrong": "Đã xảy ra lỗi, vui lòng thử lại sau."
     },
     "gender": {
-      "female": "Female",
-      "male": "Male",
-      "nonBinary": "Non-binary"
+      "female": "Nữ",
+      "male": "Nam",
+      "nonBinary": "Khác"
     },
     "label": {
-      "results": "Results"
+      "results": "Kết quả"
     },
-
     "language": {
-      "en": "English",
-      "vi": "Vietnamese"
+      "en": "Tiếng Anh",
+      "vi": "Tiếng Việt"
     },
     "placeholder": {
-      "maxFileSize": "(max {{maxFileSize}}MB)",
-      "orDragAndDrop": "or drag and drop",
-      "quickSearch": "Quick search...",
-      "search": "Search...",
-      "selectGender": "Select gender"
+      "maxFileSize": "(tối đa {{maxFileSize}}MB)",
+      "orDragAndDrop": "hoặc kéo và thả",
+      "quickSearch": "Tìm kiếm nhanh...",
+      "search": "Tìm kiếm...",
+      "selectGender": "Chọn giới tính"
     },
     "title": {
-      "emptyData": "Empty data",
-      "emptySearch": "No results found",
-      "sureDelete": "Sure to delete?"
+      "emptyData": "Không có dữ liệu",
+      "emptySearch": "Không tìm thấy kết quả",
+      "sureDelete": "Chắc chắn muốn xóa?"
     },
     "tooltip": {
-      "comingSoon": "Coming soon"
+      "comingSoon": "Sắp ra mắt"
     },
     "unit": {
-      "million": "M",
-      "thousand": "K"
+      "million": "tr",
+      "thousand": "k"
     },
     "upload": {
-      "description": "<span>Click to upload</span> or drag and drop",
-      "uploadSingleSpecification": "{{fileTypes}} (max size is {{maxSize}} MB)"
+      "description": "<span>Nhấn để tải</span> hoặc kéo và thả",
+      "uploadSingleSpecification": "{{fileTypes}} (dung lượng tối đa là {{maxSize}} MB)"
     }
   }
 }
