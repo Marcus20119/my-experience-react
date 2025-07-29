@@ -1,5 +1,6 @@
 import type Konva from 'konva';
 import { useCallback, useMemo, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Image } from 'react-konva';
 import useImage from 'use-image';
 
@@ -18,8 +19,10 @@ interface Props {
 function DeskItem({ desk }: Props) {
   const imgRef = useRef<Konva.Image>(null);
 
+  const { t } = useTranslation();
   const [img] = useImage('/images/desk.png', 'anonymous');
   const {
+    allowEdit,
     deskSize,
     draggingRoomId,
     isEditing,
@@ -32,6 +35,7 @@ function DeskItem({ desk }: Props) {
     setSelectingDesk,
     setSelectingRoom,
     stageSize,
+    toastMessageRef,
   } = useFloorPlanEditorContext();
 
   const room = rooms?.find(room =>
@@ -68,7 +72,7 @@ function DeskItem({ desk }: Props) {
       e.cancelBubble = true;
 
       if (pickingDeskId) {
-        document.body.style.cursor = 'pointer';
+        document.body.style.cursor = 'url("/svgs/pick-cursor.svg") 6 6, auto';
       } else {
         document.body.style.cursor = 'move';
       }
@@ -125,6 +129,10 @@ function DeskItem({ desk }: Props) {
           x: (desk.shape.x * stageSize.width) / 100,
           y: (desk?.shape.y * stageSize.height) / 100,
         });
+
+        toastMessageRef?.current?.showError({
+          description: t('feature.floorPlan.error.overflowDesk'),
+        });
       } else {
         onUpdateDeskShape({ deskId: desk.id, shape: newShape });
       }
@@ -140,6 +148,8 @@ function DeskItem({ desk }: Props) {
       setIsEditing,
       stageSize.height,
       stageSize.width,
+      t,
+      toastMessageRef,
     ],
   );
 
@@ -158,7 +168,6 @@ function DeskItem({ desk }: Props) {
 
       if (!node || !desk?.shape) return;
 
-      // we will reset it back
       node.scaleX(1);
       node.scaleY(1);
 
@@ -211,12 +220,13 @@ function DeskItem({ desk }: Props) {
   );
 
   const events = useMemo(() => {
-    if (draggingRoomId || pickingDeskId)
+    if (room?.shape?.isOverlapped || draggingRoomId || !allowEdit)
+      return undefined;
+
+    if (pickingDeskId)
       return {
         onMouseEnter,
       };
-
-    if (room?.shape?.isOverlapped) return undefined;
 
     return {
       onClick,
@@ -240,6 +250,7 @@ function DeskItem({ desk }: Props) {
     onTransformStart,
     pickingDeskId,
     room?.shape?.isOverlapped,
+    allowEdit,
   ]);
 
   if (!desk?.shape || (room?.id === selectingRoom?.id && isEditing)) {
@@ -247,24 +258,26 @@ function DeskItem({ desk }: Props) {
   }
 
   return (
-    <>
-      <Image
-        cornerRadius={100}
-        draggable
-        height={deskSize}
-        image={img}
-        offsetX={deskSize / 2}
-        offsetY={deskSize / 2}
-        ref={imgRef}
-        rotation={desk.shape.rotation}
-        stroke={COLOR.neutral['300']}
-        strokeWidth={2}
-        width={deskSize}
-        x={(desk.shape.x * stageSize.width) / 100}
-        y={(desk.shape.y * stageSize.height) / 100}
-        {...events}
-      />
-    </>
+    <Image
+      cornerRadius={100}
+      draggable={!!events}
+      height={deskSize}
+      image={img}
+      offsetX={deskSize / 2}
+      offsetY={deskSize / 2}
+      ref={imgRef}
+      rotation={desk.shape.rotation}
+      stroke={
+        desk?.id === selectingDesk?.id
+          ? COLOR.neutral['700']
+          : COLOR.neutral['300']
+      }
+      strokeWidth={2}
+      width={deskSize}
+      x={(desk.shape.x * stageSize.width) / 100}
+      y={(desk.shape.y * stageSize.height) / 100}
+      {...events}
+    />
   );
 }
 

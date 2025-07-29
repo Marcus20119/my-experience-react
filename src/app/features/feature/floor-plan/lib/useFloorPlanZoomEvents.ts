@@ -3,11 +3,13 @@ import { useEffect } from 'react';
 import { MAX_ZOOM_LEVEL, MIN_ZOOM_LEVEL } from '../model';
 
 interface Props {
+  floorPlanImage?: string;
   setZoomLevel: React.Dispatch<React.SetStateAction<number>>;
   workspaceRef: React.RefObject<HTMLDivElement>;
 }
 
-export const useInitialFloorPlanEvents = ({
+export const useFloorPlanZoomEvents = ({
+  floorPlanImage,
   setZoomLevel,
   workspaceRef,
 }: Props) => {
@@ -25,7 +27,7 @@ export const useInitialFloorPlanEvents = ({
         event.preventDefault(); // Prevents zooming when using the Ctrl key and scroll wheel
 
         setZoomLevel(prev => {
-          const newZoomLevel = prev - event.deltaY / 500;
+          const newZoomLevel = prev - event.deltaY / 1000; // 1000 is the scroll sensitivity
 
           if (
             newZoomLevel >= MIN_ZOOM_LEVEL &&
@@ -62,5 +64,5 @@ export const useInitialFloorPlanEvents = ({
       currentWorkspaceRef?.removeEventListener('wheel', handleStageWheel);
       window?.removeEventListener('touchmove', handleWindowGesture);
     };
-  }, []);
+  }, [floorPlanImage]);
 };

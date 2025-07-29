@@ -1,21 +1,20 @@
-import { notification } from 'antd';
 import type Konva from 'konva';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Rect, Transformer } from 'react-konva';
 
 import { useFloorPlanEditorContext } from '@/app/features/feature/floor-plan/context';
 import {
   checkOverflowedDesk,
   checkOverflowedRoom,
+  checkOverlappedRoom,
 } from '@/app/features/feature/floor-plan/lib';
-import type {
-  FloorPlanRoomItemEntity,
-  FloorPlanRoomShapeEntity,
+import {
+  type FloorPlanRoomItemEntity,
+  type FloorPlanRoomShapeEntity,
+  ROOM_COLOR,
 } from '@/app/features/feature/floor-plan/model';
 import { COLOR } from '@/shared/assets/styles/constants';
-import { NotiTool } from '@/shared/utils';
-
-const { showError } = NotiTool;
 
 interface Props {
   room: FloorPlanRoomItemEntity;
@@ -25,17 +24,20 @@ function RoomItem({ room }: Props) {
   const rectRef = useRef<Konva.Rect>(null);
   const trRef = useRef<Konva.Transformer>(null);
 
+  const { t } = useTranslation();
   const {
+    allowEdit,
     draggingRoomId,
     glowingRoom,
     onUpdateRoomShape,
     pickingDeskId,
+    rooms,
     selectingRoom,
     setIsEditing,
     setSelectingDesk,
     setSelectingRoom,
     stageSize,
-    workspaceRef,
+    toastMessageRef,
   } = useFloorPlanEditorContext();
 
   // Attach the transformer to the image
@@ -46,6 +48,28 @@ function RoomItem({ room }: Props) {
       trRef.current.getLayer()?.batchDraw();
     }
   }, [room.id, selectingRoom?.id]);
+
+  const handleCheckOverlap = useCallback(
+    (newShape: FloorPlanRoomShapeEntity) => {
+      const otherRooms = rooms?.filter(item => item.id !== room.id) || [];
+      const isOverlapped = otherRooms?.some(item =>
+        checkOverlappedRoom(
+          {
+            ...room,
+            shape: newShape,
+          },
+          item,
+        ),
+      );
+
+      if (isOverlapped) {
+        toastMessageRef?.current?.showError({
+          description: t('feature.floorPlan.error.overlappedTransformedRoom'),
+        });
+      }
+    },
+    [room, rooms, t, toastMessageRef],
+  );
 
   const onToggleSelectingRoom = useCallback(() => {
     if (selectingRoom?.id === room.id) {
@@ -77,7 +101,7 @@ function RoomItem({ room }: Props) {
       e.cancelBubble = true;
 
       if (glowingRoom?.id === room.id && pickingDeskId) {
-        document.body.style.cursor = 'pointer';
+        document.body.style.cursor = 'url("/svgs/pick-cursor.svg") 6 6, auto';
       } else {
         document.body.style.cursor = 'move';
       }
@@ -142,16 +166,8 @@ function RoomItem({ room }: Props) {
           y: (room?.shape?.y * stageSize.height) / 100,
         });
 
-        const { y } = workspaceRef?.current?.getBoundingClientRect() || {
-          y: 0,
-        };
-
-        notification.config({
-          top: y + 16, // FIX_ME
-        });
-
-        showError({
-          message: 'Lỗi rồi nè',
+        toastMessageRef?.current?.showError({
+          description: t('feature.floorPlan.error.overflowRoom'),
         });
       } else {
         onUpdateRoomShape({
@@ -160,6 +176,7 @@ function RoomItem({ room }: Props) {
         });
       }
 
+      handleCheckOverlap(newShape);
       setIsEditing(false);
     },
     [
@@ -167,8 +184,10 @@ function RoomItem({ room }: Props) {
       room.id,
       stageSize.width,
       stageSize.height,
+      handleCheckOverlap,
       setIsEditing,
-      workspaceRef,
+      toastMessageRef,
+      t,
       onUpdateRoomShape,
     ],
   );
@@ -196,11 +215,8 @@ function RoomItem({ room }: Props) {
       const height = (node.height() * scaleY * 100) / stageSize.height;
       const width = (node.width() * scaleX * 100) / stageSize.width;
 
-      // we will reset it back
       node.scaleX(1);
       node.scaleY(1);
-
-      // checkIf outside the stage, Imperatively set back the values
 
       const newShape = {
         ...room?.shape,
@@ -239,6 +255,18 @@ function RoomItem({ room }: Props) {
           x: (room?.shape?.x * stageSize.width) / 100,
           y: (room?.shape?.y * stageSize.height) / 100,
         });
+
+        if (isOverflowed) {
+          toastMessageRef?.current?.showError({
+            description: t('feature.floorPlan.error.overflowRoom'),
+          });
+        }
+
+        if (isDeskOverflowed) {
+          toastMessageRef?.current?.showError({
+            description: t('feature.floorPlan.error.overflowDesk'),
+          });
+        }
       } else {
         onUpdateRoomShape({
           roomId: room.id,
@@ -246,13 +274,23 @@ function RoomItem({ room }: Props) {
         });
       }
 
+      handleCheckOverlap(newShape);
       setIsEditing(false);
     },
-    [room, stageSize.width, stageSize.height, setIsEditing, onUpdateRoomShape],
+    [
+      room,
+      stageSize.width,
+      stageSize.height,
+      handleCheckOverlap,
+      setIsEditing,
+      toastMessageRef,
+      t,
+      onUpdateRoomShape,
+    ],
   );
 
   const events = useMemo(() => {
-    if (draggingRoomId) {
+    if (draggingRoomId || !allowEdit) {
       return undefined;
     }
 
@@ -290,30 +328,31 @@ function RoomItem({ room }: Props) {
     onTransformStart,
     pickingDeskId,
     room.id,
+    allowEdit,
   ]);
 
   const fill = useMemo(() => {
     if (room?.shape?.isOverlapped) {
-      return '#FF3B3050';
+      return ROOM_COLOR.error.bg;
     }
 
     if (room?.id === glowingRoom?.id) {
-      return '#00ff4050';
+      return ROOM_COLOR.glowing.bg;
     }
 
-    return '#34C75950';
+    return ROOM_COLOR.default.bg;
   }, [glowingRoom?.id, room?.id, room?.shape?.isOverlapped]);
 
   const stroke = useMemo(() => {
     if (room?.shape?.isOverlapped) {
-      return '#FF3B30';
+      return ROOM_COLOR.error.border;
     }
 
     if (room?.id === glowingRoom?.id) {
-      return '#00ff40';
+      return ROOM_COLOR.glowing.border;
     }
 
-    return '#34C759';
+    return ROOM_COLOR.default.border;
   }, [glowingRoom?.id, room?.id, room?.shape?.isOverlapped]);
 
   if (!room?.shape) return null;
@@ -330,18 +369,21 @@ function RoomItem({ room }: Props) {
         offsetY={(room?.shape?.height * stageSize.height) / 200}
         ref={rectRef}
         stroke={stroke}
+        strokeWidth={2}
         width={(room?.shape?.width * stageSize.width) / 100}
         x={(room?.shape?.x * stageSize.width) / 100}
         y={(room?.shape?.y * stageSize.height) / 100}
         {...events}
       />
+
       {selectingRoom?.id === room.id ? (
         <Transformer
-          anchorCornerRadius={4}
+          anchorCornerRadius={2}
           anchorFill="true"
-          anchorStroke={COLOR.secondary}
-          anchorStrokeWidth={2}
-          borderStroke={COLOR.primary}
+          anchorSize={8}
+          anchorStroke={COLOR.neutral['700']}
+          anchorStrokeWidth={1}
+          borderStroke={COLOR.neutral['700']}
           boundBoxFunc={(oldBox, newBox) => {
             // limit resize
             if (Math.abs(newBox.width) < 5 || Math.abs(newBox.height) < 5) {

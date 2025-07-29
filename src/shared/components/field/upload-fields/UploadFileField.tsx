@@ -14,7 +14,7 @@ import {
   storageApi,
 } from '@/shared/tanstack/api/storage';
 import type { FileType } from '@/shared/types';
-import { NotiTool, TextTool } from '@/shared/utils';
+import { NotiTool } from '@/shared/utils';
 import { FileTool } from '@/shared/utils/file';
 
 import { getFileExtension } from './getFileExtension';
@@ -24,7 +24,6 @@ import UploadedFile from './UploadedFile';
 const { Dragger } = Upload;
 const { Text } = Typography;
 const { getFileTypeFromName, joinFileUrl, splitFileUrl } = FileTool;
-const { getSlug } = TextTool;
 const { showError } = NotiTool;
 
 interface SingleFileProps {
@@ -62,14 +61,14 @@ function UploadFileField({
   const isSetInitialFiles = useRef<boolean>(false);
   const { t } = useTranslation();
 
-  const { mutateAsync: createTechnologySection } = useMutation({
+  const { mutateAsync: createPresignUrl } = useMutation({
     mutationFn: storageApi.getPresignedUrl,
   });
 
   const [files, setFiles] = useState<UploadedFileProps[]>([]);
 
   const handleUpload = async (file: RcFile) => {
-    const fileName = getSlug(file.name);
+    const fileName = file.name;
     const fileType = getFileTypeFromName(fileName);
     const fileSize = file.size;
     const blobUrl = URL.createObjectURL(file);
@@ -103,9 +102,8 @@ function UploadFileField({
     ]);
 
     // Handle api
-
     try {
-      const { key, uploadUrl } = await createTechnologySection({
+      const { key, uploadUrl } = await createPresignUrl({
         bucketType,
         category: fileCategory,
         mimeType: fileType as unknown as MimeType,

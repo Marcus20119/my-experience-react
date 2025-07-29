@@ -60,7 +60,30 @@
     "floorPlan": {
       "button": {
         "dragRoom": "Drag room",
+        "fitToScreen": "Fit to screen",
         "pickDesk": "Pick desk"
+      },
+      "description": {
+        "noRoomAvailable": "No rooms available for this floor. Please add rooms first.",
+        "notAvailable": "No rooms/desks are available",
+        "removeDesk": "Are you sure to remove this desk?",
+        "removeRoom": "Are you sure to remove this room?",
+        "removeRoomWithDesks": "Are you sure to remove this room? This will also remove {{deskCount}} mapped desks inside this room."
+      },
+      "error": {
+        "duplicateDesk": "New position overlaps with other rooms. Please move to an empty area.",
+        "overflowDesk": "Desk must be placed within its room boundary.",
+        "overflowRoom": "Room must be placed within the floor plan boundaries.",
+        "overlappedMappedRoom": "Room area overlaps with other rooms. Please move to an empty area.",
+        "overlappedTransformedRoom": "New position overlaps with other rooms. Please move to an empty area.",
+        "uploadNoRooms": "No rooms available for this floor. Please add rooms first."
+      },
+      "label": {
+        "mappedRooms": "Mapped room(s)"
+      },
+      "title": {
+        "removeDesk": "Remove desk '{{deskName}}'?",
+        "removeRoom": "Remove room '{{roomName}}'?"
       }
     }
   }

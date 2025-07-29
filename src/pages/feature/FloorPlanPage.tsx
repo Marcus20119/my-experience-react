@@ -98,7 +98,8 @@ function FloorPlanPage() {
       title={t('layout.title.floorPlan')}
     >
       <FloorPlanEditor
-        floorPlanUrl="/images/floor-plan.jpg"
+        allowEdit
+        getDataLoading={false}
         height={height}
         initialRooms={mockedRooms}
         width={width}

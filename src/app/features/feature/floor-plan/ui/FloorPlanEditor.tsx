@@ -1,32 +1,27 @@
 import { Flex } from 'antd';
+import { forwardRef } from 'react';
+
+import { COLOR } from '@/shared/assets/styles/constants';
 
 import type { FloorPlanEditorExternalContextProps } from '../context';
 import { FloorPlanEditorProvider } from '../context';
-import { FLOOR_PLAN_EDITOR_SIZE } from '../model';
-import { FloorPlanFooter } from './footer';
-import { FloorPlanHeader } from './header';
+import { FLOOR_PLAN_EDITOR_SIZE, type FloorPlanRef } from '../model';
 import RoomMenu from './RoomMenu';
 import { StyledRoomMenu } from './styles';
 import { FloorPlanWorkspace } from './workspace';
+import FloorPlanImperativeHandleBridge from './workspace/FloorPlanImperativeHandleBridge';
 
-interface RequiredContextProps
-  extends Pick<
-    FloorPlanEditorExternalContextProps,
-    'floorPlanUrl' | 'height' | 'initialRooms' | 'width'
-  > {}
+interface Props extends FloorPlanEditorExternalContextProps {}
 
-interface Props extends RequiredContextProps {}
-
-function FloorPlanEditor({ floorPlanUrl, height, initialRooms, width }: Props) {
+function FloorPlanEditor(
+  { height, width, ...props }: Props,
+  ref: React.Ref<FloorPlanRef>,
+) {
   return (
-    <FloorPlanEditorProvider
-      floorPlanUrl={floorPlanUrl}
-      height={height}
-      initialRooms={initialRooms}
-      width={width}
-    >
+    <FloorPlanEditorProvider height={height} width={width} {...props}>
+      <FloorPlanImperativeHandleBridge ref={ref} />
       <Flex
-        className="bg-neutral-100 transition-all duration-300"
+        className="relative transition-all duration-300"
         gap="1rem"
         style={{
           height,
@@ -34,7 +29,7 @@ function FloorPlanEditor({ floorPlanUrl, height, initialRooms, width }: Props) {
           width,
         }}
       >
-        <StyledRoomMenu>
+        <StyledRoomMenu softPrimaryColor={`${COLOR.primary}33`}>
           <RoomMenu />
         </StyledRoomMenu>
         <div
@@ -43,13 +38,11 @@ function FloorPlanEditor({ floorPlanUrl, height, initialRooms, width }: Props) {
             height: height - FLOOR_PLAN_EDITOR_SIZE.padding * 2,
           }}
         >
-          <FloorPlanHeader />
           <FloorPlanWorkspace />
-          <FloorPlanFooter />
         </div>
       </Flex>
     </FloorPlanEditorProvider>
   );
 }
 
-export default FloorPlanEditor;
+export default forwardRef<FloorPlanRef, Props>(FloorPlanEditor);

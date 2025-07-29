@@ -13,7 +13,6 @@ export const useGetCloudItems = () => {
       color3: '#d9a4ff',
       description: t('technology.description.aws'),
       icon: <Icon height="64" icon="logos:aws" width="64" />,
-      path: '/technology/cloud/aws',
       rate: 3.5,
       title: 'AWS',
     },

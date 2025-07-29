@@ -1,38 +1,70 @@
-import { Flex } from 'antd';
 import type Konva from 'konva';
 import type { KonvaEventObject } from 'konva/lib/Node';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Layer, Rect, Stage } from 'react-konva';
 import { v4 as uuidv4 } from 'uuid';
 
 import { useFloorPlanEditorContext } from '@/app/features/feature/floor-plan/context';
-import { checkOverflowedDesk } from '@/app/features/feature/floor-plan/lib';
-import type { FloorPlanRoomShapeEntity } from '@/app/features/feature/floor-plan/model';
+import {
+  checkOverflowedDesk,
+  checkOverlappedRoom,
+} from '@/app/features/feature/floor-plan/lib';
+import {
+  type FloorPlanRoomShapeEntity,
+  ROOM_COLOR,
+} from '@/app/features/feature/floor-plan/model';
+import { ToastMessage } from '@/shared/components';
 
+import FloorPlanAction from '../actions';
 import FloorPlanItem from '../items';
 import FloorPlanImageLayer from './FloorPlanImageLayer';
-import FloorPlanItemActions from './FloorPlanItemActions';
+import NameLayer from './NameLayer';
 import OverlayLayer from './OverlayLayer';
+import { StyledFloorPlanWorkspace } from './styles';
+import UploadFloorPlan from './UploadFloorPlan';
 
 function FloorPlanWorkspace() {
+  const { t } = useTranslation();
   const {
+    allowEdit,
     draggingRoomId,
+    floorPlanImage,
+    getDataLoading,
     glowingRoom,
+    isEditing,
     onUpdateDeskShape,
     onUpdateRoomShape,
     pickingDeskId,
     rooms,
+    selectingDesk,
+    selectingRoom,
     setDraggingRoomId,
     setPickingDeskId,
     setSelectingDesk,
     setSelectingRoom,
+    setZoomLevel,
     stageRef,
     stageSize,
+    toastMessageRef,
     workspaceRef,
     workspaceSize,
+    zoomLevel,
   } = useFloorPlanEditorContext();
 
   const [newRoomShape, setNewRoomShape] = useState<FloorPlanRoomShapeEntity>();
+
+  const renderedRooms = rooms?.filter(room => room.shape) || [];
+  const renderedDesks =
+    renderedRooms
+      ?.flatMap(room => room.desks || [])
+      ?.filter(desk => desk.shape) || [];
+
+  /**
+   * Long Nguyen (16/07/25): Handle add new item to the floor plan
+   * - Room: Only add new room when the mouse is up (create a fake room in the process: mouse down - move - up)
+   * - Desk: Add new desk when the mouse is down immediately
+   */
 
   const handleMouseDown = (e: KonvaEventObject<MouseEvent>) => {
     const { x: pointerX, y: pointerY } = e.target
@@ -45,33 +77,47 @@ function FloorPlanWorkspace() {
     const x = (pointerX / stageSize.width) * 100;
     const y = (pointerY / stageSize.height) * 100;
 
-    if (draggingRoomId) {
+    if (draggingRoomId && !newRoomShape) {
       setNewRoomShape({
         height: 0,
         id: uuidv4(),
         width: 0,
         x,
         y,
-        zIndex: 1, // FIX_ME
+        zIndex: renderedRooms?.length || 0,
       });
     }
 
-    if (
-      pickingDeskId &&
-      glowingRoom &&
-      !checkOverflowedDesk({ deskPosition: { x, y }, room: glowingRoom })
-    ) {
-      onUpdateDeskShape({
-        deskId: pickingDeskId,
-        shape: {
-          id: pickingDeskId,
-          x,
-          y,
-          zIndex: 1, // FIX_ME
-        },
+    if (pickingDeskId && glowingRoom) {
+      const isOverflowed = checkOverflowedDesk({
+        deskPosition: { x, y },
+        room: glowingRoom,
       });
 
-      setPickingDeskId(null);
+      if (isOverflowed) {
+        toastMessageRef?.current?.showError({
+          description: t('feature.floorPlan.error.overflowDesk'),
+        });
+      } else {
+        const mappedDesks = glowingRoom?.desks?.filter(desk => desk?.shape);
+        const roomZIndex = glowingRoom?.shape?.zIndex || 0;
+
+        onUpdateDeskShape({
+          deskId: pickingDeskId,
+          shape: {
+            id: pickingDeskId,
+            x,
+            y,
+            /**
+             * Long Nguyen (16/07/25): Make sure all the desks will not be overlapped with each other zIndex
+             * Assume each room has less than 100 desks
+             */
+            zIndex: roomZIndex * 100 + (mappedDesks?.length || 0),
+          },
+        });
+
+        setPickingDeskId(null);
+      }
     }
   };
 
@@ -103,18 +149,42 @@ function FloorPlanWorkspace() {
       const roomX = (x / stageSize.width) * 100 - width / 2;
       const roomY = (y / stageSize.height) * 100 - height / 2;
 
+      const newShape: FloorPlanRoomShapeEntity = {
+        height: Math.max(Math.abs(height), 5),
+        id: draggingRoomId,
+        rotation: 0,
+        width: Math.max(Math.abs(width), 5),
+        x: roomX,
+        y: roomY,
+        zIndex: newRoomShape.zIndex,
+      };
+
       onUpdateRoomShape({
         roomId: draggingRoomId,
-        shape: {
-          height: Math.abs(height),
-          id: draggingRoomId,
-          rotation: 0,
-          width: Math.abs(width),
-          x: roomX,
-          y: roomY,
-          zIndex: 1,
-        },
+        shape: newShape,
       });
+
+      const otherRooms =
+        rooms?.filter(item => item.id !== draggingRoomId) || [];
+      const room = rooms?.find(item => item.id === draggingRoomId);
+
+      if (room) {
+        const isOverlapped = otherRooms?.some(item =>
+          checkOverlappedRoom(
+            {
+              ...room,
+              shape: newShape,
+            },
+            item,
+          ),
+        );
+
+        if (isOverlapped) {
+          toastMessageRef?.current?.showError({
+            description: t('feature.floorPlan.error.overlappedMappedRoom'),
+          });
+        }
+      }
 
       setNewRoomShape(undefined);
       setDraggingRoomId(null);
@@ -122,90 +192,111 @@ function FloorPlanWorkspace() {
     }
   };
 
-  const desks = rooms?.flatMap(room => room.desks || []);
-
   return (
-    <Flex
-      align="center"
-      className="overflow-auto transition-all"
+    <StyledFloorPlanWorkspace
+      className="flex items-center overflow-auto rounded-xl bg-neutral-200 transition-all"
       ref={workspaceRef}
       style={{
         height: workspaceSize.height,
         width: workspaceSize.width,
       }}
     >
-      <div
-        className="relative m-auto flex-shrink-0 bg-neutral-0 shadow-card-lg"
-        onMouseEnter={e => {
-          e.preventDefault();
+      {floorPlanImage ? (
+        <>
+          <div
+            className="relative m-auto flex-shrink-0 bg-neutral-0 shadow-card-lg"
+            onMouseEnter={e => {
+              e.preventDefault();
 
-          if (draggingRoomId) {
-            document.body.style.cursor = 'crosshair';
-          }
+              if (draggingRoomId) {
+                document.body.style.cursor = 'crosshair';
+              }
 
-          if (pickingDeskId) {
-            document.body.style.cursor = 'not-allowed';
-          }
-        }}
-        onMouseLeave={e => {
-          e.preventDefault();
-          document.body.style.cursor = 'default';
-        }}
-        style={{
-          height: stageSize.height,
-          width: stageSize.width,
-        }}
-      >
-        <FloorPlanImageLayer zIndex={0} />
-        {glowingRoom ? <OverlayLayer zIndex={10} /> : null}
+              if (pickingDeskId) {
+                document.body.style.cursor = 'not-allowed';
+              }
+            }}
+            onMouseLeave={e => {
+              e.preventDefault();
+              document.body.style.cursor = 'default';
+            }}
+            style={{
+              height: stageSize.height,
+              width: stageSize.width,
+            }}
+          >
+            <FloorPlanImageLayer zIndex={0} />
+            {glowingRoom ? <OverlayLayer zIndex={10} /> : null}
 
-        <Stage
-          className="absolute z-20"
-          height={stageSize.height}
-          onClick={() => {
-            setSelectingRoom(null);
-            setSelectingDesk(null);
-          }}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onTap={() => {
-            setSelectingRoom(null);
-            setSelectingDesk(null);
-          }}
-          ref={stageRef}
-          width={stageSize.width}
-        >
-          <Layer>
-            {rooms.map(room => {
-              if (!room?.shape) return null;
+            <Stage
+              className="absolute z-20"
+              height={stageSize.height}
+              onClick={() => {
+                setSelectingRoom(null);
+                setSelectingDesk(null);
+              }}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onTap={() => {
+                setSelectingRoom(null);
+                setSelectingDesk(null);
+              }}
+              ref={stageRef}
+              width={stageSize.width}
+            >
+              <Layer>
+                {renderedRooms.map(room => (
+                  <FloorPlanItem.Room key={room.id} room={room} />
+                ))}
 
-              return <FloorPlanItem.Room key={room.id} room={room} />;
-            })}
+                {renderedDesks.map(desk => (
+                  <FloorPlanItem.Desk desk={desk} key={desk.id} />
+                ))}
 
-            {desks.map(desk => {
-              if (!desk.shape) return null;
+                {newRoomShape ? (
+                  <Rect
+                    fill={ROOM_COLOR.default.bg}
+                    height={(newRoomShape?.height * stageSize.height) / 100}
+                    stroke={ROOM_COLOR.default.border}
+                    width={(newRoomShape?.width * stageSize.width) / 100}
+                    x={(newRoomShape?.x * stageSize.width) / 100}
+                    y={(newRoomShape?.y * stageSize.height) / 100}
+                  />
+                ) : null}
+              </Layer>
+            </Stage>
 
-              return <FloorPlanItem.Desk desk={desk} key={desk.id} />;
-            })}
-
-            {newRoomShape ? (
-              <Rect
-                fill="#34C75950"
-                height={(newRoomShape?.height * stageSize.height) / 100}
-                key="newRoomShape"
-                stroke="#34C759"
-                width={(newRoomShape?.width * stageSize.width) / 100}
-                x={(newRoomShape?.x * stageSize.width) / 100}
-                y={(newRoomShape?.y * stageSize.height) / 100}
-              />
+            {selectingRoom && !isEditing ? (
+              <NameLayer room={selectingRoom} zIndex={999} />
             ) : null}
-          </Layer>
-        </Stage>
+            {selectingDesk && !isEditing ? (
+              <NameLayer desk={selectingDesk} zIndex={999} />
+            ) : null}
+            {glowingRoom ? <NameLayer room={glowingRoom} zIndex={999} /> : null}
 
-        <FloorPlanItemActions zIndex={30} />
-      </div>
-    </Flex>
+            <FloorPlanAction.Item zIndex={999} />
+          </div>
+
+          {stageSize?.height && stageSize?.width ? (
+            <>
+              {renderedDesks?.length && allowEdit ? (
+                <FloorPlanAction.ResizeDesk zIndex={999} />
+              ) : null}
+              <FloorPlanAction.Zoom
+                setZoomLevel={setZoomLevel}
+                zIndex={999}
+                zoomLevel={zoomLevel}
+              />
+            </>
+          ) : null}
+        </>
+      ) : (
+        <UploadFloorPlan disabled={getDataLoading} />
+      )}
+
+      <ToastMessage ref={toastMessageRef} zIndex={1000} />
+    </StyledFloorPlanWorkspace>
   );
 }
 

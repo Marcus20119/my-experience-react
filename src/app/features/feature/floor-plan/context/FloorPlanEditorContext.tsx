@@ -1,12 +1,25 @@
+/* eslint-disable max-lines */
 import type Konva from 'konva';
 import type { RefObject } from 'react';
-import { createContext, useContext, useMemo, useRef, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { useTranslation } from 'react-i18next';
 import useImage from 'use-image';
+
+import type { ToastMessageRef } from '@/shared/components';
+import { FileTool } from '@/shared/utils/file';
 
 import {
   checkOverlappedRoom,
+  useFloorPlanZoomEvents,
   useGetContainerSize,
-  useInitialFloorPlanEvents,
 } from '../lib';
 import type {
   FloorPlanDeskItemEntity,
@@ -14,8 +27,11 @@ import type {
   FloorPlanRoomItemEntity,
   FloorPlanRoomShapeEntity,
   FloorPlanSize,
+  FloorPlanValue,
 } from '../model';
-import { FLOOR_PLAN_EDITOR_SIZE } from '../model';
+import { DEFAULT_DESK_SIZE, FLOOR_PLAN_EDITOR_SIZE } from '../model';
+
+const { splitFileUrl } = FileTool;
 
 interface UpdateRoomShapeProps {
   roomId: string;
@@ -28,17 +44,24 @@ interface UpdateDeskShapeProps {
 }
 
 export interface FloorPlanEditorExternalContextProps {
-  floorPlanUrl: string;
+  allowEdit?: boolean;
+  getDataLoading?: boolean;
   height: number;
   initialDeskSize?: number;
+  initialFloorPlanImage?: string;
   initialRooms?: FloorPlanRoomItemEntity[];
+  onChange?: (value: FloorPlanValue) => void;
   width: number;
 }
 
 interface FloorPlanEditorInternalContextProps {
   deskSize: number;
   draggingRoomId: null | string;
+  floorPlanImage?: string;
   glowingRoom?: FloorPlanRoomItemEntity;
+  handleChangeDeskSize: (deskSize: number) => void;
+  handleChangeFloorPlanImage: (floorPlanImage?: string) => void;
+  handleResetFloorPlan: () => void;
   isEditing: boolean;
   onRemoveDeskShape: (deskId: string) => void;
   onRemoveRoomShape: (roomId: string) => void;
@@ -48,7 +71,6 @@ interface FloorPlanEditorInternalContextProps {
   rooms: FloorPlanRoomItemEntity[];
   selectingDesk: FloorPlanDeskItemEntity | null;
   selectingRoom: FloorPlanRoomItemEntity | null;
-  setDeskSize: React.Dispatch<React.SetStateAction<number>>;
   setDraggingRoomId: React.Dispatch<React.SetStateAction<null | string>>;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
   setPickingDeskId: React.Dispatch<React.SetStateAction<null | string>>;
@@ -61,6 +83,7 @@ interface FloorPlanEditorInternalContextProps {
   setZoomLevel: React.Dispatch<React.SetStateAction<number>>;
   stageRef: null | RefObject<Konva.Stage>;
   stageSize: FloorPlanSize;
+  toastMessageRef: null | RefObject<ToastMessageRef>;
   workspaceRef: null | RefObject<HTMLDivElement>;
   workspaceSize: FloorPlanSize;
   zoomLevel: number;
@@ -69,9 +92,13 @@ interface FloorPlanEditorInternalContextProps {
 const FloorPlanEditorContext = createContext<
   FloorPlanEditorExternalContextProps & FloorPlanEditorInternalContextProps
 >({
-  deskSize: 15,
+  allowEdit: true,
+  deskSize: DEFAULT_DESK_SIZE,
   draggingRoomId: null,
-  floorPlanUrl: '',
+  floorPlanImage: undefined,
+  handleChangeDeskSize: () => null,
+  handleChangeFloorPlanImage: () => null,
+  handleResetFloorPlan: () => null,
   height: 0,
   isEditing: false,
   onRemoveDeskShape: () => null,
@@ -82,7 +109,6 @@ const FloorPlanEditorContext = createContext<
   rooms: [],
   selectingDesk: null,
   selectingRoom: null,
-  setDeskSize: () => 0,
   setDraggingRoomId: () => null,
   setIsEditing: () => false,
   setPickingDeskId: () => null,
@@ -91,6 +117,7 @@ const FloorPlanEditorContext = createContext<
   setZoomLevel: () => 0,
   stageRef: null,
   stageSize: { height: 0, width: 0 },
+  toastMessageRef: null,
   width: 0,
   workspaceRef: null,
   workspaceSize: { height: 0, width: 0 },
@@ -103,15 +130,22 @@ interface ProviderProps extends FloorPlanEditorExternalContextProps {
 
 export function FloorPlanEditorProvider({
   children,
-  initialDeskSize = 15,
+  initialDeskSize = DEFAULT_DESK_SIZE,
+  initialFloorPlanImage,
   initialRooms = [],
+  onChange,
   ...props
 }: ProviderProps) {
   const stageRef = useRef<Konva.Stage>(null);
   const workspaceRef = useRef<HTMLDivElement>(null);
+  const toastMessageRef = useRef<ToastMessageRef>(null);
 
-  const [zoomLevel, setZoomLevel] = useState(1);
+  const { t } = useTranslation();
+
+  const [floorPlanImage, setFloorPlanImage] = useState(initialFloorPlanImage);
   const [rooms, setRooms] = useState<FloorPlanRoomItemEntity[]>(initialRooms);
+  const [deskSize, setDeskSize] = useState(initialDeskSize);
+  const [zoomLevel, setZoomLevel] = useState(1);
   const [draggingRoomId, setDraggingRoomId] = useState<null | string>(null);
   const [selectingRoom, setSelectingRoom] =
     useState<FloorPlanRoomItemEntity | null>(null);
@@ -119,16 +153,12 @@ export function FloorPlanEditorProvider({
   const [selectingDesk, setSelectingDesk] =
     useState<FloorPlanDeskItemEntity | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [deskSize, setDeskSize] = useState(initialDeskSize);
 
-  const [img] = useImage(props.floorPlanUrl, 'anonymous');
+  const { url } = splitFileUrl(floorPlanImage);
+  const [img] = useImage(url || '');
 
   const workspaceSize = {
-    height:
-      props.height -
-      (FLOOR_PLAN_EDITOR_SIZE.footerHeight +
-        FLOOR_PLAN_EDITOR_SIZE.headerHeight +
-        FLOOR_PLAN_EDITOR_SIZE.padding * 2),
+    height: props.height - FLOOR_PLAN_EDITOR_SIZE.padding * 2,
     width:
       props.width -
       (FLOOR_PLAN_EDITOR_SIZE.roomMenuWidth +
@@ -148,10 +178,64 @@ export function FloorPlanEditorProvider({
     width: originalStageSize.width * zoomLevel,
   };
 
-  useInitialFloorPlanEvents({
+  useFloorPlanZoomEvents({
+    floorPlanImage,
     setZoomLevel,
     workspaceRef,
   });
+
+  const handleResetFloorPlan = () => {
+    setFloorPlanImage(initialFloorPlanImage);
+    setRooms(initialRooms);
+    setDeskSize(initialDeskSize || DEFAULT_DESK_SIZE);
+    setZoomLevel(1);
+    setSelectingRoom(null);
+    setSelectingDesk(null);
+    setDraggingRoomId(null);
+    setPickingDeskId(null);
+    setIsEditing(false);
+  };
+
+  const handleChangeFloorPlan = useCallback(
+    (value: Partial<FloorPlanValue>) => {
+      setTimeout(() => {
+        onChange?.({
+          deskSize,
+          floorPlanImage,
+          rooms,
+          ...value,
+        });
+      }, 0);
+    },
+    [deskSize, floorPlanImage, onChange, rooms],
+  );
+
+  const handleChangeDeskSize = useCallback(
+    (deskSize: number) => {
+      setDeskSize(deskSize);
+      handleChangeFloorPlan({
+        deskSize,
+      });
+    },
+    [handleChangeFloorPlan],
+  );
+
+  const handleChangeFloorPlanImage = useCallback(
+    (floorPlanImage?: string) => {
+      setFloorPlanImage(floorPlanImage);
+      handleChangeFloorPlan({
+        floorPlanImage,
+      });
+      setZoomLevel(1);
+
+      if (!rooms?.length) {
+        toastMessageRef.current?.showWarning({
+          description: t('feature.floorPlan.error.uploadNoRooms'),
+        });
+      }
+    },
+    [handleChangeFloorPlan, rooms?.length, t],
+  );
 
   const glowingRoom = useMemo(
     () =>
@@ -163,181 +247,276 @@ export function FloorPlanEditorProvider({
     [pickingDeskId, rooms, selectingDesk?.id],
   );
 
-  const onUpdateRoomShape = ({ roomId, shape }: UpdateRoomShapeProps) => {
-    if (roomId) {
-      setRooms(currentRooms => {
-        const newRooms = currentRooms?.map(room => {
-          if (room.id === roomId) {
-            const isChangedSize =
-              room.shape?.width !== shape.width ||
-              room.shape?.height !== shape.height;
+  const onUpdateRoomShape = useCallback(
+    ({ roomId, shape }: UpdateRoomShapeProps) => {
+      if (roomId) {
+        setRooms(currentRooms => {
+          const newRooms = currentRooms?.map(room => {
+            if (room.id === roomId) {
+              const isChangedSize =
+                room.shape?.width !== shape.width ||
+                room.shape?.height !== shape.height;
 
-            const newRoom: FloorPlanRoomItemEntity = {
+              const newRoom: FloorPlanRoomItemEntity = {
+                ...room,
+                desks: room.desks?.map(desk => ({
+                  ...desk,
+                  shape:
+                    desk?.shape && !isChangedSize
+                      ? {
+                          ...desk.shape,
+                          x: shape.x + (desk.shape.x - (room?.shape?.x || 0)),
+                          y: shape.y + (desk.shape.y - (room?.shape?.y || 0)),
+                        }
+                      : desk.shape,
+                })),
+                shape: {
+                  ...room.shape,
+                  ...shape,
+                },
+              };
+
+              return newRoom;
+            }
+
+            return room;
+          });
+
+          const checkedOverlappedRooms = newRooms?.map(room => {
+            const otherRooms = newRooms?.filter(item => room.id !== item.id);
+
+            const isOverlapped = otherRooms.some(otherRoom =>
+              checkOverlappedRoom(room, otherRoom),
+            );
+
+            return {
               ...room,
-              desks: room.desks?.map(desk => ({
-                ...desk,
-                shape:
-                  desk?.shape && !isChangedSize
+              shape: room.shape
+                ? {
+                    ...room.shape,
+                    isOverlapped,
+                  }
+                : undefined,
+            };
+          });
+
+          handleChangeFloorPlan({
+            rooms: checkedOverlappedRooms,
+          });
+
+          return checkedOverlappedRooms;
+        });
+
+        if (selectingRoom) {
+          setSelectingRoom(room =>
+            room
+              ? {
+                  ...room,
+                  shape: {
+                    ...room.shape,
+                    ...shape,
+                  },
+                }
+              : null,
+          );
+        }
+      }
+    },
+    [handleChangeFloorPlan, selectingRoom],
+  );
+
+  const onUpdateDeskShape = useCallback(
+    ({ deskId, shape }: UpdateDeskShapeProps) => {
+      if (deskId && glowingRoom) {
+        setRooms(currentRooms => {
+          const newRooms = currentRooms?.map(room => {
+            if (room.id === glowingRoom.id) {
+              return {
+                ...room,
+                desks: room.desks?.map(desk => {
+                  if (desk.id === deskId) {
+                    return {
+                      ...desk,
+                      shape: {
+                        ...desk.shape,
+                        ...shape,
+                      },
+                    };
+                  }
+
+                  return desk;
+                }),
+              };
+            }
+
+            return room;
+          });
+
+          handleChangeFloorPlan({
+            rooms: newRooms,
+          });
+
+          return newRooms;
+        });
+
+        if (selectingDesk) {
+          setSelectingDesk(desk =>
+            desk
+              ? {
+                  ...desk,
+                  shape: {
+                    ...desk.shape,
+                    ...shape,
+                  },
+                }
+              : null,
+          );
+        }
+      }
+    },
+    [glowingRoom, handleChangeFloorPlan, selectingDesk],
+  );
+
+  const onRemoveRoomShape = useCallback(
+    (roomId: string) => {
+      if (roomId) {
+        const removedRoom = rooms?.find(room => room.id === roomId);
+
+        setRooms(currentRooms => {
+          const newRooms = currentRooms?.map(room => {
+            if (room.id === roomId) {
+              return {
+                ...room,
+                desks: room.desks?.map(desk => ({
+                  ...desk,
+                  shape: undefined,
+                })),
+                shape: undefined,
+              };
+            }
+
+            if (
+              room?.shape &&
+              removedRoom?.shape &&
+              room?.shape?.zIndex > removedRoom?.shape?.zIndex
+            ) {
+              const newRoomZIndex = room?.shape?.zIndex - 1;
+
+              return {
+                ...room,
+                desks: room.desks?.map(desk => ({
+                  ...desk,
+                  shape: desk?.shape
                     ? {
                         ...desk.shape,
-                        x: shape.x + (desk.shape.x - (room?.shape?.x || 0)),
-                        y: shape.y + (desk.shape.y - (room?.shape?.y || 0)),
+                        zIndex: newRoomZIndex * 100 + (desk.shape.zIndex % 100),
                       }
-                    : desk.shape,
-              })),
-              shape: {
-                ...room.shape,
-                ...shape,
-              },
-            };
-
-            return newRoom;
-          }
-
-          return room;
-        });
-
-        const checkedOverlappedRooms = newRooms?.map(room => {
-          const otherRooms = newRooms?.filter(item => room.id !== item.id);
-
-          const isOverlapped = otherRooms.some(otherRoom =>
-            checkOverlappedRoom(room, otherRoom),
-          );
-
-          return {
-            ...room,
-            shape: room.shape
-              ? {
+                    : undefined,
+                })),
+                shape: {
                   ...room.shape,
-                  isOverlapped,
-                }
-              : undefined,
-          };
+                  zIndex: newRoomZIndex,
+                },
+              };
+            }
+
+            return room;
+          });
+
+          const checkedOverlappedRooms = newRooms?.map(room => {
+            const otherRooms = newRooms?.filter(item => room.id !== item.id);
+
+            const isOverlapped = otherRooms.some(otherRoom =>
+              checkOverlappedRoom(room, otherRoom),
+            );
+
+            return {
+              ...room,
+              shape: room.shape
+                ? {
+                    ...room.shape,
+                    isOverlapped,
+                  }
+                : undefined,
+            };
+          });
+
+          handleChangeFloorPlan({
+            rooms: checkedOverlappedRooms,
+          });
+
+          return checkedOverlappedRooms;
         });
+      }
 
-        return checkedOverlappedRooms;
-      });
+      setSelectingRoom(null);
+    },
+    [handleChangeFloorPlan, rooms],
+  );
 
-      if (selectingRoom) {
-        setSelectingRoom(room =>
-          room
-            ? {
+  const onRemoveDeskShape = useCallback(
+    (deskId: string) => {
+      if (deskId && glowingRoom) {
+        const removedDesk = glowingRoom?.desks?.find(
+          desk => desk.id === deskId,
+        );
+
+        setRooms(currentRooms => {
+          const newRooms = currentRooms?.map(room => {
+            if (room.id === glowingRoom.id) {
+              return {
                 ...room,
-                shape: {
-                  ...room.shape,
-                  ...shape,
-                },
-              }
-            : null,
-        );
+                desks: room.desks?.map(desk => {
+                  if (desk.id === deskId) {
+                    return {
+                      ...desk,
+                      shape: undefined,
+                    };
+                  }
+
+                  if (
+                    desk?.shape &&
+                    removedDesk?.shape &&
+                    desk?.shape?.zIndex >= removedDesk?.shape?.zIndex
+                  ) {
+                    return {
+                      ...desk,
+                      shape: {
+                        ...desk.shape,
+                        zIndex: desk.shape.zIndex - 1,
+                      },
+                    };
+                  }
+
+                  return desk;
+                }),
+              };
+            }
+
+            return room;
+          });
+
+          handleChangeFloorPlan({
+            rooms: newRooms,
+          });
+
+          return newRooms;
+        });
       }
-    }
-  };
 
-  const onUpdateDeskShape = ({ deskId, shape }: UpdateDeskShapeProps) => {
-    if (deskId && glowingRoom) {
-      setRooms(currentRooms => {
-        const newRooms = currentRooms?.map(room => {
-          if (room.id === glowingRoom.id) {
-            return {
-              ...room,
-              desks: room.desks?.map(desk => {
-                if (desk.id === deskId) {
-                  return {
-                    ...desk,
-                    shape: {
-                      ...desk.shape,
-                      ...shape,
-                    },
-                  };
-                }
-
-                return desk;
-              }),
-            };
-          }
-
-          return room;
-        });
-
-        return newRooms;
-      });
-
-      if (selectingDesk) {
-        setSelectingDesk(desk =>
-          desk
-            ? {
-                ...desk,
-                shape: {
-                  ...desk.shape,
-                  ...shape,
-                },
-              }
-            : null,
-        );
-      }
-    }
-  };
-
-  const onRemoveRoomShape = (roomId: string) => {
-    if (roomId) {
-      setRooms(currentRooms => {
-        const newRooms = currentRooms?.map(room => {
-          if (room.id === roomId) {
-            return {
-              ...room,
-              desks: room.desks?.map(desk => ({
-                ...desk,
-                shape: undefined,
-              })),
-              shape: undefined,
-            };
-          }
-
-          return room;
-        });
-
-        return newRooms;
-      });
-    }
-
-    setSelectingRoom(null);
-  };
-
-  const onRemoveDeskShape = (deskId: string) => {
-    if (deskId && glowingRoom) {
-      setRooms(currentRooms => {
-        const newRooms = currentRooms?.map(room => {
-          if (room.id === glowingRoom.id) {
-            return {
-              ...room,
-              desks: room.desks?.map(desk => {
-                if (desk.id === deskId) {
-                  return {
-                    ...desk,
-                    shape: undefined,
-                  };
-                }
-
-                return desk;
-              }),
-            };
-          }
-
-          return room;
-        });
-
-        return newRooms;
-      });
-    }
-
-    setSelectingDesk(null);
-  };
+      setSelectingDesk(null);
+    },
+    [glowingRoom, handleChangeFloorPlan],
+  );
 
   const internalContext: FloorPlanEditorInternalContextProps = {
     deskSize,
     draggingRoomId,
+    floorPlanImage,
     glowingRoom,
+    handleChangeDeskSize,
+    handleChangeFloorPlanImage,
+    handleResetFloorPlan,
     isEditing,
     onRemoveDeskShape,
     onRemoveRoomShape,
@@ -347,7 +526,6 @@ export function FloorPlanEditorProvider({
     rooms,
     selectingDesk,
     selectingRoom,
-    setDeskSize,
     setDraggingRoomId,
     setIsEditing,
     setPickingDeskId,
@@ -356,10 +534,24 @@ export function FloorPlanEditorProvider({
     setZoomLevel,
     stageRef,
     stageSize,
+    toastMessageRef,
     workspaceRef,
     workspaceSize,
     zoomLevel,
   };
+
+  useEffect(() => {
+    setFloorPlanImage(initialFloorPlanImage);
+    setRooms(initialRooms);
+    setDeskSize(initialDeskSize || DEFAULT_DESK_SIZE);
+    setZoomLevel(1);
+    setSelectingDesk(null);
+    setSelectingRoom(null);
+    setDraggingRoomId(null);
+    setPickingDeskId(null);
+    setIsEditing(false);
+    // Long Nguyen (15/07/25): Do not change the dependency
+  }, [props.getDataLoading]);
 
   return (
     <FloorPlanEditorContext.Provider value={{ ...props, ...internalContext }}>
