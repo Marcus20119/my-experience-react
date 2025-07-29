@@ -46,7 +46,7 @@ const roundNumber = (value?: null | number | string, digit = 2): string => {
 const roundMoney = (value?: null | number | string): string => {
   if (!value) return '0';
 
-  const lng = useLocalStore.getState().language ?? 'vi';
+  const lng = useLocalStore.getState().language ?? 'en';
 
   if (Number(value) > 1000000) {
     return `${roundNumber(Number(value) / 1000000, 1)}${i18n.t(
