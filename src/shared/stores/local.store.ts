@@ -1,13 +1,13 @@
+import type { NavigateOptions } from '@tanstack/react-router';
 import { create } from 'zustand';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 
-import type { RouterNavigator } from '../hooks';
 import { Language } from '../tanstack/api/technologies';
 import type { RemoveStates, SetStates } from '../types';
 
 interface LocalState {
   language?: Language;
-  prevRoute?: RouterNavigator;
+  prevNavigateOptions?: NavigateOptions;
   primaryColor?: string;
   secondaryColor?: string;
 }

@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
 import { Form } from 'antd';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -6,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useUpdateTechnologySection } from '@/app/features/technology/api';
 import type { UpsertTechnologySectionFormEntity } from '@/app/features/technology/model';
 import { Drawer } from '@/shared/components';
-import { useAppRouter, useDrawerRouter } from '@/shared/hooks';
+import { useDrawerRouter } from '@/shared/hooks';
 import { technologySectionQueries } from '@/shared/tanstack/queries/technology';
 
 import UpsertTechnologySectionForm from './UpsertTechnologySectionForm';
@@ -17,8 +18,8 @@ interface Props {
 
 function UpdateTechnologySectionDrawer({ onCancel }: Props) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { param } = useDrawerRouter('technology-section/update/:id');
-  const { navigate } = useAppRouter();
   const [form] = Form.useForm<UpsertTechnologySectionFormEntity>();
 
   const { data: section, isFetched } = useQuery({
@@ -42,11 +43,11 @@ function UpdateTechnologySectionDrawer({ onCancel }: Props) {
         onCancel();
 
         navigate({
-          param: {
+          params: {
             sectionId: section.id,
             type: section.technologyType,
           },
-          path: '/technology-type/:type/technology-section/:sectionId',
+          to: '/technology-type/$type/technology-section/$sectionId',
         });
       },
     });

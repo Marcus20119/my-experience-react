@@ -1,3 +1,4 @@
+import { useParams } from '@tanstack/react-router';
 import { Form } from 'antd';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -5,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { useCreateKnowledgeGroup } from '@/app/features/technology/api';
 import type { UpsertKnowledgeGroupFormEntity } from '@/app/features/technology/model';
 import { Drawer } from '@/shared/components';
-import { useAppRouter } from '@/shared/hooks';
 import type { TechnologyType } from '@/shared/tanstack/api/technologies';
 
 import UpsertKnowledgeGroupForm from './UpsertKnowledgeGroupForm';
@@ -16,11 +16,9 @@ interface Props {
 
 function CreateKnowledgeGroupDrawer({ onCancel }: Props) {
   const { t } = useTranslation();
-  const {
-    param: { sectionId, technologyId, type },
-  } = useAppRouter(
-    '/technology-type/:type/technology-section/:sectionId/technology/:technologyId',
-  );
+  const { sectionId, technologyId, type } = useParams({
+    from: '/technology-type/$type/technology-section/$sectionId/technology/$technologyId',
+  });
   const [form] = Form.useForm<UpsertKnowledgeGroupFormEntity>();
 
   const { handleCreateKnowledgeGroup, isPending } = useCreateKnowledgeGroup({

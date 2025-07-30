@@ -1,21 +1,21 @@
+import type { NavigateOptions } from '@tanstack/react-router';
+import { useNavigate } from '@tanstack/react-router';
 import { Dropdown, Flex, Image, Typography } from 'antd';
 import type { MenuItemType } from 'antd/es/menu/interface';
 import { DirectNormal, Medal, Setting2, User } from 'iconsax-react';
 import { useTranslation } from 'react-i18next';
 
 import { useSidebarStore } from '@/app/features/sidebar';
-import type { RouterNavigator } from '@/shared/hooks';
-import { useAppRouter } from '@/shared/hooks';
 
 const { Text } = Typography;
 
 interface UserMenuItem extends Omit<MenuItemType, 'onClick'> {
-  route?: RouterNavigator;
+  navigateOptions?: NavigateOptions;
 }
 
 function UserMenu() {
+  const navigate = useNavigate();
   const { t } = useTranslation();
-  const { navigate } = useAppRouter();
   const { setSidebarStates } = useSidebarStore();
 
   const userItems: UserMenuItem[] = [
@@ -38,8 +38,8 @@ function UserMenu() {
       icon: <Setting2 size="20" />,
       key: 'settings',
       label: t('layout.title.settings'),
-      route: {
-        path: '/settings',
+      navigateOptions: {
+        to: '/settings',
       },
     },
   ];
@@ -47,8 +47,8 @@ function UserMenu() {
   const menuItems: MenuItemType[] = userItems.map(item => ({
     ...item,
     onClick: () => {
-      if (item.route) {
-        navigate(item.route);
+      if (item.navigateOptions) {
+        navigate(item.navigateOptions);
         setSidebarStates({
           isSubBarCollapsed: true,
         });

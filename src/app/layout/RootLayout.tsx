@@ -1,19 +1,22 @@
 import { useQuery } from '@tanstack/react-query';
+import { useLocation, useNavigate } from '@tanstack/react-router';
 import { Flex } from 'antd';
 import { Suspense, useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
 
 import { Header } from '@/app/features/header';
 import { Sidebar, useSidebarStore } from '@/app/features/sidebar';
-import { useAppRouter } from '@/shared/hooks';
 import { useLocalStore } from '@/shared/stores';
 import { technologySectionQueries } from '@/shared/tanstack/queries/technology';
 
 import { ContentLayout } from './content-layout';
 
-function RootLayout() {
-  const { navigate } = useAppRouter();
-  const { prevRoute } = useLocalStore();
+interface Props {
+  children: React.ReactNode;
+}
+
+function RootLayout({ children }: Props) {
+  const navigate = useNavigate();
+  const { prevNavigateOptions } = useLocalStore();
   const { pathname } = useLocation();
   const {
     getSidebarWidth,
@@ -24,12 +27,11 @@ function RootLayout() {
 
   useEffect(() => {
     if (pathname === '/') {
-      if (prevRoute) {
-        navigate(prevRoute);
+      if (prevNavigateOptions) {
+        navigate(prevNavigateOptions);
       } else {
         navigate({
-          param: { type: 'frontend' },
-          path: '/technology-type/:type',
+          to: '/component/calendar/monthly',
         });
       }
     }
@@ -71,7 +73,7 @@ function RootLayout() {
         </Flex>
       }
     >
-      <Outlet />
+      {children}
     </Suspense>
   );
 }

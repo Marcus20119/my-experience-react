@@ -15,8 +15,8 @@ function OriginalFieldPage() {
 
   return (
     <FieldLayout
-      route={{
-        path: '/component/field/original',
+      navigateOptions={{
+        to: '/component/field/original',
       }}
     >
       <Form<OriginalFieldForm> form={form} layout="vertical" size="middle">

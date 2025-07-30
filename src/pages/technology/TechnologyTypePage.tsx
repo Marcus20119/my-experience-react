@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useParams } from '@tanstack/react-router';
 import { Flex, Typography } from 'antd';
 import type { ItemType } from 'antd/es/menu/interface';
 import { AddCircle } from 'iconsax-react';
@@ -11,7 +12,7 @@ import { useSidebarStore } from '@/app/features/sidebar';
 import { TechnologyTicket } from '@/app/features/technology';
 import { ContentLayout } from '@/app/layout';
 import { COLOR } from '@/shared/assets/styles/constants';
-import { useAppRouter, useDrawerRouter } from '@/shared/hooks';
+import { useDrawerRouter } from '@/shared/hooks';
 import type { TechnologyType } from '@/shared/tanstack/api/technologies';
 import { technologyQueries } from '@/shared/tanstack/queries/technology';
 
@@ -20,9 +21,9 @@ const { Text } = Typography;
 function TechnologyTypePage() {
   const { t } = useTranslation();
   const { technologySkeleton } = useSidebarStore();
-  const {
-    param: { type },
-  } = useAppRouter('/technology-type/:type');
+  const { type } = useParams({
+    from: '/technology-type/$type',
+  });
   const { onOpenDrawer } = useDrawerRouter();
 
   const technologyType = technologySkeleton?.find(
@@ -101,7 +102,7 @@ function TechnologyTypePage() {
         child => !(child as { disabled: boolean })?.disabled,
       ),
     })) as ItemType[];
-  }, [onOpenDrawer, t, technologies?.length]);
+  }, [t, technologies?.length]);
 
   return (
     <ContentLayout

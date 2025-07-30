@@ -131,8 +131,8 @@ function CustomizableTablePage() {
 
   return (
     <TableLayout
-      route={{
-        path: '/component/table/customizable',
+      navigateOptions={{
+        to: '/component/table/customizable',
       }}
       tabItems={tabItems}
     >

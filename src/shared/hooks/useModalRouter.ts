@@ -1,5 +1,5 @@
+import { useLocation, useNavigate } from '@tanstack/react-router';
 import { useMemo } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 import type { PathProps } from '../types';
 
@@ -31,12 +31,12 @@ export const useModalRouter = <P extends ModalRouterPath>(path?: P) => {
   const location = useLocation();
 
   const param: PathProps<P> | undefined = useMemo(() => {
-    if (!path || !location.hash.startsWith('#modal/')) {
+    if (!path || !location.hash.startsWith('modal/')) {
       return undefined;
     }
 
     const paramsTmp = {} as Record<string, string>;
-    const hashValue = location?.hash?.split('#modal/')[1]?.split('/');
+    const hashValue = location?.hash?.split('modal/')[1]?.split('/');
 
     (path as string)?.split('/')?.forEach((item: string, key: number) => {
       if (item.includes(':')) {
@@ -56,14 +56,10 @@ export const useModalRouter = <P extends ModalRouterPath>(path?: P) => {
   const onOpenModal = (props: ModalRouterNavigator) => {
     const newHash = getModalRouterPath(props);
 
-    navigate(
-      {
-        hash: `modal/${newHash}`,
-      },
-      {
-        replace: true,
-      },
-    );
+    navigate({
+      hash: `modal/${newHash}`,
+      replace: true,
+    });
   };
 
   return {

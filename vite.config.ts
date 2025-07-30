@@ -12,6 +12,7 @@ import vitePluginImp from 'vite-plugin-imp';
 import svgrPlugin from 'vite-plugin-svgr';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
 import Inspect from 'vite-plugin-inspect';
+import { tanstackRouter } from '@tanstack/router-plugin/vite';
 
 dns.setDefaultResultOrder('verbatim');
 
@@ -55,6 +56,11 @@ export default ({ mode }: viteConfigProps) => {
       include: ['dayjs', 'dayjs/plugin/utc', 'dayjs/plugin/timezone', 'antd'],
     },
     plugins: [
+      tanstackRouter({
+        target: 'react',
+        autoCodeSplitting: true,
+      }),
+
       react(),
       envCompatible(),
       viteTsconfigPaths(),

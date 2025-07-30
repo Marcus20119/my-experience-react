@@ -1,11 +1,12 @@
+import { Outlet } from '@tanstack/react-router';
+import { useMatchRoute } from '@tanstack/react-router';
 import { Dropdown, Flex, Typography } from 'antd';
 import type { ItemType } from 'antd/es/menu/interface';
 import { Add, ArrowDown, ArrowLeft, ArrowRight, ArrowUp } from 'iconsax-react';
 import { useTranslation } from 'react-i18next';
-import { Outlet } from 'react-router-dom';
 
 import { Z_INDEX } from '@/shared/assets/styles/constants';
-import { useKeyDown, useMatchRoutes } from '@/shared/hooks';
+import { useKeyDown } from '@/shared/hooks';
 
 import { Header, useHeaderStore } from '../features/header';
 import { Sidebar, useSidebarStore } from '../features/sidebar';
@@ -14,13 +15,16 @@ const { Text } = Typography;
 
 function MainLayout() {
   const { t } = useTranslation();
+  const matchRoutes = useMatchRoute();
   const { getSidebarWidth, isSubBarCollapsed, setSidebarStates } =
     useSidebarStore();
   const { isContentHeaderCollapsed, isContentHeaderSticky, setHeaderStates } =
     useHeaderStore();
 
   const sidebarWidth = getSidebarWidth();
-  const disabledSidebarActions = useMatchRoutes(['/settings']);
+  const disabledSidebarActions = !!matchRoutes({
+    to: '/settings',
+  });
 
   useKeyDown({
     keys: ['Control', 'ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'],

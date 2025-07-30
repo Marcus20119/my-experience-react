@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useParams } from '@tanstack/react-router';
 import { Flex, Typography } from 'antd';
 import type { ItemType } from 'antd/es/menu/interface';
 import { AddCircle, Edit2, Trash } from 'iconsax-react';
@@ -11,19 +12,19 @@ import { TechnologyTicket } from '@/app/features/technology';
 import { ContentLayout } from '@/app/layout';
 import { COLOR } from '@/shared/assets/styles/constants';
 import { displayContentTranslation } from '@/shared/components/field/i18n-fields';
-import { useAppRouter, useDrawerRouter, useModalRouter } from '@/shared/hooks';
+import { useDrawerRouter, useModalRouter } from '@/shared/hooks';
 import { technologyQueries } from '@/shared/tanstack/queries/technology';
 
 const { Text } = Typography;
 
 function TechnologySectionPage() {
   const { t } = useTranslation();
-  const {
-    param: { sectionId, type },
-  } = useAppRouter('/technology-type/:type/technology-section/:sectionId');
+  const { sectionId, type } = useParams({
+    from: '/technology-type/$type/technology-section/$sectionId',
+  });
+  const { technologySkeleton } = useSidebarStore();
   const { onOpenModal } = useModalRouter();
   const { onOpenDrawer } = useDrawerRouter();
-  const { technologySkeleton } = useSidebarStore();
 
   const technology = technologySkeleton?.find(
     item => item.technologyType === type,
@@ -59,12 +60,12 @@ function TechnologySectionPage() {
   const headerTabs: HeaderTabItem[] =
     technology?.technologySections?.map(section => ({
       label: displayContentTranslation(section.name),
-      route: {
-        param: {
+      navigateOptions: {
+        params: {
           sectionId: section.id,
           type: technology.technologyType,
         },
-        path: '/technology-type/:type/technology-section/:sectionId',
+        to: '/technology-type/$type/technology-section/$sectionId',
       },
     })) || [];
 

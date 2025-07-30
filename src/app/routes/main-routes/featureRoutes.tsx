@@ -1,45 +1,78 @@
-import { lazy } from 'react';
-import type { RouteObject } from 'react-router-dom';
+import { createRoute, redirect } from '@tanstack/react-router';
 
-import type { DeepReadonly } from '@/shared/types';
+import {
+  CanvaEditorPage,
+  ChartPlaygroundPage,
+  DragAndDropPage,
+  ExcelPage,
+  FileReaderPage,
+  FloorPlanPage,
+  FormBuilderPage,
+} from '@/pages/feature';
 
-const CanvaEditorPage = lazy(() => import('@/pages/feature/CanvaEditorPage'));
-const ExcelPage = lazy(() => import('@/pages/feature/ExcelPage'));
-const ChartPlaygroundPage = lazy(
-  () => import('@/pages/feature/ChartPlaygroundPage'),
-);
-const FormBuilderPage = lazy(() => import('@/pages/feature/FormBuilderPage'));
-const DragAndDropPage = lazy(() => import('@/pages/feature/DragAndDropPage'));
-const FileReaderPage = lazy(() => import('@/pages/feature/FileReaderPage'));
-const FloorPlanPage = lazy(() => import('@/pages/feature/FloorPlanPage'));
+import { rootRoute } from './rootRoutes';
 
-export const FEATURE_ROUTES = [
-  {
-    element: <CanvaEditorPage />,
-    path: 'feature/canva-editor',
+const featureRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  loader: ({ location }) => {
+    if (location.pathname === '/feature') {
+      throw redirect({
+        to: '/feature/canva-editor',
+      });
+    }
   },
-  {
-    element: <ExcelPage />,
-    path: 'feature/excel',
-  },
-  {
-    element: <ChartPlaygroundPage />,
-    path: 'feature/chart-playground',
-  },
-  {
-    element: <FormBuilderPage />,
-    path: 'feature/form-builder',
-  },
-  {
-    element: <DragAndDropPage />,
-    path: 'feature/drag-and-drop',
-  },
-  {
-    element: <FileReaderPage />,
-    path: 'feature/file-reader',
-  },
-  {
-    element: <FloorPlanPage />,
-    path: 'feature/floor-plan',
-  },
-] as const satisfies DeepReadonly<RouteObject[]>;
+  path: '/feature',
+});
+
+const canvaEditorRoute = createRoute({
+  component: CanvaEditorPage,
+  getParentRoute: () => featureRoute,
+  path: '/canva-editor',
+});
+
+const excelRoute = createRoute({
+  component: ExcelPage,
+  getParentRoute: () => featureRoute,
+  path: '/excel',
+});
+
+const chartPlaygroundRoute = createRoute({
+  component: ChartPlaygroundPage,
+  getParentRoute: () => featureRoute,
+  path: '/chart-playground',
+});
+
+const formBuilderRoute = createRoute({
+  component: FormBuilderPage,
+  getParentRoute: () => featureRoute,
+  path: '/form-builder',
+});
+
+const dragAndDropRoute = createRoute({
+  component: DragAndDropPage,
+  getParentRoute: () => featureRoute,
+  path: '/drag-and-drop',
+});
+
+const fileReaderRoute = createRoute({
+  component: FileReaderPage,
+  getParentRoute: () => featureRoute,
+  path: '/file-reader',
+});
+
+const floorPlanRoute = createRoute({
+  component: FloorPlanPage,
+  getParentRoute: () => featureRoute,
+  path: '/floor-plan',
+});
+
+export {
+  canvaEditorRoute,
+  chartPlaygroundRoute,
+  dragAndDropRoute,
+  excelRoute,
+  featureRoute,
+  fileReaderRoute,
+  floorPlanRoute,
+  formBuilderRoute,
+};

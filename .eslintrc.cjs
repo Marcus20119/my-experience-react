@@ -269,7 +269,6 @@ module.exports = {
         allowForLoopAfterthoughts: true,
       },
     ],
-    'func-names': ['error', 'never'],
 
     /* Sort Rules */
     'perfectionist/sort-objects': [

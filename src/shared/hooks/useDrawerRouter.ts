@@ -1,5 +1,5 @@
+import { useLocation, useNavigate } from '@tanstack/react-router';
 import { useMemo } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 import type { PathProps } from '../types';
 
@@ -34,12 +34,12 @@ export const useDrawerRouter = <P extends DrawerRouterPath>(path?: P) => {
   const location = useLocation();
 
   const param: PathProps<P> | undefined = useMemo(() => {
-    if (!path || !location.hash.startsWith('#drawer/')) {
+    if (!path || !location.hash.startsWith('drawer/')) {
       return undefined;
     }
 
     const paramsTmp = {} as Record<string, string>;
-    const hashValue = location?.hash?.split('#drawer/')[1]?.split('/');
+    const hashValue = location?.hash?.split('drawer/')[1]?.split('/');
 
     (path as string)?.split('/')?.forEach((item: string, key: number) => {
       if (item.includes(':')) {
@@ -59,14 +59,10 @@ export const useDrawerRouter = <P extends DrawerRouterPath>(path?: P) => {
   const onOpenDrawer = (props: DrawerRouterNavigator) => {
     const newHash = getDrawerRouterPath(props);
 
-    navigate(
-      {
-        hash: `drawer/${newHash}`,
-      },
-      {
-        replace: true,
-      },
-    );
+    navigate({
+      hash: `drawer/${newHash}`,
+      replace: true,
+    });
   };
 
   return {

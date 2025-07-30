@@ -182,8 +182,8 @@ function EditableTablePage() {
 
   return (
     <TableLayout
-      route={{
-        path: '/component/table/editable',
+      navigateOptions={{
+        to: '/component/table/editable',
       }}
       tabItems={tabItems}
     >

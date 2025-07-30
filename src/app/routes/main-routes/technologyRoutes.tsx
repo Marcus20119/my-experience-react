@@ -1,31 +1,44 @@
-import { lazy } from 'react';
-import type { RouteObject } from 'react-router-dom';
+import { createRoute } from '@tanstack/react-router';
 
 import TechnologyDetailPage from '@/pages/technology/TechnologyDetailPage';
-import type { DeepReadonly } from '@/shared/types';
+import TechnologySectionPage from '@/pages/technology/TechnologySectionPage';
+import TechnologyTypePage from '@/pages/technology/TechnologyTypePage';
 
-const TechnologyTypePage = lazy(
-  () => import('@/pages/technology/TechnologyTypePage'),
-);
-const TechnologySectionPage = lazy(
-  () => import('@/pages/technology/TechnologySectionPage'),
-);
+import { rootRoute } from './rootRoutes';
 
-export const TECHNOLOGY_ROUTES = [
-  {
-    element: <TechnologyTypePage />,
-    path: 'technology-type/:type',
-  },
-  {
-    element: <TechnologySectionPage />,
-    path: 'technology-type/:type/technology-section/:sectionId',
-  },
-  {
-    element: <TechnologyDetailPage />,
-    path: 'technology-type/:type/technology-section/:sectionId/technology/:technologyId',
-  },
-  {
-    element: <TechnologyDetailPage />,
-    path: 'technology-type/:type/technology/:technologyId',
-  },
-] as const satisfies DeepReadonly<RouteObject[]>;
+const technologyRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/technology-type',
+});
+
+const technologyTypeRoute = createRoute({
+  component: TechnologyTypePage,
+  getParentRoute: () => technologyRoute,
+  path: '/$type',
+});
+
+const technologySectionRoute = createRoute({
+  component: TechnologySectionPage,
+  getParentRoute: () => technologyRoute,
+  path: '/$type/technology-section/$sectionId',
+});
+
+const technologyOfSectionDetailRoute = createRoute({
+  component: TechnologyDetailPage,
+  getParentRoute: () => technologyRoute,
+  path: '/$type/technology-section/$sectionId/technology/$technologyId',
+});
+
+const technologyOfTypeDetailRoute = createRoute({
+  component: TechnologyDetailPage,
+  getParentRoute: () => technologyRoute,
+  path: '/$type/technology/$technologyId',
+});
+
+export {
+  technologyOfSectionDetailRoute,
+  technologyOfTypeDetailRoute,
+  technologyRoute,
+  technologySectionRoute,
+  technologyTypeRoute,
+};

@@ -1,22 +1,22 @@
+import type { NavigateOptions } from '@tanstack/react-router';
 import type { ItemType } from 'antd/es/menu/interface';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import type { BreadcrumbItem, HeaderTabItem } from '@/app/features/header';
 import { ContentLayout } from '@/app/layout';
-import type { RouterNavigator } from '@/shared/hooks';
 
 interface Props {
   children?: React.ReactNode;
-  route: RouterNavigator;
+  navigateOptions: NavigateOptions;
   tabItems?: ItemType[];
 }
 
-function FieldLayout({ children, route, tabItems }: Props) {
+function FieldLayout({ children, navigateOptions, tabItems }: Props) {
   const { t } = useTranslation();
 
   const mainTitle = useMemo(() => {
-    switch (route.path) {
+    switch (navigateOptions.to) {
       case '/component/field/original': {
         return t('layout.title.originalField');
       }
@@ -29,7 +29,7 @@ function FieldLayout({ children, route, tabItems }: Props) {
         return '';
       }
     }
-  }, [route.path, t]);
+  }, [navigateOptions.to, t]);
 
   const breadCrumb: BreadcrumbItem[] = [
     {
@@ -46,11 +46,11 @@ function FieldLayout({ children, route, tabItems }: Props) {
   const headerTabs: HeaderTabItem[] = [
     {
       label: t('layout.title.originalField'),
-      route: { path: '/component/field/original' },
+      navigateOptions: { to: '/component/field/original' },
     },
     {
       label: t('layout.title.specialField'),
-      route: { path: '/component/field/special' },
+      navigateOptions: { to: '/component/field/special' },
     },
   ];
 
@@ -59,7 +59,8 @@ function FieldLayout({ children, route, tabItems }: Props) {
       breadCrumb={breadCrumb}
       tabs={headerTabs.map(tab => ({
         ...tab,
-        menuItems: tab.route.path === route.path ? tabItems : undefined,
+        menuItems:
+          tab.navigateOptions.to === navigateOptions.to ? tabItems : undefined,
       }))}
       title={mainTitle}
     >

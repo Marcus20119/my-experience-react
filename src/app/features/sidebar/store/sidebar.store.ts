@@ -1,25 +1,31 @@
+import type { NavigateOptions } from '@tanstack/react-router';
 import { create } from 'zustand';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 
 import { WIDTH } from '@/shared/assets/styles/constants/width';
-import type { RouterNavigator } from '@/shared/hooks';
 import type { TechnologySkeletonResponse } from '@/shared/tanstack/api/technologies';
 import type { RemoveStates, SetStates } from '@/shared/types';
 
 interface SidebarState {
   isMainBarCollapsed?: boolean;
   isSubBarCollapsed?: boolean;
-  mainSidebarHistory?: Record<string, RouterNavigator>;
-  subSidebarHistory?: Record<string, RouterNavigator>;
+  mainSidebarHistory?: Record<string, NavigateOptions | undefined>;
+  subSidebarHistory?: Record<string, NavigateOptions | undefined>;
   technologySkeleton?: TechnologySkeletonResponse['technologySkeleton'];
 }
 
 interface SidebarAction {
   getSidebarWidth: () => number;
   removeSidebarStates: RemoveStates<SidebarState>;
-  setMainSidebarHistory: (mainKey: string, route: RouterNavigator) => void;
+  setMainSidebarHistory: (
+    mainKey: string,
+    navigateOptions?: NavigateOptions,
+  ) => void;
   setSidebarStates: SetStates<SidebarState>;
-  setSubSidebarHistory: (subKey: string, route: RouterNavigator) => void;
+  setSubSidebarHistory: (
+    subKey: string,
+    navigateOptions?: NavigateOptions,
+  ) => void;
 }
 
 export const useSidebarStore = create<SidebarAction & SidebarState>()(
@@ -51,11 +57,11 @@ export const useSidebarStore = create<SidebarAction & SidebarState>()(
             keys.forEach(key => (newState[key] = undefined));
             return newState;
           }),
-        setMainSidebarHistory: (mainKey, route) => {
+        setMainSidebarHistory: (mainKey, navigateOptions) => {
           set(state => ({
             mainSidebarHistory: {
               ...state.mainSidebarHistory,
-              [mainKey]: route,
+              [mainKey]: navigateOptions,
             },
           }));
         },
@@ -68,11 +74,11 @@ export const useSidebarStore = create<SidebarAction & SidebarState>()(
             });
             return newState;
           }),
-        setSubSidebarHistory: (subKey, route) => {
+        setSubSidebarHistory: (subKey, navigateOptions) => {
           set(state => ({
             subSidebarHistory: {
               ...state.subSidebarHistory,
-              [subKey]: route,
+              [subKey]: navigateOptions,
             },
           }));
         },

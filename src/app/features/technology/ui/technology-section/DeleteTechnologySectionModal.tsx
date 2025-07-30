@@ -1,9 +1,10 @@
+import { useNavigate, useParams } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 
 import { useSidebarStore } from '@/app/features/sidebar';
 import { useDeleteTechnologySection } from '@/app/features/technology/api';
 import { Modal } from '@/shared/components';
-import { useAppRouter, useModalRouter } from '@/shared/hooks';
+import { useModalRouter } from '@/shared/hooks';
 
 interface Props {
   onCancel: () => void;
@@ -11,12 +12,12 @@ interface Props {
 
 function DeleteTechnologySectionModal({ onCancel }: Props) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { technologySkeleton } = useSidebarStore();
   const { param } = useModalRouter('technology-section/delete/:id');
-  const {
-    navigate,
-    param: { sectionId, type },
-  } = useAppRouter('/technology-type/:type/technology-section/:sectionId');
+  const { sectionId, type } = useParams({
+    from: '/technology-type/$type/technology-section/$sectionId',
+  });
 
   const technology = technologySkeleton?.find(
     item => item.technologyType === type,
@@ -34,18 +35,18 @@ function DeleteTechnologySectionModal({ onCancel }: Props) {
 
         if (nextSection) {
           navigate({
-            param: {
+            params: {
               sectionId: nextSection.id,
               type,
             },
-            path: '/technology-type/:type/technology-section/:sectionId',
+            to: '/technology-type/$type/technology-section/$sectionId',
           });
         } else {
           navigate({
-            param: {
+            params: {
               type,
             },
-            path: '/technology-type/:type',
+            to: '/technology-type/$type',
           });
         }
       },

@@ -1,6 +1,6 @@
+import { useNavigate } from '@tanstack/react-router';
 import { Flex, Form, Typography } from 'antd';
 import dayjs from 'dayjs';
-import queryString from 'query-string';
 import { useState } from 'react';
 
 import type {
@@ -19,16 +19,12 @@ import { CalendarLayout } from '@/app/layout';
 import { cn } from '@/lib/tailwind';
 import { SPACING } from '@/shared/assets/styles/constants';
 import { Modal, Value } from '@/shared/components';
-import {
-  useAppRouter,
-  useCalculateElementSize,
-  useToggle,
-} from '@/shared/hooks';
+import { useCalculateElementSize, useToggle } from '@/shared/hooks';
 
 const { Paragraph, Text, Title } = Typography;
 
 function WeeklyCalendarPage() {
-  const { navigate } = useAppRouter();
+  const navigate = useNavigate();
   const { getHeaderHeight } = useHeaderStore();
   const { height } = useCalculateElementSize({
     heightOffset: getHeaderHeight() + SPACING.contentPadding * 2 + 58 + 50, // 58 - filter height, 50 - header height
@@ -46,8 +42,8 @@ function WeeklyCalendarPage() {
 
   return (
     <CalendarLayout
-      route={{
-        path: '/component/calendar/weekly',
+      navigateOptions={{
+        to: '/component/calendar/weekly',
       }}
     >
       <Flex gap="1rem" vertical>
@@ -103,10 +99,10 @@ function WeeklyCalendarPage() {
           )}
           onClickHeader={date => {
             navigate({
-              path: '/component/calendar/daily',
-              search: queryString.stringify({
+              search: {
                 baseDate: date.toISOString(),
-              }),
+              },
+              to: '/component/calendar/daily',
             });
           }}
           onClickItem={item => {

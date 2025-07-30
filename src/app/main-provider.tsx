@@ -1,6 +1,8 @@
 import { ApolloProvider } from '@apollo/client';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { RouterProvider } from '@tanstack/react-router';
+import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import { ConfigProvider } from 'antd';
 import type { FormConfig } from 'antd/es/config-provider/context';
 import type { Locale } from 'antd/es/locale';
@@ -9,7 +11,6 @@ import dayjs from 'dayjs';
 import { CloseCircle } from 'iconsax-react';
 import { useEffect, useMemo } from 'react';
 import { I18nextProvider } from 'react-i18next';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { theme as defaultTheme } from '@/lib/antd';
 import { i18nFormConfig } from '@/lib/antd/form';
@@ -22,7 +23,7 @@ import { COLOR } from '@/shared/assets/styles/constants';
 import { useLocalStore } from '@/shared/stores/local.store';
 import { ThemeTool } from '@/shared/utils';
 
-import { routes } from './routes';
+import { router } from './routes';
 
 const { getHexColorVariant } = ThemeTool;
 
@@ -135,7 +136,8 @@ function AntProvider() {
       locale={locale}
       theme={theme}
     >
-      <RouterProvider router={createBrowserRouter(routes)} />
+      <RouterProvider router={router} />
+      <TanStackRouterDevtools router={router} />
     </ConfigProvider>
   );
 }

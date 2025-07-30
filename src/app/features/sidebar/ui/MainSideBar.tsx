@@ -1,12 +1,11 @@
+import { Link } from '@tanstack/react-router';
 import { Flex, Tooltip, Typography } from 'antd';
 import { ToggleOffCircle, ToggleOnCircle } from 'iconsax-react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 
 import { cn } from '@/lib/tailwind';
 import { COLOR, Z_INDEX } from '@/shared/assets/styles/constants';
 import { ReactComponent as LogoReact } from '@/shared/assets/svgs/logo-react.svg';
-import { getNavigatePath } from '@/shared/hooks';
 
 import { useGetSidebarData } from '../lib';
 import { useSidebarStore } from '../store';
@@ -51,7 +50,7 @@ function MainSideBar() {
 
       <Flex gap="0.5rem" vertical>
         {mainSidebarItems.map(item => (
-          <Link key={item.key} to={getNavigatePath(item.route) || ''}>
+          <Link key={item.key} {...item.navigateOptions}>
             <Tooltip
               align={{ offset: [24, 0] }}
               placement="right"

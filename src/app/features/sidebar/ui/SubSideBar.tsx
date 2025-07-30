@@ -1,10 +1,9 @@
+import { Link } from '@tanstack/react-router';
 import { Flex, Typography } from 'antd';
 import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
-import { Link } from 'react-router-dom';
 
 import { cn } from '@/lib/tailwind';
 import { COLOR } from '@/shared/assets/styles/constants';
-import { getNavigatePath } from '@/shared/hooks';
 
 import { useGetSidebarData } from '../lib';
 import { useSidebarStore } from '../store';
@@ -47,9 +46,9 @@ function SubSideBar() {
           <Link
             key={item.key}
             onClick={() => {
-              setMainSidebarHistory(activeMainKey, item.route);
+              setMainSidebarHistory(activeMainKey, item.navigateOptions);
             }}
-            to={getNavigatePath(item.route) || ''}
+            {...item.navigateOptions}
           >
             <Flex
               align="center"

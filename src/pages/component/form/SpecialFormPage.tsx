@@ -301,8 +301,8 @@ function SpecialFormPage() {
   return (
     <>
       <FormLayout
-        route={{
-          path: '/component/form/special',
+        navigateOptions={{
+          to: '/component/form/special',
         }}
       >
         <Flex align="center" className="w-full" gap="2rem" vertical>

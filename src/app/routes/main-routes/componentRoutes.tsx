@@ -1,78 +1,132 @@
-import { lazy } from 'react';
-import type { RouteObject } from 'react-router-dom';
+import { createRoute } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
+import { z } from 'zod';
 
-import type { DeepReadonly } from '@/shared/types';
+import {
+  DailyCalendarPage,
+  MonthlyCalendarPage,
+  WeeklyCalendarPage,
+} from '@/pages/component/calendar';
+import { OriginalFieldPage, SpecialFieldPage } from '@/pages/component/field';
+import { OriginalFormPage, SpecialFormPage } from '@/pages/component/form';
+import {
+  CustomizableTablePage,
+  EditableTablePage,
+  ExpandableTablePage,
+} from '@/pages/component/table';
 
-const DailyCalendarPage = lazy(
-  () => import('@/pages/component/calendar/DailyCalendarPage'),
-);
-const MonthlyCalendarPage = lazy(
-  () => import('@/pages/component/calendar/MonthlyCalendarPage'),
-);
-const WeeklyCalendarPage = lazy(
-  () => import('@/pages/component/calendar/WeeklyCalendarPage'),
-);
-const OriginalFieldPage = lazy(
-  () => import('@/pages/component/field/OriginalFieldPage'),
-);
-const SpecialFieldPage = lazy(
-  () => import('@/pages/component/field/SpecialFieldPage'),
-);
-const OriginalFormPage = lazy(
-  () => import('@/pages/component/form/OriginalFormPage'),
-);
-const SpecialFormPage = lazy(
-  () => import('@/pages/component/form/SpecialFormPage'),
-);
-const CustomizableTablePage = lazy(
-  () => import('@/pages/component/table/CustomizableTablePage'),
-);
-const EditableTablePage = lazy(
-  () => import('@/pages/component/table/EditableTablePage'),
-);
-const ExpandableTablePage = lazy(
-  () => import('@/pages/component/table/ExpandableTablePage'),
-);
+import { rootRoute } from './rootRoutes';
 
-export const COMPONENT_ROUTES = [
-  {
-    element: <CustomizableTablePage />,
-    path: 'component/table/customizable',
-  },
-  {
-    element: <EditableTablePage />,
-    path: 'component/table/editable',
-  },
-  {
-    element: <ExpandableTablePage />,
-    path: 'component/table/expandable',
-  },
-  {
-    element: <OriginalFormPage />,
-    path: 'component/form/original',
-  },
-  {
-    element: <SpecialFormPage />,
-    path: 'component/form/special',
-  },
-  {
-    element: <OriginalFieldPage />,
-    path: 'component/field/original',
-  },
-  {
-    element: <SpecialFieldPage />,
-    path: 'component/field/special',
-  },
-  {
-    element: <DailyCalendarPage />,
-    path: 'component/calendar/daily',
-  },
-  {
-    element: <WeeklyCalendarPage />,
-    path: 'component/calendar/weekly',
-  },
-  {
-    element: <MonthlyCalendarPage />,
-    path: 'component/calendar/monthly',
-  },
-] as const satisfies DeepReadonly<RouteObject[]>;
+const componentRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/component',
+});
+
+// ----- Table routes -----
+const tableRoute = createRoute({
+  getParentRoute: () => componentRoute,
+  path: '/table',
+});
+
+const customizableTableRoute = createRoute({
+  component: CustomizableTablePage,
+  getParentRoute: () => tableRoute,
+  path: '/customizable',
+});
+
+const editableTableRoute = createRoute({
+  component: EditableTablePage,
+  getParentRoute: () => tableRoute,
+  path: '/editable',
+});
+
+const expandableTableRoute = createRoute({
+  component: ExpandableTablePage,
+  getParentRoute: () => tableRoute,
+  path: '/expandable',
+});
+
+// ----- Form routes -----
+const formRoute = createRoute({
+  getParentRoute: () => componentRoute,
+  path: '/form',
+});
+
+const originalFormRoute = createRoute({
+  component: OriginalFormPage,
+  getParentRoute: () => formRoute,
+  path: '/original',
+});
+
+const specialFormRoute = createRoute({
+  component: SpecialFormPage,
+  getParentRoute: () => formRoute,
+  path: '/special',
+});
+
+// ----- Field routes -----
+const fieldRoute = createRoute({
+  getParentRoute: () => componentRoute,
+  path: '/field',
+});
+
+const originalFieldRoute = createRoute({
+  component: OriginalFieldPage,
+  getParentRoute: () => fieldRoute,
+  path: '/original',
+});
+
+const specialFieldRoute = createRoute({
+  component: SpecialFieldPage,
+  getParentRoute: () => fieldRoute,
+  path: '/special',
+});
+
+// ----- Calendar routes -----
+const calendarRoute = createRoute({
+  getParentRoute: () => componentRoute,
+  path: '/calendar',
+});
+
+const calendarSearchSchema = z.object({
+  baseDate: z.string().optional(),
+});
+
+const dailyCalendarRoute = createRoute({
+  component: DailyCalendarPage,
+  getParentRoute: () => calendarRoute,
+  path: '/daily',
+  validateSearch: calendarSearchSchema,
+});
+
+const weeklyCalendarRoute = createRoute({
+  component: WeeklyCalendarPage,
+  getParentRoute: () => calendarRoute,
+  path: '/weekly',
+  validateSearch: zodValidator(calendarSearchSchema),
+});
+
+const monthlyCalendarRoute = createRoute({
+  component: MonthlyCalendarPage,
+  getParentRoute: () => calendarRoute,
+  path: '/monthly',
+  validateSearch: zodValidator(calendarSearchSchema),
+});
+
+export {
+  calendarRoute,
+  componentRoute,
+  customizableTableRoute,
+  dailyCalendarRoute,
+  editableTableRoute,
+  expandableTableRoute,
+  fieldRoute,
+  formRoute,
+  monthlyCalendarRoute,
+  originalFieldRoute,
+  originalFormRoute,
+  specialFieldRoute,
+  specialFormRoute,
+  tableRoute,
+  weeklyCalendarRoute,
+};

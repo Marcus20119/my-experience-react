@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useParams } from '@tanstack/react-router';
 import { Button, Form } from 'antd';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -6,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useUpdateKnowledgeItem } from '@/app/features/technology/api';
 import type { UpsertKnowledgeItemFormEntity } from '@/app/features/technology/model';
 import { Drawer } from '@/shared/components';
-import { useAppRouter, useDrawerRouter, useToggle } from '@/shared/hooks';
+import { useDrawerRouter, useToggle } from '@/shared/hooks';
 import type { TechnologyType } from '@/shared/tanstack/api/technologies';
 import { knowledgeItemQueries } from '@/shared/tanstack/queries/technology';
 
@@ -19,12 +20,10 @@ interface Props {
 
 function UpdateKnowledgeItemDrawer({ onCancel }: Props) {
   const { t } = useTranslation();
-  const { param } = useDrawerRouter('technology-section/update/:id');
-  const {
-    param: { sectionId, type },
-  } = useAppRouter(
-    '/technology-type/:type/technology-section/:sectionId/technology/:technologyId',
-  );
+  const { param } = useDrawerRouter('knowledge-item/update/:id');
+  const { sectionId, type } = useParams({
+    from: '/technology-type/$type/technology-section/$sectionId/technology/$technologyId',
+  });
   const [form] = Form.useForm<UpsertKnowledgeItemFormEntity>();
   const {
     onClose: onCloseDeleteModal,

@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useParams } from '@tanstack/react-router';
 import { Flex, Typography } from 'antd';
 import type { ItemType } from 'antd/es/menu/interface';
 import { AddCircle, Edit2, Trash } from 'iconsax-react';
@@ -12,7 +13,7 @@ import { KnowledgeGroupCollapse } from '@/app/features/technology';
 import { ContentLayout } from '@/app/layout';
 import { COLOR } from '@/shared/assets/styles/constants';
 import { displayContentTranslation } from '@/shared/components/field/i18n-fields';
-import { useAppRouter, useDrawerRouter, useModalRouter } from '@/shared/hooks';
+import { useDrawerRouter, useModalRouter } from '@/shared/hooks';
 import { technologyQueries } from '@/shared/tanstack/queries/technology';
 
 const { Text } = Typography;
@@ -20,11 +21,9 @@ const { Text } = Typography;
 function TechnologyDetailPage() {
   const { t } = useTranslation();
   const { technologySkeleton } = useSidebarStore();
-  const {
-    param: { sectionId, technologyId, type },
-  } = useAppRouter(
-    '/technology-type/:type/technology-section/:sectionId/technology/:technologyId',
-  );
+  const { sectionId, technologyId, type } = useParams({
+    from: '/technology-type/$type/technology-section/$sectionId/technology/$technologyId',
+  });
   const { onOpenModal } = useModalRouter();
   const { onOpenDrawer } = useDrawerRouter();
 
@@ -46,23 +45,23 @@ function TechnologyDetailPage() {
         title: t('layout.title.technology'),
       },
       {
-        route: !section
+        navigateOptions: !section
           ? {
-              param: {
+              params: {
                 type: String(technologyType?.technologyType),
               },
-              path: '/technology-type/:type',
+              to: '/technology-type/$type',
             }
           : undefined,
         title: capitalize(technologyType?.technologyType),
       },
       {
-        route: {
-          param: {
+        navigateOptions: {
+          params: {
             sectionId: String(section?.id),
             type: String(technologyType?.technologyType),
           },
-          path: '/technology-type/:type/technology-section/:sectionId',
+          to: '/technology-type/$type/technology-section/$sectionId',
         },
         title: displayContentTranslation(section?.name),
       },

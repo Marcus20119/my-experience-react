@@ -1,4 +1,4 @@
-import type { RouterNavigator } from '@/shared/hooks';
+import type { NavigateOptions } from '@tanstack/react-router';
 
 export interface SidebarItem {
   children?: Omit<SidebarItem, 'children' | 'icon'>[];
@@ -6,5 +6,5 @@ export interface SidebarItem {
   key: string;
   label: string;
   match: string;
-  route: RouterNavigator;
+  navigateOptions?: NavigateOptions;
 }

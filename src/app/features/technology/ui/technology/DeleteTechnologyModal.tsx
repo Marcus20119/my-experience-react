@@ -1,8 +1,9 @@
+import { useNavigate, useParams } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 
 import { useDeleteTechnology } from '@/app/features/technology/api';
 import { Modal } from '@/shared/components';
-import { useAppRouter, useModalRouter } from '@/shared/hooks';
+import { useModalRouter } from '@/shared/hooks';
 
 interface Props {
   id?: string;
@@ -12,11 +13,11 @@ interface Props {
 
 function DeleteTechnologyModal({ id: idFromProps, onCancel, onOk }: Props) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { param } = useModalRouter('technology/delete/:id');
-  const {
-    navigate,
-    param: { sectionId, type },
-  } = useAppRouter('/technology-type/:type/technology-section/:sectionId');
+  const { sectionId, type } = useParams({
+    from: '/technology-type/$type/technology-section/$sectionId',
+  });
 
   const id = idFromProps || param?.id;
 
@@ -28,18 +29,18 @@ function DeleteTechnologyModal({ id: idFromProps, onCancel, onOk }: Props) {
 
       if (sectionId) {
         navigate({
-          param: {
+          params: {
             sectionId,
             type,
           },
-          path: '/technology-type/:type/technology-section/:sectionId',
+          to: '/technology-type/$type/technology-section/$sectionId',
         });
       } else {
         navigate({
-          param: {
+          params: {
             type,
           },
-          path: '/technology-type/:type',
+          to: '/technology-type/$type',
         });
       }
     },

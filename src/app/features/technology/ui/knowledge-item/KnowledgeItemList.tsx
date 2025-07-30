@@ -1,6 +1,5 @@
 import { Flex, Typography } from 'antd';
 
-import { useDrawerRouter } from '@/shared/hooks';
 import type { BaseKnowledgeItemResponse } from '@/shared/tanstack/api/technologies';
 
 import KnowledgeItemTicket from './KnowledgeItemTicket';
@@ -12,8 +11,6 @@ interface Props {
 }
 
 function KnowledgeItemList({ knowledgeItems }: Props) {
-  const { onOpenDrawer } = useDrawerRouter();
-
   if (!knowledgeItems?.length) {
     return <Text>{'No knowledge item found ~'}</Text>;
   }
@@ -25,12 +22,13 @@ function KnowledgeItemList({ knowledgeItems }: Props) {
           key={knowledgeItem.id}
           knowledgeItem={knowledgeItem}
           onClick={() => {
-            onOpenDrawer({
-              param: {
-                id: knowledgeItem.id,
-              },
-              path: 'knowledge-item/update/:id',
-            });
+            // FIX_ME
+            // onOpenDrawer({
+            //   param: {
+            //     id: knowledgeItem.id,
+            //   },
+            //   path: 'knowledge-item/update/:id',
+            // });
           }}
         />
       ))}

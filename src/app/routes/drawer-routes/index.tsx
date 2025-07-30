@@ -1,12 +1,12 @@
+import { useLocation, useNavigate } from '@tanstack/react-router';
 import { useMemo } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 import { DRAWER_ROUTES } from './drawerRoutes';
 
 const getDrawerRoute = (hash: string) => {
   const path = hash.replace('drawer/', '').split('/')?.[0];
 
-  const drawerRoute = DRAWER_ROUTES.find(route => `#${route.path}` === path);
+  const drawerRoute = DRAWER_ROUTES.find(route => route.path === path);
 
   if (drawerRoute) {
     const route = drawerRoute.routes.find(route => hash.includes(route.match));
@@ -22,14 +22,10 @@ function DrawerRouter() {
   const navigate = useNavigate();
 
   const closeDrawer = () => {
-    navigate(
-      {
-        hash: '',
-      },
-      {
-        replace: true,
-      },
-    );
+    navigate({
+      hash: '',
+      replace: true,
+    });
   };
 
   const drawerRoute = useMemo(

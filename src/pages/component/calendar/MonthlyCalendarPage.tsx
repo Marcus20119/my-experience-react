@@ -41,8 +41,8 @@ function MonthlyCalendarPage() {
 
   return (
     <CalendarLayout
-      route={{
-        path: '/component/calendar/monthly',
+      navigateOptions={{
+        to: '/component/calendar/monthly',
       }}
     >
       <Flex gap="1rem" vertical>

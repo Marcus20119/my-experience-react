@@ -1,22 +1,22 @@
+import type { NavigateOptions } from '@tanstack/react-router';
 import type { ItemType } from 'antd/es/menu/interface';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import type { BreadcrumbItem, HeaderTabItem } from '@/app/features/header';
 import { ContentLayout } from '@/app/layout';
-import type { RouterNavigator } from '@/shared/hooks';
 
 interface Props {
   children?: React.ReactNode;
-  route: RouterNavigator;
+  navigateOptions: NavigateOptions;
   tabItems?: ItemType[];
 }
 
-function TableLayout({ children, route, tabItems }: Props) {
+function TableLayout({ children, navigateOptions, tabItems }: Props) {
   const { t } = useTranslation();
 
   const mainTitle = useMemo(() => {
-    switch (route.path) {
+    switch (navigateOptions.to) {
       case '/component/table/customizable': {
         return t('layout.title.customizableTable');
       }
@@ -33,7 +33,7 @@ function TableLayout({ children, route, tabItems }: Props) {
         return '';
       }
     }
-  }, [route.path, t]);
+  }, [navigateOptions.to, t]);
 
   const breadCrumb: BreadcrumbItem[] = [
     {
@@ -50,15 +50,15 @@ function TableLayout({ children, route, tabItems }: Props) {
   const headerTabs: HeaderTabItem[] = [
     {
       label: t('layout.title.customizableTable'),
-      route: { path: '/component/table/customizable' },
+      navigateOptions: { to: '/component/table/customizable' },
     },
     {
       label: t('layout.title.editableTable'),
-      route: { path: '/component/table/editable' },
+      navigateOptions: { to: '/component/table/editable' },
     },
     {
       label: t('layout.title.expandableTable'),
-      route: { path: '/component/table/expandable' },
+      navigateOptions: { to: '/component/table/expandable' },
     },
   ];
 
@@ -67,7 +67,8 @@ function TableLayout({ children, route, tabItems }: Props) {
       breadCrumb={breadCrumb}
       tabs={headerTabs.map(tab => ({
         ...tab,
-        menuItems: tab.route.path === route.path ? tabItems : undefined,
+        menuItems:
+          tab.navigateOptions.to === navigateOptions.to ? tabItems : undefined,
       }))}
       title={mainTitle}
     >

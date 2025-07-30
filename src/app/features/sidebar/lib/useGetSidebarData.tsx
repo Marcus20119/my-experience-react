@@ -1,8 +1,8 @@
+import { useLocation } from '@tanstack/react-router';
 import { Box1, Colorfilter, Cpu, ElementEqual, Game } from 'iconsax-react';
 import capitalize from 'lodash-es/capitalize';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
 
 import type { SidebarItem } from '../model';
 import { useSidebarStore } from '../store';
@@ -20,19 +20,19 @@ export const useGetSidebarData = () => {
           key: item?.technologyType,
           label: capitalize(item?.technologyType),
           match: `/technology/${item?.technologyType}`,
-          route: item?.technologySections?.length
+          navigateOptions: item?.technologySections?.length
             ? {
-                param: {
+                params: {
                   sectionId: item?.technologySections?.[0]?.id,
                   type: item?.technologyType,
                 },
-                path: '/technology-type/:type/technology-section/:sectionId',
+                to: '/technology-type/$type/technology-section/$sectionId',
               }
             : {
-                param: {
+                params: {
                   type: item?.technologyType,
                 },
-                path: '/technology-type/:type',
+                to: '/technology-type/$type',
               },
         };
 
@@ -46,7 +46,7 @@ export const useGetSidebarData = () => {
         key: 'technology',
         label: t('layout.title.technology'),
         match: '/technology',
-        route: technologyItems?.[0]?.route,
+        navigateOptions: technologyItems?.[0]?.navigateOptions,
       },
       {
         children: [
@@ -54,32 +54,32 @@ export const useGetSidebarData = () => {
             key: 'table',
             label: t('layout.title.table'),
             match: '/component/table',
-            route: {
-              path: '/component/table/customizable',
+            navigateOptions: {
+              to: '/component/table/customizable',
             },
           },
           {
             key: 'form',
             label: t('layout.title.form'),
             match: '/component/form',
-            route: {
-              path: '/component/form/original',
+            navigateOptions: {
+              to: '/component/form/original',
             },
           },
           {
             key: 'field',
             label: t('layout.title.field'),
             match: '/component/field',
-            route: {
-              path: '/component/field/original',
+            navigateOptions: {
+              to: '/component/field/original',
             },
           },
           {
             key: 'calendar',
             label: t('layout.title.calendar'),
             match: '/component/calendar',
-            route: {
-              path: '/component/calendar/daily',
+            navigateOptions: {
+              to: '/component/calendar/daily',
             },
           },
         ],
@@ -87,8 +87,8 @@ export const useGetSidebarData = () => {
         key: 'component',
         label: t('layout.title.component'),
         match: '/component',
-        route: {
-          path: '/component/table/customizable',
+        navigateOptions: {
+          to: '/component/table/customizable',
         },
       },
       {
@@ -97,66 +97,66 @@ export const useGetSidebarData = () => {
             key: 'canvaEditor',
             label: t('layout.title.canvaEditor'),
             match: '/feature/canva-editor',
-            route: {
-              path: '/feature/canva-editor',
+            navigateOptions: {
+              to: '/feature/canva-editor',
             },
           },
           {
             key: 'excel',
             label: t('layout.title.excel'),
             match: '/feature/excel',
-            route: { path: '/feature/excel' },
+            navigateOptions: { to: '/feature/excel' },
           },
           {
             key: 'chartPlayground',
             label: t('layout.title.chartPlayground'),
             match: '/feature/chart-playground',
-            route: { path: '/feature/chart-playground' },
+            navigateOptions: { to: '/feature/chart-playground' },
           },
           {
             key: 'floorPlan',
             label: t('layout.title.floorPlan'),
             match: '/feature/floor-plan',
-            route: { path: '/feature/floor-plan' },
+            navigateOptions: { to: '/feature/floor-plan' },
           },
           {
             key: 'formBuilder',
             label: t('layout.title.formBuilder'),
             match: '/feature/form-builder',
-            route: { path: '/feature/form-builder' },
+            navigateOptions: { to: '/feature/form-builder' },
           },
           {
             key: 'dragAndDrop',
             label: t('layout.title.dragAndDrop'),
             match: '/feature/drag-and-drop',
-            route: { path: '/feature/drag-and-drop' },
+            navigateOptions: { to: '/feature/drag-and-drop' },
           },
           {
             key: 'fileReader',
             label: t('layout.title.fileReader'),
             match: '/feature/file-reader',
-            route: { path: '/feature/file-reader' },
+            navigateOptions: { to: '/feature/file-reader' },
           },
         ],
         icon: <ElementEqual />,
         key: 'feature',
         label: t('layout.title.feature'),
         match: '/feature',
-        route: { path: '/feature/canva-editor' },
+        navigateOptions: { to: '/feature/canva-editor' },
       },
       {
         icon: <Colorfilter />,
         key: 'animation',
         label: t('layout.title.animation'),
         match: '/animation',
-        route: { path: '/animation' },
+        navigateOptions: { to: '/animation' },
       },
       {
         icon: <Game />,
         key: 'game',
         label: t('layout.title.game'),
         match: '/game',
-        route: { path: '/game' },
+        navigateOptions: { to: '/game' },
       },
     ];
 
@@ -171,14 +171,15 @@ export const useGetSidebarData = () => {
 
           return {
             ...child,
-            route: subSideBarPathFromHistory ?? child.route,
+            navigateOptions: subSideBarPathFromHistory ?? child.navigateOptions,
           };
         });
 
         return {
           ...item,
           children: subSidebarItems,
-          route: mainSidebarHistory?.[item.key] || item.route,
+          navigateOptions:
+            mainSidebarHistory?.[item.key] || item.navigateOptions,
         };
       }),
     [defaultMainSidebarItems, mainSidebarHistory, subSidebarHistory],

@@ -1,14 +1,12 @@
+import { useNavigate, useSearch } from '@tanstack/react-router';
 import { Button, Flex, Form, Space } from 'antd';
 import type { FormInstance } from 'antd/lib';
 import dayjs from 'dayjs';
 import { Add, ArrowLeft2, ArrowRight2 } from 'iconsax-react';
-import queryString from 'query-string';
 import { useEffect, useRef } from 'react';
 
 import type { MockMonthlyFilterEntity } from '@/app/features/component/calendar/model';
 import { Picker } from '@/shared/components';
-import { useAppRouter, useAppSearchParams } from '@/shared/hooks';
-import type { ChangeDayjsToString } from '@/shared/types';
 
 const { Compact } = Space;
 
@@ -17,10 +15,11 @@ interface Props {
 }
 
 function MonthlyCalendarFilter({ form }: Props) {
-  const { navigate } = useAppRouter();
+  const navigate = useNavigate();
   const isSetInitialValues = useRef(false);
-  const searchParams =
-    useAppSearchParams<ChangeDayjsToString<MockMonthlyFilterEntity>>();
+  const searchParams = useSearch({
+    from: '/component/calendar/monthly',
+  });
 
   const baseDate = Form.useWatch('baseDate', form);
 
@@ -36,18 +35,13 @@ function MonthlyCalendarFilter({ form }: Props) {
   }, [form, searchParams.baseDate]);
 
   const onFinish = (values: MockMonthlyFilterEntity) => {
-    const formattedValues: ChangeDayjsToString<MockMonthlyFilterEntity> = {
-      baseDate: values.baseDate?.toISOString(),
-    };
-
-    navigate(
-      {
-        search: queryString.stringify(formattedValues),
+    navigate({
+      replace: true,
+      search: {
+        baseDate: values.baseDate?.toISOString(),
       },
-      {
-        replace: true,
-      },
-    );
+      to: '/component/calendar/monthly',
+    });
   };
 
   return (
@@ -93,7 +87,7 @@ function MonthlyCalendarFilter({ form }: Props) {
       </Form>
 
       <Button icon={<Add />} size="middle" type="primary">
-        Add event
+        {'Add event ~'}
       </Button>
     </Flex>
   );

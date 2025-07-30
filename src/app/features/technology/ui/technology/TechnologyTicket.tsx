@@ -1,10 +1,10 @@
 import { Icon } from '@iconify/react/dist/iconify.js';
+import type { NavigateOptions } from '@tanstack/react-router';
 import { Image } from 'antd';
 import { useMemo } from 'react';
 
 import { Ticket } from '@/shared/components';
 import type { ThreeDTicketProps } from '@/shared/components/ticket/ThreeDTicket';
-import type { RouterNavigator } from '@/shared/hooks';
 import type { TechnologyResponse } from '@/shared/tanstack/api/technologies';
 import { IconType } from '@/shared/tanstack/api/technologies';
 import { FileTool } from '@/shared/utils/file';
@@ -16,28 +16,28 @@ interface Props extends Partial<ThreeDTicketProps> {
 }
 
 function TechnologyTicket({ technology, ...props }: Props) {
-  const route: RouterNavigator | undefined = useMemo(() => {
+  const navigateOptions: NavigateOptions | undefined = useMemo(() => {
     if (!technology?.knowledgeGroups?.length) {
       return undefined;
     }
 
     if (technology?.technologySectionId) {
       return {
-        param: {
+        params: {
           sectionId: String(technology.technologySectionId),
           technologyId: String(technology.id),
           type: String(technology.technologyType),
         },
-        path: '/technology-type/:type/technology-section/:sectionId/technology/:technologyId',
+        to: '/technology-type/$type/technology-section/$sectionId/technology/$technologyId',
       };
     }
 
     return {
-      param: {
+      params: {
         technologyId: String(technology.id),
         type: String(technology.technologyType),
       },
-      path: '/technology-type/:type/technology/:technologyId',
+      to: '/technology-type/$type/technology/$technologyId',
     };
   }, [
     technology.id,
@@ -65,8 +65,8 @@ function TechnologyTicket({ technology, ...props }: Props) {
         )
       }
       key={technology.id}
+      navigateOptions={navigateOptions}
       rate={technology.rate}
-      route={route}
       title={technology.name}
       {...props}
     />

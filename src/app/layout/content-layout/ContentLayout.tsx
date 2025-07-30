@@ -1,17 +1,16 @@
 import { Icon } from '@iconify/react/dist/iconify.js';
+import type { NavigateOptions } from '@tanstack/react-router';
+import { useMatchRoute, useNavigate } from '@tanstack/react-router';
 import { Breadcrumb, Button, Dropdown, Flex, Tabs, Typography } from 'antd';
 import type { ItemType } from 'antd/es/menu/interface';
 import type { BreadcrumbProps } from 'antd/lib';
 import { ArrowDown2, ArrowRight2, ArrowUp2 } from 'iconsax-react';
-import { useLocation } from 'react-router-dom';
 
 import type { BreadcrumbItem, HeaderTabItem } from '@/app/features/header';
 import { useHeaderStore } from '@/app/features/header';
 import { useGetSidebarData, useSidebarStore } from '@/app/features/sidebar';
 import { cn } from '@/lib/tailwind';
 import { COLOR } from '@/shared/assets/styles/constants';
-import type { RouterNavigator } from '@/shared/hooks';
-import { getNavigatePath, useAppRouter } from '@/shared/hooks';
 
 import ContentLayoutLoading from './ContentLayoutLoading';
 
@@ -22,7 +21,7 @@ interface Props {
   breadCrumb?: BreadcrumbItem[];
   children: React.ReactNode;
   contentNoPadding?: boolean;
-  onChangeTab?: (route: RouterNavigator) => void;
+  onChangeTab?: (navigateOptions: NavigateOptions) => void;
   tabs?: HeaderTabItem[];
   title?: string;
 }
@@ -36,24 +35,24 @@ function ContentLayout({
   tabs,
   title,
 }: Props) {
-  const { navigate } = useAppRouter();
-  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const matchRoutes = useMatchRoute();
   const { isContentHeaderCollapsed, isContentHeaderSticky, setHeaderStates } =
     useHeaderStore();
   const { activeSubKey } = useGetSidebarData();
   const { setSubSidebarHistory } = useSidebarStore();
 
   const formattedBreadCrumb: BreadcrumbProps['items'] = breadCrumb?.map(
-    ({ onClick, route, title }) => ({
+    ({ navigateOptions, onClick, title }) => ({
       onClick: () => {
         onClick?.();
-        route && navigate(route);
+        navigateOptions && navigate(navigateOptions);
       },
       title: (
         <Text
           className={cn(
             'font-medium',
-            onClick || route
+            onClick || navigateOptions
               ? 'cursor-pointer text-neutral-500 hover:text-primary'
               : 'cursor-default',
           )}
@@ -127,15 +126,15 @@ function ContentLayout({
             {tabs?.length ? (
               <Tabs
                 activeKey={JSON.stringify(
-                  tabs?.find(tab => getNavigatePath(tab.route) === pathname)
-                    ?.route,
+                  tabs.find(tab => !!matchRoutes(tab.navigateOptions))
+                    ?.navigateOptions,
                 )}
                 className="w-full [&_.ant-tabs-nav-wrap]:justify-end [&_.ant-tabs-nav]:m-0"
                 items={tabs.map(tab => {
-                  const isActive = getNavigatePath(tab.route) === pathname;
+                  const isActive = !!matchRoutes(tab.navigateOptions);
 
                   return {
-                    key: JSON.stringify(tab.route),
+                    key: JSON.stringify(tab.navigateOptions),
                     label: tab.menuItems ? (
                       <Dropdown
                         menu={{
@@ -159,7 +158,7 @@ function ContentLayout({
                   visible: false,
                 }}
                 onChange={routeString => {
-                  const route = JSON.parse(routeString) as RouterNavigator;
+                  const route = JSON.parse(routeString) as NavigateOptions;
 
                   navigate(route);
                   onChangeTab?.(route);

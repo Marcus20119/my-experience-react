@@ -1,11 +1,10 @@
+import type { NavigateOptions } from '@tanstack/react-router';
+import { Link } from '@tanstack/react-router';
 import { Flex, Rate } from 'antd';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 
 import { cn } from '@/lib/tailwind';
-import type { RouterNavigator } from '@/shared/hooks';
-import { getNavigatePath } from '@/shared/hooks';
 
 import { StyledThreeDTicket } from './styles';
 
@@ -16,9 +15,9 @@ export interface ThreeDTicketProps {
   description?: null | string;
   height?: string;
   icon: React.ReactNode;
+  navigateOptions?: NavigateOptions;
   onClick?: () => void;
   rate?: null | number;
-  route?: RouterNavigator;
   shouldHighlightRate?: boolean;
   title: [string, string] | string;
   width?: string;
@@ -31,9 +30,9 @@ function ThreeDTicket({
   description,
   height,
   icon,
+  navigateOptions,
   onClick,
   rate,
-  route,
   shouldHighlightRate,
   title,
   width,
@@ -41,16 +40,16 @@ function ThreeDTicket({
   const { t } = useTranslation();
 
   const defaultHeight = useMemo(() => {
-    if (!description && !route) {
+    if (!description && !navigateOptions) {
       return '172px';
     }
 
-    if (description && !route) {
+    if (description && !navigateOptions) {
       return '220px';
     }
 
     return '260px';
-  }, [description, route]);
+  }, [description, navigateOptions]);
 
   return (
     <StyledThreeDTicket
@@ -76,13 +75,13 @@ function ThreeDTicket({
             </div>
           )}
           {description ? <p className="card-content">{description}</p> : null}
-          {route ? (
+          {navigateOptions ? (
             <Link
               className="see-more"
               onClick={e => {
                 e.stopPropagation();
               }}
-              to={String(getNavigatePath(route))}
+              {...navigateOptions}
             >
               {t('common.button.seeMore')}
             </Link>

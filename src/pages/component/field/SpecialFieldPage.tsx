@@ -13,8 +13,8 @@ function SpecialFieldPage() {
 
   return (
     <FieldLayout
-      route={{
-        path: '/component/field/special',
+      navigateOptions={{
+        to: '/component/field/special',
       }}
     >
       <Form<SpecialFieldForm> form={form} layout="vertical" size="middle">

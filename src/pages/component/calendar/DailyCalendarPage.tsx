@@ -32,17 +32,16 @@ function DailyCalendarPage() {
     onOpen: onOpenDetail,
     open: openDetail,
   } = useToggle();
+  const [form] = Form.useForm<MockDailyFilterEntity>();
 
   const [selectedItem, setSelectedItem] = useState<MockDailyCalendarEntity>();
-
-  const [form] = Form.useForm<MockDailyFilterEntity>();
 
   const baseDate = Form.useWatch('baseDate', form);
 
   return (
     <CalendarLayout
-      route={{
-        path: '/component/calendar/daily',
+      navigateOptions={{
+        to: '/component/calendar/daily',
       }}
     >
       <Flex gap="1rem" vertical>

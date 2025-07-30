@@ -124,8 +124,8 @@ function OriginalFormPage() {
 
   return (
     <FormLayout
-      route={{
-        path: '/component/form/original',
+      navigateOptions={{
+        to: '/component/form/original',
       }}
       tabItems={tabItems}
     >

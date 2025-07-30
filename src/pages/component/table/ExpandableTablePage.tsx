@@ -74,8 +74,8 @@ function ExpandableTablePage() {
 
   return (
     <TableLayout
-      route={{
-        path: '/component/table/expandable',
+      navigateOptions={{
+        to: '/component/table/expandable',
       }}
       tabItems={tabItems}
     >

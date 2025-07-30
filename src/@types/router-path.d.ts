@@ -1,5 +1,4 @@
 import { DRAWER_ROUTES } from '@/app/routes/drawer-routes/drawerRoutes';
-import MAIN_ROUTES from '@/app/routes/main-routes';
 import { MODAL_ROUTES } from '@/app/routes/modal-routes/modalRoutes';
 
 type FlattenPrivateRouter<T extends readonly RouteObject[]> = {
@@ -15,9 +14,6 @@ type FlattenDrawerRouter<T extends readonly DrawerRouter[]> = {
 }[number];
 
 declare global {
-  type MainRouterPath = FlattenPrivateRouter<typeof MAIN_ROUTES>;
-  type RouterPath = MainRouterPath | '/' | '/404';
-
   interface ModalRouter {
     path: string;
     routes: readonly {

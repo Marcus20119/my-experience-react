@@ -1,10 +1,13 @@
-import type { RouteObject } from 'react-router-dom';
+import { createRoute } from '@tanstack/react-router';
 
-import type { DeepReadonly } from '@/shared/types';
+import { rootRoute } from './rootRoutes';
 
-export const ANIMATION_ROUTES = [
-  {
-    element: <div>Animation Page</div>,
-    path: 'animation',
+const animationRoute = createRoute({
+  component: function Animation() {
+    return <div>Animation Page</div>;
   },
-] as const satisfies DeepReadonly<RouteObject[]>;
+  getParentRoute: () => rootRoute,
+  path: '/animation',
+});
+
+export { animationRoute };

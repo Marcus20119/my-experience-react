@@ -1,22 +1,22 @@
+import type { NavigateOptions } from '@tanstack/react-router';
 import type { ItemType } from 'antd/es/menu/interface';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import type { BreadcrumbItem, HeaderTabItem } from '@/app/features/header';
 import { ContentLayout } from '@/app/layout';
-import type { RouterNavigator } from '@/shared/hooks';
 
 interface Props {
   children?: React.ReactNode;
-  route: RouterNavigator;
+  navigateOptions: NavigateOptions;
   tabItems?: ItemType[];
 }
 
-function CalendarLayout({ children, route, tabItems }: Props) {
+function CalendarLayout({ children, navigateOptions, tabItems }: Props) {
   const { t } = useTranslation();
 
   const mainTitle = useMemo(() => {
-    switch (route.path) {
+    switch (navigateOptions.to) {
       case '/component/calendar/daily': {
         return t('layout.title.dailyCalendar');
       }
@@ -33,7 +33,7 @@ function CalendarLayout({ children, route, tabItems }: Props) {
         return '';
       }
     }
-  }, [route.path, t]);
+  }, [navigateOptions.to, t]);
 
   const breadCrumb: BreadcrumbItem[] = [
     {
@@ -50,15 +50,15 @@ function CalendarLayout({ children, route, tabItems }: Props) {
   const headerTabs: HeaderTabItem[] = [
     {
       label: t('layout.title.dailyCalendar'),
-      route: { path: '/component/calendar/daily' },
+      navigateOptions: { to: '/component/calendar/daily' },
     },
     {
       label: t('layout.title.weeklyCalendar'),
-      route: { path: '/component/calendar/weekly' },
+      navigateOptions: { to: '/component/calendar/weekly' },
     },
     {
       label: t('layout.title.monthlyCalendar'),
-      route: { path: '/component/calendar/monthly' },
+      navigateOptions: { to: '/component/calendar/monthly' },
     },
   ];
 
@@ -67,7 +67,8 @@ function CalendarLayout({ children, route, tabItems }: Props) {
       breadCrumb={breadCrumb}
       tabs={headerTabs.map(tab => ({
         ...tab,
-        menuItems: tab.route.path === route.path ? tabItems : undefined,
+        menuItems:
+          tab.navigateOptions.to === navigateOptions.to ? tabItems : undefined,
       }))}
       title={mainTitle}
     >

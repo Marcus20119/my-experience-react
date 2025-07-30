@@ -1,3 +1,4 @@
+import type { NavigateOptions } from '@tanstack/react-router';
 import type { ItemType } from 'antd/es/menu/interface';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -5,20 +6,19 @@ import { useTranslation } from 'react-i18next';
 import { useFormStore } from '@/app/features/component/form';
 import type { BreadcrumbItem, HeaderTabItem } from '@/app/features/header';
 import { ContentLayout } from '@/app/layout';
-import type { RouterNavigator } from '@/shared/hooks';
 
 interface Props {
   children?: React.ReactNode;
-  route: RouterNavigator;
+  navigateOptions: NavigateOptions;
   tabItems?: ItemType[];
 }
 
-function FormLayout({ children, route, tabItems }: Props) {
+function FormLayout({ children, navigateOptions, tabItems }: Props) {
   const { t } = useTranslation();
   const { setFormStates } = useFormStore();
 
   const mainTitle = useMemo(() => {
-    switch (route.path) {
+    switch (navigateOptions.to) {
       case '/component/form/original': {
         return t('layout.title.originalForm');
       }
@@ -31,7 +31,7 @@ function FormLayout({ children, route, tabItems }: Props) {
         return '';
       }
     }
-  }, [route.path, t]);
+  }, [navigateOptions.to, t]);
 
   const breadCrumb: BreadcrumbItem[] = [
     {
@@ -48,11 +48,11 @@ function FormLayout({ children, route, tabItems }: Props) {
   const headerTabs: HeaderTabItem[] = [
     {
       label: t('layout.title.originalForm'),
-      route: { path: '/component/form/original' },
+      navigateOptions: { to: '/component/form/original' },
     },
     {
       label: t('layout.title.specialForm'),
-      route: { path: '/component/form/special' },
+      navigateOptions: { to: '/component/form/special' },
     },
   ];
 
@@ -68,7 +68,8 @@ function FormLayout({ children, route, tabItems }: Props) {
       }}
       tabs={headerTabs.map(tab => ({
         ...tab,
-        menuItems: tab.route.path === route.path ? tabItems : undefined,
+        menuItems:
+          tab.navigateOptions.to === navigateOptions.to ? tabItems : undefined,
       }))}
       title={mainTitle}
     >

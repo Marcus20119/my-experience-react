@@ -29,16 +29,16 @@ function SettingsPage() {
   const settingItems: SettingItem[] = [
     {
       children: <ChangeLanguage />,
-      description: 'Change the language of the website',
+      description: 'Change the language of the website ~',
       key: 'language',
-      title: 'Language',
+      title: 'Language ~',
     },
     {
       children: <div>Appearance</div>,
       description:
-        'Change the appearance of the website like color, logo, etc.',
+        'Change the appearance of the website like color, logo, etc. ~',
       key: 'appearance',
-      title: 'Appearance',
+      title: 'Appearance ~',
     },
   ];
 

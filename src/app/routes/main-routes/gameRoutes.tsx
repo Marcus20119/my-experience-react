@@ -1,10 +1,13 @@
-import type { RouteObject } from 'react-router-dom';
+import { createRoute } from '@tanstack/react-router';
 
-import type { DeepReadonly } from '@/shared/types';
+import { rootRoute } from './rootRoutes';
 
-export const GAME_ROUTES = [
-  {
-    element: <div>Game Page</div>,
-    path: 'game',
+const gameRoute = createRoute({
+  component: function Game() {
+    return <div>Game Page</div>;
   },
-] as const satisfies DeepReadonly<RouteObject[]>;
+  getParentRoute: () => rootRoute,
+  path: '/game',
+});
+
+export { gameRoute };

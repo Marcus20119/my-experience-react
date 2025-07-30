@@ -1,3 +1,4 @@
+import { useParams } from '@tanstack/react-router';
 import { Form } from 'antd';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -5,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { useCreateTechnology } from '@/app/features/technology/api';
 import type { UpsertTechnologyFormEntity } from '@/app/features/technology/model';
 import { Drawer } from '@/shared/components';
-import { useAppRouter } from '@/shared/hooks';
 import type { TechnologyType } from '@/shared/tanstack/api/technologies';
 
 import UpsertTechnologyForm from './UpsertTechnologyForm';
@@ -16,9 +16,9 @@ interface Props {
 
 function CreateTechnologyDrawer({ onCancel }: Props) {
   const { t } = useTranslation();
-  const {
-    param: { sectionId, type },
-  } = useAppRouter('/technology-type/:type/technology-section/:sectionId');
+  const { sectionId, type } = useParams({
+    from: '/technology-type/$type/technology-section/$sectionId',
+  });
   const [form] = Form.useForm<UpsertTechnologyFormEntity>();
 
   const { handleCreateTechnology, isPending } = useCreateTechnology({
