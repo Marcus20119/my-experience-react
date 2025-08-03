@@ -1,7 +1,8 @@
-import { createRoute, createRouter } from '@tanstack/react-router';
+import { createRouter } from '@tanstack/react-router';
 
 import NotFoundPage from '@/pages/NotFoundPage';
 
+import { ContentLayout } from '../layout';
 import {
   animationRoute,
   calendarRoute,
@@ -37,20 +38,7 @@ import {
   weeklyCalendarRoute,
 } from './main-routes';
 
-const indexRoute = createRoute({
-  component: function Index() {
-    return (
-      <div className="p-2">
-        <h3>Welcome Home!</h3>
-      </div>
-    );
-  },
-  getParentRoute: () => rootRoute,
-  path: '/',
-});
-
 const routeTree = rootRoute.addChildren([
-  indexRoute,
   technologyRoute.addChildren([
     technologyTypeRoute,
     technologySectionRoute,
@@ -87,6 +75,9 @@ const routeTree = rootRoute.addChildren([
 
 export const router = createRouter({
   defaultNotFoundComponent: () => <NotFoundPage />,
+  defaultPendingComponent: () => <ContentLayout.Loading />,
+  defaultPreload: 'intent',
+  defaultViewTransition: true,
   routeTree,
 });
 

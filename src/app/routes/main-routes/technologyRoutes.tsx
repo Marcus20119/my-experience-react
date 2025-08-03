@@ -1,8 +1,4 @@
-import { createRoute } from '@tanstack/react-router';
-
-import TechnologyDetailPage from '@/pages/technology/TechnologyDetailPage';
-import TechnologySectionPage from '@/pages/technology/TechnologySectionPage';
-import TechnologyTypePage from '@/pages/technology/TechnologyTypePage';
+import { createRoute, lazyRouteComponent } from '@tanstack/react-router';
 
 import { rootRoute } from './rootRoutes';
 
@@ -12,25 +8,33 @@ const technologyRoute = createRoute({
 });
 
 const technologyTypeRoute = createRoute({
-  component: TechnologyTypePage,
+  component: lazyRouteComponent(
+    () => import('@/pages/technology/TechnologyTypePage'),
+  ),
   getParentRoute: () => technologyRoute,
   path: '/$type',
 });
 
 const technologySectionRoute = createRoute({
-  component: TechnologySectionPage,
+  component: lazyRouteComponent(
+    () => import('@/pages/technology/TechnologySectionPage'),
+  ),
   getParentRoute: () => technologyRoute,
   path: '/$type/technology-section/$sectionId',
 });
 
 const technologyOfSectionDetailRoute = createRoute({
-  component: TechnologyDetailPage,
+  component: lazyRouteComponent(
+    () => import('@/pages/technology/TechnologyDetailPage'),
+  ),
   getParentRoute: () => technologyRoute,
   path: '/$type/technology-section/$sectionId/technology/$technologyId',
 });
 
 const technologyOfTypeDetailRoute = createRoute({
-  component: TechnologyDetailPage,
+  component: lazyRouteComponent(
+    () => import('@/pages/technology/TechnologyDetailPage'),
+  ),
   getParentRoute: () => technologyRoute,
   path: '/$type/technology/$technologyId',
 });

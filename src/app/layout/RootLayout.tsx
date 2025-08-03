@@ -9,12 +9,9 @@ import { useLocalStore } from '@/shared/stores';
 import { technologySectionQueries } from '@/shared/tanstack/queries/technology';
 
 import { ContentLayout } from './content-layout';
+import MainLayout from './MainLayout';
 
-interface Props {
-  children: React.ReactNode;
-}
-
-function RootLayout({ children }: Props) {
+function RootLayout() {
   const navigate = useNavigate();
   const { prevNavigateOptions } = useLocalStore();
   const { pathname } = useLocation();
@@ -73,7 +70,7 @@ function RootLayout({ children }: Props) {
         </Flex>
       }
     >
-      {children}
+      <MainLayout />
     </Suspense>
   );
 }

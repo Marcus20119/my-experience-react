@@ -60,7 +60,6 @@ export default ({ mode }: viteConfigProps) => {
         target: 'react',
         autoCodeSplitting: true,
       }),
-
       react(),
       envCompatible(),
       viteTsconfigPaths(),

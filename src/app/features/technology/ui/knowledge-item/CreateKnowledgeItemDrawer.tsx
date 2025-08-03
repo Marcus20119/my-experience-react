@@ -18,7 +18,7 @@ interface Props {
 function CreateKnowledgeItemDrawer({ onCancel }: Props) {
   const { t } = useTranslation();
   const { sectionId, technologyId, type } = useParams({
-    from: '/technology-type/$type/technology-section/$sectionId/technology/$technologyId',
+    strict: false,
   });
   const { param } = useDrawerRouter('knowledge-item/create/:groupId');
   const [form] = Form.useForm<UpsertKnowledgeItemFormEntity>();

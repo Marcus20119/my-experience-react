@@ -1,6 +1,6 @@
 import { createRootRoute } from '@tanstack/react-router';
 
-import { MainLayout, RootLayout } from '@/app/layout';
+import { RootLayout } from '@/app/layout';
 
 import DrawerRouter from '../drawer-routes';
 import ModalRouter from '../modal-routes';
@@ -10,9 +10,7 @@ export const rootRoute = createRootRoute({
     <>
       <ModalRouter />
       <DrawerRouter />
-      <RootLayout>
-        <MainLayout />
-      </RootLayout>
+      <RootLayout />
     </>
   ),
 });

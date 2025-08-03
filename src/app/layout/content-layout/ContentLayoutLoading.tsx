@@ -10,6 +10,8 @@ function ContentLayoutLoading() {
   const { isContentHeaderCollapsed, isContentHeaderSticky, setHeaderStates } =
     useHeaderStore();
 
+  console.log('hehe');
+
   return (
     <Flex className="flex-1" vertical>
       <div

@@ -22,7 +22,7 @@ function TechnologyDetailPage() {
   const { t } = useTranslation();
   const { technologySkeleton } = useSidebarStore();
   const { sectionId, technologyId, type } = useParams({
-    from: '/technology-type/$type/technology-section/$sectionId/technology/$technologyId',
+    strict: false,
   });
   const { onOpenModal } = useModalRouter();
   const { onOpenDrawer } = useDrawerRouter();

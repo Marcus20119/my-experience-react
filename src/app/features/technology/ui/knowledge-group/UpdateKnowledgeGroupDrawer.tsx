@@ -21,7 +21,7 @@ function UpdateKnowledgeGroupDrawer({ onCancel }: Props) {
   const { t } = useTranslation();
   const { param } = useDrawerRouter('technology-section/update/:id');
   const { sectionId, type } = useParams({
-    from: '/technology-type/$type/technology-section/$sectionId/technology/$technologyId',
+    strict: false,
   });
   const [form] = Form.useForm<UpsertKnowledgeGroupFormEntity>();
 

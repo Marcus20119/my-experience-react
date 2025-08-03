@@ -19,7 +19,7 @@ export const useGetSidebarData = () => {
         const sidebarItem: NonNullable<SidebarItem['children']>[number] = {
           key: item?.technologyType,
           label: capitalize(item?.technologyType),
-          match: `/technology/${item?.technologyType}`,
+          match: `/technology-type/${item?.technologyType}`,
           navigateOptions: item?.technologySections?.length
             ? {
                 params: {

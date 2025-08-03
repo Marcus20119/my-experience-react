@@ -1,4 +1,4 @@
-import { useNavigate } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { Flex, Form, Typography } from 'antd';
 import dayjs from 'dayjs';
 import { useState } from 'react';
@@ -46,6 +46,7 @@ function WeeklyCalendarPage() {
         to: '/component/calendar/weekly',
       }}
     >
+      <Link to="/component/calendar/daily" />
       <Flex gap="1rem" vertical>
         <WeeklyCalendarFilter form={form} />
         <WeeklyCalendar<MockWeeklyCalendarEntity>

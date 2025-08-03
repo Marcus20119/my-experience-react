@@ -17,7 +17,7 @@ interface Props {
 function CreateKnowledgeGroupDrawer({ onCancel }: Props) {
   const { t } = useTranslation();
   const { sectionId, technologyId, type } = useParams({
-    from: '/technology-type/$type/technology-section/$sectionId/technology/$technologyId',
+    strict: false,
   });
   const [form] = Form.useForm<UpsertKnowledgeGroupFormEntity>();
 

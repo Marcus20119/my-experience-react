@@ -1,14 +1,8 @@
-import { createRoute, redirect } from '@tanstack/react-router';
-
 import {
-  CanvaEditorPage,
-  ChartPlaygroundPage,
-  DragAndDropPage,
-  ExcelPage,
-  FileReaderPage,
-  FloorPlanPage,
-  FormBuilderPage,
-} from '@/pages/feature';
+  createRoute,
+  lazyRouteComponent,
+  redirect,
+} from '@tanstack/react-router';
 
 import { rootRoute } from './rootRoutes';
 
@@ -25,43 +19,51 @@ const featureRoute = createRoute({
 });
 
 const canvaEditorRoute = createRoute({
-  component: CanvaEditorPage,
+  component: lazyRouteComponent(
+    () => import('@/pages/feature/CanvaEditorPage'),
+  ),
   getParentRoute: () => featureRoute,
   path: '/canva-editor',
 });
 
 const excelRoute = createRoute({
-  component: ExcelPage,
+  component: lazyRouteComponent(() => import('@/pages/feature/ExcelPage')),
   getParentRoute: () => featureRoute,
   path: '/excel',
 });
 
 const chartPlaygroundRoute = createRoute({
-  component: ChartPlaygroundPage,
+  component: lazyRouteComponent(
+    () => import('@/pages/feature/ChartPlaygroundPage'),
+  ),
   getParentRoute: () => featureRoute,
   path: '/chart-playground',
 });
 
 const formBuilderRoute = createRoute({
-  component: FormBuilderPage,
+  component: lazyRouteComponent(
+    () => import('@/pages/feature/FormBuilderPage'),
+  ),
   getParentRoute: () => featureRoute,
   path: '/form-builder',
 });
 
 const dragAndDropRoute = createRoute({
-  component: DragAndDropPage,
+  component: lazyRouteComponent(
+    () => import('@/pages/feature/DragAndDropPage'),
+  ),
   getParentRoute: () => featureRoute,
   path: '/drag-and-drop',
 });
 
 const fileReaderRoute = createRoute({
-  component: FileReaderPage,
+  component: lazyRouteComponent(() => import('@/pages/feature/FileReaderPage')),
   getParentRoute: () => featureRoute,
   path: '/file-reader',
 });
 
 const floorPlanRoute = createRoute({
-  component: FloorPlanPage,
+  component: lazyRouteComponent(() => import('@/pages/feature/FloorPlanPage')),
   getParentRoute: () => featureRoute,
   path: '/floor-plan',
 });

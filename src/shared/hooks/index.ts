@@ -4,6 +4,7 @@ export * from './useDrawerRouter';
 export * from './useElementSize';
 export * from './useKeyDown';
 export * from './useListLoading';
+export * from './useMatchRoutes';
 export * from './useModalRouter';
 export * from './useResponsive';
 export * from './useToggle';
